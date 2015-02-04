@@ -1,0 +1,6 @@
+.DS_Store
+*.o
+*.exe
+.project
+.settings
+.build
