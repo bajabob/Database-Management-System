@@ -1,5 +1,5 @@
 CSCE-315 Project #2 Team #6
----------------------------
+----------------------------
 Team Members:
  - Michael Turner
  - Nicolette (Nikki) Schreier
