@@ -10,7 +10,7 @@ class jclass{
   
 public:
   jclass(string file):fname(file){}
-  string from_json();
+  string from_json(string &index, string &label);
   void to_json(string &index,string label,auto val, int index_2=-1);
   void  write_db();
   json::Value database;
