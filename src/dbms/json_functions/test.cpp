@@ -11,10 +11,12 @@
 
 using namespace std;
 
-main(){
+int main(){
 	jclass jsan("file");
 	string raf="raf";
-	jsan.to_json(raf,raf,2);
+	int two=2;
+	string hh="2";
+	jsan.to_json(raf,raf,hh);
 	jsan.write_db();
 	cout<<jsan.from_json(raf,raf); 
 	return 0;

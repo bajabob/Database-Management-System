@@ -8,22 +8,22 @@
 
 using namespace std;
 
-string jclass::from_json(string &index, string &label, int index_2=-1){
+string jclass::from_json(string &index, string label, int index_2){
   Json::Value data_j;
   fname+= ".db";
-  fstream fs;
-  fs.open(fname.c_str(),fstream::in);
+  ifstream fs;
+  fs.open(fname.c_str());
   fs >> data_j;
   string buff;
   if(index_2==-1)
     buff = data_j[index].get(label,"unkown").asString();
   else
     buff = data_j[index][index_2].get(label,"unkown").asString();
-  fs.close;
+  fs.close();
   return buff; 
 }
 
-void jclas::to_json(string &index,string label,auto val, int index_2=-1){
+void jclass::to_json(string &index, string label,string val, int index_2){
   if(index_2==-1)
     database[index][label] = val;
   else
@@ -35,9 +35,9 @@ void jclas::to_json(string &index,string label,auto val, int index_2=-1){
 void jclass::write_db(){
   Json::Value data_j;
   fname+= ".db";
-  fstream fs;
-  fs.open(fname.c_str(),fstream::out,fstream::trunc);
+  ofstream fs;//output stream to file
+  fs.open(fname, ios::out | ios::trunc); 
   Json::StyledWriter styledWriter;
   fs << styledWriter.write(database);
-  fs.close()
+  fs.close();
 }
