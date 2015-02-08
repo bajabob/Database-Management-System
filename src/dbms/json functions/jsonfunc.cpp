@@ -15,7 +15,7 @@ string jclass::from_json(string &index, string &label, int index_2=-1){
   fs.open(fname.c_str(),fstream::in);
   fs >> data_j;
   string buff;
-  if(index==-1)
+  if(index_2==-1)
     buff = data_j[index].get(label,"unkown").asString();
   else
     buff = data_j[index][index_2].get(label,"unkown").asString();
@@ -24,7 +24,7 @@ string jclass::from_json(string &index, string &label, int index_2=-1){
 }
 
 void jclas::to_json(string &index,string label,auto val, int index_2=-1){
-  if(index==-1)
+  if(index_2==-1)
     database[index][label] = val;
   else
     database[index][index_2][label] =val;

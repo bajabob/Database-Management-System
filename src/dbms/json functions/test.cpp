@@ -13,9 +13,10 @@ using namespace std;
 
 main(){
 	jclass jsan("file");
-	jsan.to_json("raf","raf",2);
+	string raf="raf";
+	jsan.to_json(raf,raf,2);
 	jsan.write_db();
-	cout<<jsan.from_json(raf, string &label); 
+	cout<<jsan.from_json(raf,raf); 
 	return 0;
 
 
