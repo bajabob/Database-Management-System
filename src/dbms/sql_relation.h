@@ -2,6 +2,16 @@
 #ifndef SRC_DBMS_SQL_RELATION_H_
 #define SRC_DBMS_SQL_RELATION_H_
 
+/*	We can create the data base and entries by using the jclass here.
+	By initializing the jclass here we can have access to its Json::Value
+	and jclass' functions to build and get a table from the DB
+
+*/
+
+
+
+
+
 using namespace std;
 
 class SQLRelation

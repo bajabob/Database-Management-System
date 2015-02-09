@@ -25,7 +25,15 @@ public:
 		this->index = SQLIndex( index );
 		this->auto_increment = bool( auto_increment );
 	}
-
+	/*
+	//maybe this? 
+	
+	SQLAttribute( string name, SQLType kind, int length, string default_value,
+			SQLIndex index, bool auto_increment ) : name(name), kind(kind), length(length),
+			default(default_value), index(auto_increment) 
+	{
+	}*/
+	
 };
 
 #endif
