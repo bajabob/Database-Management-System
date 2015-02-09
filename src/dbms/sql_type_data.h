@@ -1,4 +1,3 @@
-
 #ifndef SRC_DBMS_SQL_TYPE_DATA_H_
 #define SRC_DBMS_SQL_TYPE_DATA_H_
 
@@ -16,8 +15,12 @@ public:
 	{
 		this->data = string( data );
 	}
+
+	friend ostream& operator<<( std::ostream& os, const SQLTypeData& obj )
+	{
+		os << obj.data;
+		return os;
+	}
 };
-
-
 
 #endif

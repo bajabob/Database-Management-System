@@ -13,27 +13,30 @@ public:
 	int length;
 	string default_value;
 	SQLIndex index;
-	bool auto_increment;
+	bool is_auto_increment;
+	int auto_increment;
 
 	SQLAttribute( string name, SQLType kind, int length, string default_value,
-			SQLIndex index, bool auto_increment )
+			SQLIndex index, bool is_auto_increment, int auto_increment ) :
+			name( name ), kind( kind ), length( length ), default_value(
+					default_value ), index( index ), is_auto_increment(
+					is_auto_increment ), auto_increment( auto_increment )
 	{
-		this->name = string( name );
-		this->kind = SQLType( kind );
-		this->length = int( length );
-		this->default_value = string( default_value );
-		this->index = SQLIndex( index );
-		this->auto_increment = bool( auto_increment );
+
 	}
-	/*
-	//maybe this? 
-	
-	SQLAttribute( string name, SQLType kind, int length, string default_value,
-			SQLIndex index, bool auto_increment ) : name(name), kind(kind), length(length),
-			default(default_value), index(auto_increment) 
+
+	friend ostream& operator<<( std::ostream& os, const SQLAttribute& obj )
 	{
-	}*/
-	
+		os << "name             :" << obj.name << "\n";
+		os << "kind             :" << obj.kind << "\n";
+		os << "length           :" << obj.length << "\n";
+		os << "defualt_value    :" << obj.default_value << "\n";
+		os << "index            :" << obj.index << "\n";
+		os << "is_auto_increment:" << obj.is_auto_increment << "\n";
+		os << "auto_increment   :" << obj.auto_increment << "\n";
+		return os;
+	}
+
 };
 
 #endif

@@ -1,4 +1,3 @@
-
 #ifndef SRC_DBMS_SQL_TUPLE_H_
 #define SRC_DBMS_SQL_TUPLE_H_
 
@@ -11,6 +10,7 @@ class SQLTuple
 {
 private:
 	map<string, SQLTypeData> data;
+	vector<string> keys;
 
 public:
 	SQLTuple()
@@ -20,11 +20,15 @@ public:
 	{
 		this->data.insert(
 				pair<string, SQLTypeData>( name, SQLTypeData( data ) ) );
+		this->keys.push_back( name );
 	}
-	
-	friend ostream& operator<<(std::ostream& os, const T& obj)
+
+	friend ostream& operator<<( std::ostream& os, const SQLTuple& obj )
 	{
-		os << "test";
+		for ( int i = 0; i < obj.keys.size(); ++i )
+		{
+			os << obj.keys[i] << ": " << obj.data.find( obj.keys[i] )->second << "\n";
+		}
 		return os;
 	}
 };

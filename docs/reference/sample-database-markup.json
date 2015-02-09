@@ -6,7 +6,7 @@
       "length": 8,
       "default": "NONE",
       "index": "PRIMARY",
-      "auto_increment": true,
+      "is_auto_increment": true,
       "auto_increment": 3
     },
     {
@@ -15,7 +15,7 @@
       "length": 25,
       "default": "NONE",
       "index": "UNIQUE",
-      "auto_increment": false,
+      "is_auto_increment": false,
       "auto_increment": 0
     },
     {
@@ -24,7 +24,7 @@
       "length": 25,
       "default": "NONE",
       "index": "NONE",
-      "auto_increment": false,
+      "is_auto_increment": false,
       "auto_increment": 0
     },
     {
@@ -33,7 +33,7 @@
       "length": 25,
       "default": "NONE",
       "index": "NONE",
-      "auto_increment": false,
+      "is_auto_increment": false,
       "auto_increment": 0
     }
   ],
