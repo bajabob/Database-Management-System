@@ -3,6 +3,7 @@
 #define SRC_DBMS_SQL_TUPLE_H_
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -19,6 +20,12 @@ public:
 	{
 		this->data.insert(
 				pair<string, SQLTypeData>( name, SQLTypeData( data ) ) );
+	}
+	
+	friend ostream& operator<<(std::ostream& os, const T& obj)
+	{
+		os << "test";
+		return os;
 	}
 };
 
