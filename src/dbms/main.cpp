@@ -21,18 +21,16 @@ int main()
 	 */
 
 	// create table
-	SQLRelation table;
+	SQLRelation table("test_table");
 
 	// define all the attributes for the table
-	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true );
-	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 25, "", UNIQUE,
-			false );
-	SQLAttribute at3 = SQLAttribute( "name_last", VARCHAR, 25, "", NONE,
-			false );
-	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE,
-			false );
-
-	table.set_auto_increment( 3 );
+	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 3 );
+	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 25, "", UNIQUE, false,
+			0 );
+	SQLAttribute at3 = SQLAttribute( "name_last", VARCHAR, 25, "", NONE, false,
+			0 );
+	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
+			0 );
 
 	// add the actual attributes to the table (defined above)
 	table.add_attribute( at1 );
@@ -53,5 +51,7 @@ int main()
 	table.add_tuple( row1 );
 
 	// can someone override << operator so we can print some output?
+
+	cout << table;
 
 }
