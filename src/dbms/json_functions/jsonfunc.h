@@ -1,3 +1,6 @@
+#ifndef SRC_DBMS_jclass_H_
+#define SRC_DBMS_jclass_H_
+
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -27,3 +30,7 @@ private:
   string fname; //data base name
 
 };
+
+
+
+#endif
