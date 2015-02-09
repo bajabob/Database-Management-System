@@ -1,0 +1,60 @@
+{
+  "table": {
+    "auto_increment": 3,
+    "last_edited": 1423163442
+  },
+  "definitions": [
+    {
+      "name": "id",
+      "kind": "INT",
+      "length": 8,
+      "default": "NONE",
+      "index": "PRIMARY",
+      "auto_increment": true
+    },
+    {
+      "name": "username",
+      "kind": "VARCHAR",
+      "length": 25,
+      "default": "NONE",
+      "index": "UNIQUE",
+      "auto_increment": false
+    },
+    {
+      "name": "name_last",
+      "kind": "VARCHAR",
+      "length": 25,
+      "default": "NONE",
+      "index": "NONE",
+      "auto_increment": false
+    },
+    {
+      "name": "name_first",
+      "kind": "VARCHAR",
+      "length": 25,
+      "default": "NONE",
+      "index": "NONE",
+      "auto_increment": false
+    }
+  ],
+  "data": [
+    {
+      "id": 0,
+      "username": "Neat-O",
+      "name_first": "Kenny",
+      "name_last": "Hill"
+    },
+    {
+      "id": 1,
+      "username": "12thAggie",
+      "name_first": "Reville",
+      "name_last": "18"
+    },
+    {
+      "id": 2,
+      "username": "I_Like_Cheese",
+      "name_first": "Shh",
+      "name_last": "Secret"
+    }
+  ]
+}

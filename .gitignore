@@ -3,6 +3,7 @@
 *.exe
 .cproject
 .project
+.cproject
 .settings
 .build
 *.out
