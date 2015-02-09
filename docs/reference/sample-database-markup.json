@@ -1,16 +1,13 @@
 {
-  "table": {
-    "auto_increment": 3,
-    "last_edited": 1423163442
-  },
-  "definitions": [
+  "attributes": [
     {
       "name": "id",
       "kind": "INT",
       "length": 8,
       "default": "NONE",
       "index": "PRIMARY",
-      "auto_increment": true
+      "auto_increment": true,
+      "auto_increment": 3
     },
     {
       "name": "username",
@@ -18,7 +15,8 @@
       "length": 25,
       "default": "NONE",
       "index": "UNIQUE",
-      "auto_increment": false
+      "auto_increment": false,
+      "auto_increment": 0
     },
     {
       "name": "name_last",
@@ -26,7 +24,8 @@
       "length": 25,
       "default": "NONE",
       "index": "NONE",
-      "auto_increment": false
+      "auto_increment": false,
+      "auto_increment": 0
     },
     {
       "name": "name_first",
@@ -34,10 +33,11 @@
       "length": 25,
       "default": "NONE",
       "index": "NONE",
-      "auto_increment": false
+      "auto_increment": false,
+      "auto_increment": 0
     }
   ],
-  "data": [
+  "tuples": [
     {
       "id": 0,
       "username": "Neat-O",
