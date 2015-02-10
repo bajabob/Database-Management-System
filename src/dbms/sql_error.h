@@ -16,8 +16,17 @@ private:
 	string message;
 
 public:
-	SQLError(SQLErrorCode error_code, bool kill_query, string message) :
-			error_code(error_code), kill_query(kill_query), message(message) {
+	SQLError(SQLErrorCode error_code, string message) :
+			error_code(error_code), message(message) {
+		/**
+		 * WARNING error codes are the only codes that
+		 * allow the system to keep working
+		 */
+		if(error_code != WARNING){
+			this->kill_query = true;
+		}else{
+			this->kill_query = false;
+		}
 	}
 
 	/**
@@ -28,7 +37,11 @@ public:
 	}
 
 	friend ostream& operator<<(std::ostream& os, const SQLError& obj) {
-		os << "Error [Code: " << obj.error_code << "]: " << obj.message;
+		if(obj.kill_query){
+			os << "-- Error   [Code: " << obj.error_code << "]: " << obj.message;
+		}else{
+			os << "-- Warning [Code: " << obj.error_code << "]: " << obj.message;
+		}
 		return os;
 	}
 

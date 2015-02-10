@@ -4,12 +4,13 @@
 #include <string>
 #include <iostream>
 
+#include "enum.h"
+#include "sql_error.h"
 #include "sql_error_manager.h"
 
 using namespace std;
 
-class SQLTuple
-{
+class SQLTuple {
 private:
 
 	/**
@@ -27,37 +28,30 @@ private:
 	vector<string> keys;
 
 public:
-	SQLTuple()
-	{
+	SQLTuple() {
 	}
 
 	/**
 	 * Add an attribute (column) to the tuple.
 	 */
-	void add_attribute( string key, string data, const SQLErrorManager &em )
-	{
-		cout << this->data.find(key)->first;
-
-		this->data.insert(
-				pair<string, SQLTypeData>( key, SQLTypeData( data ) ) );
-		this->keys.push_back( key );
+	void add_attribute(string key, string data, SQLErrorManager &em) {
+		this->data.insert(pair<string, SQLTypeData>(key, SQLTypeData(data)));
+		this->keys.push_back(key);
 	}
 
 	/**
 	 * Does this tuple contain data (by a specified key) that matches
 	 *  the inquired data? Good for testing if the table contains duplicate data.
 	 */
-	bool has_matching_data( string key, string data)
-	{
+	bool has_matching_data(string key, string data) {
 		SQLTypeData s = this->data.find(key)->second;
 		return data == s.data;
 	}
 
-	friend ostream& operator<<( std::ostream& os, const SQLTuple& obj )
-	{
-		for ( int i = 0; i < obj.keys.size(); ++i )
-		{
-			os << obj.keys[i] << ": " << obj.data.find( obj.keys[i] )->second << "\n";
+	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {
+		for (int i = 0; i < obj.keys.size(); ++i) {
+			os << obj.keys[i] << ": " << obj.data.find(obj.keys[i])->second
+					<< "\n";
 		}
 		return os;
 	}

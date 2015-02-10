@@ -23,7 +23,7 @@ int main() {
 	SQLRelation table("test_table");
 
 	// define all the attributes for the table
-	SQLAttribute at1 = SQLAttribute("id", INT, 8, "", PRIMARY, true, 3);
+	SQLAttribute at1 = SQLAttribute("id", INT, 8, "", PRIMARY, true, 0);
 	SQLAttribute at2 = SQLAttribute("username", VARCHAR, 25, "", UNIQUE, false,
 			0);
 	SQLAttribute at3 = SQLAttribute("name_last", VARCHAR, 25, "", NONE, false,
@@ -31,25 +31,26 @@ int main() {
 	SQLAttribute at4 = SQLAttribute("name_first", VARCHAR, 25, "", NONE, false,
 			0);
 
-	// add the actual attributes to the table (defined above)
+	// add attributes to relation
 	table.add_attribute(at1);
 	table.add_attribute(at2);
 	table.add_attribute(at3);
 	table.add_attribute(at4);
+	table.add_attribute(at1); // error, duplicate attribute name
 
-	/**
-	 * What would be a good way to automatically skip the ID column
-	 * and let it auto increment when a tuple is added?
-	 * Is there another way to add data and just say "you pick a value for me"
-	 * If no default value is supplied, refer to auto-increment if possible,
-	 * THEN throw an error.
-	 */
+	// define data for table
+	string row0[] = { "bob27", "Timm", "Robert" };
+	string row1[] = { "raf28", "Salas", "robert" };
+	string row2[] = { "nikki22", "Schreier", "Nicolette" };
+	string row3[] = { "mike20", "Turner", "Michael" };
+	string dupUser[] = {"bob27", "Man", "12th"};
 
-	// not specifying an ID! need's to figure one out
-	string row1[] = { "bob12", "timm", "robert" };
+	// add data to table
+	table.add_tuple(row0);
 	table.add_tuple(row1);
-
-	// can someone override << operator so we can print some output?
+	table.add_tuple(row2);
+	table.add_tuple(row3);
+	table.add_tuple(dupUser); // error, username is unique! (contains duplicate)
 
 	cout << table;
 
