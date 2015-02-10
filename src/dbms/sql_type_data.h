@@ -11,8 +11,7 @@
 
 using namespace std;
 
-class SQLTypeData
-{
+class SQLTypeData {
 
 public:
 	string data;
@@ -22,30 +21,29 @@ public:
 	 */
 	SQLAttribute *attr;
 
-	SQLTypeData( SQLAttribute &attr, SQLErrorManager &em, string data )
-	{
+	SQLTypeData( SQLAttribute &attr, SQLErrorManager &em, string data ) {
 		this->attr = &attr;
 
-		if(data == ""){
+		if ( data == "" ) {
 			data = attr.get_default_value();
 		}
 
-		if ( data.size() > attr.get_length() )
-		{
+		if ( data.size() > attr.get_length() ) {
 			em.add_error(
 					SQLError( WARNING,
-							"Specified data, '" + data
+							"Data:'" + data
 									+ "' is being truncated because it is too "
 									+ "long for the defined attribute '"
-									+ attr.get_name() + "'." ) );
+									+ attr.get_name() + "("
+									+ to_string( attr.get_length() ) + ")'" ) );
 			data.resize( attr.get_length() );
 		}
 		this->data = string( data );
 	}
 
-	friend ostream& operator<<( std::ostream& os, const SQLTypeData& obj )
-	{
-		int length = (obj.attr->get_length() > 15) ? 15 : obj.attr->get_length();
+	friend ostream& operator<<( std::ostream& os, const SQLTypeData& obj ) {
+		int length =
+				(obj.attr->get_length() > 15) ? 15 : obj.attr->get_length();
 		os << setw( length );
 		os << obj.data;
 		return os;

@@ -7,6 +7,7 @@
 #include "enum.h"
 #include "sql_error.h"
 #include "sql_attribute.h"
+#include "sql_type_data.h"
 #include "sql_error_manager.h"
 
 using namespace std;

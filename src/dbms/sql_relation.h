@@ -1,6 +1,13 @@
 #ifndef SRC_DBMS_SQL_RELATION_H_
 #define SRC_DBMS_SQL_RELATION_H_
 
+#include <map>
+#include <string>
+#include <vector>
+
+#include "sql_tuple.h"
+#include "sql_attribute.h"
+#include "sql_type_data.h"
 #include "sql_error_manager.h"
 
 using namespace std;
@@ -18,69 +25,23 @@ public:
 			name( name ) {
 	}
 
-	void add_attribute( SQLAttribute at ) {
-		// compare attributes for errors
-		bool has_error = false;
-		for ( auto &attr : this->attr ) {
-			attr.compare_for_errors( at, error_manager );
-		}
-		this->attr.push_back( at );
-	}
+	/**
+	 * Add a new attribute to this relation (add new column)
+	 */
+	void add_attribute( SQLAttribute at );
 
-	void add_tuple( string data[], int size ) {
-		int data_offset = 0;
-		bool had_auto_increment = false;
-		SQLTuple* tuple = new SQLTuple();
-
-		for ( auto &attr : this->attr ) {
-
-			// this is an ID column, and is auto incrementing (skip data[])
-			if ( attr.get_index() == PRIMARY && attr.has_auto_increment() ) {
-				tuple->add_attribute( attr,
-						to_string( attr.get_auto_increment() ), error_manager );
-				attr.on_auto_increment();
-				continue;
-			}
-
-			// this column is UNIQUE, check table for pre-existing data
-			if ( attr.get_index() == UNIQUE ) {
-				if ( this->has_unique( attr.get_name(), data[data_offset] ) ) {
-					error_manager.add_error(
-							SQLError( DUPLICATE,
-									"Relation already contains a unique value '"
-											+ data[data_offset] + "' in '"
-											+ attr.get_name() + "'." ) );
-				}
-			}
-
-			// run out of data, send empty date to tuple
-			if ( size <= data_offset ) {
-				tuple->add_attribute( attr, "", error_manager );
-			} else { // default, send data to tuple
-
-				tuple->add_attribute( attr, data[data_offset], error_manager );
-				data_offset++;
-			}
-
-		}
-
-		// test for errors (need error reporting class within this table)
-		// then add tuple to table
-		this->tuples.push_back( *tuple );
-	}
+	/**
+	 * Add a new row to this relation (add row to table)
+	 */
+	void add_tuple( string data[], int size );
 
 	/**
 	 * Test if a unique value exists in in the
 	 *  list of tuples by the specified key
 	 */
-	bool has_unique( string key, string data ) {
-		for ( auto &tuple : this->tuples ) {
-			if ( tuple.has_matching_data( key, data ) ) {
-				return true;
-			}
-		}
-		return false;
-	}
+	bool has_unique( string key, string data );
+
+
 
 	friend ostream& operator<<( std::ostream& os, const SQLRelation& obj ) {
 		os << "\nRelation: " << obj.name << "\n";
@@ -95,7 +56,7 @@ public:
 			os << obj.tuples[i];
 		}
 		os << "----------------------------\n\n";
-		os << "Errors: " << obj.error_manager;
+		os << obj.error_manager << endl;
 		return os;
 	}
 
