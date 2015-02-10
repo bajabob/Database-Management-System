@@ -35,7 +35,7 @@ public:
 	/**
 	 * Add an attribute (column) to the tuple.
 	 */
-	void add_attribute(SQLAttribute attr, string data, SQLErrorManager &em) {
+	void add_attribute(SQLAttribute &attr, string data, SQLErrorManager &em) {
 		this->data.insert(pair<string, SQLTypeData>(attr.get_name(), SQLTypeData(attr, em, data)));
 		this->keys.push_back(attr.get_name());
 	}
@@ -51,9 +51,9 @@ public:
 
 	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {
 		for (int i = 0; i < obj.keys.size(); ++i) {
-			os << obj.keys[i] << ": " << obj.data.find(obj.keys[i])->second
-					<< "\n";
+			os << obj.data.find(obj.keys[i])->second << " ";
 		}
+		os << "\n";
 		return os;
 	}
 };

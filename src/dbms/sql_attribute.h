@@ -88,7 +88,7 @@ public:
 	}
 
 	friend ostream& operator<<(std::ostream& os, const SQLAttribute& obj) {
-		os << "Attribute [name]    :" << obj.name << "\n";
+		os << "Attribute '" << obj.name << "'\n";
 		os << " - kind             :" << obj.kind << "\n";
 		os << " - length           :" << obj.length << "\n";
 		os << " - defualt_value    :" << obj.default_value << "\n";
