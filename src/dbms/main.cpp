@@ -24,7 +24,7 @@ int main() {
 
 	// define all the attributes for the table
 	SQLAttribute at1 = SQLAttribute("id", INT, 8, "", PRIMARY, true, 0);
-	SQLAttribute at2 = SQLAttribute("username", VARCHAR, 25, "", UNIQUE, false,
+	SQLAttribute at2 = SQLAttribute("username", VARCHAR, 8, "", UNIQUE, false,
 			0);
 	SQLAttribute at3 = SQLAttribute("name_last", VARCHAR, 25, "", NONE, false,
 			0);
@@ -44,6 +44,7 @@ int main() {
 	string row2[] = { "nikki22", "Schreier", "Nicolette" };
 	string row3[] = { "mike20", "Turner", "Michael" };
 	string dupUser[] = {"bob27", "Man", "12th"};
+	string tooLong[] = {"this-is-too-long", "Loftin", "Bowtie"};
 
 	// add data to table
 	table.add_tuple(row0);
@@ -51,6 +52,7 @@ int main() {
 	table.add_tuple(row2);
 	table.add_tuple(row3);
 	table.add_tuple(dupUser); // error, username is unique! (contains duplicate)
+	table.add_tuple(tooLong); // warning, username is too long! (gets truncated)
 
 	cout << table;
 

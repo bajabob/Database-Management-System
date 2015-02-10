@@ -6,6 +6,7 @@
 
 #include "enum.h"
 #include "sql_error.h"
+#include "sql_attribute.h"
 #include "sql_error_manager.h"
 
 using namespace std;
@@ -34,9 +35,9 @@ public:
 	/**
 	 * Add an attribute (column) to the tuple.
 	 */
-	void add_attribute(string key, string data, SQLErrorManager &em) {
-		this->data.insert(pair<string, SQLTypeData>(key, SQLTypeData(data)));
-		this->keys.push_back(key);
+	void add_attribute(SQLAttribute attr, string data, SQLErrorManager &em) {
+		this->data.insert(pair<string, SQLTypeData>(attr.get_name(), SQLTypeData(attr, em, data)));
+		this->keys.push_back(attr.get_name());
 	}
 
 	/**

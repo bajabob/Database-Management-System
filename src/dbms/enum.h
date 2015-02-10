@@ -12,9 +12,13 @@ enum SQLIndex {
 /**
  * WARNING is the only error code that allows the system
  *  to keep working. Everything else flags a kill query.
+ *
+ *  Also Note:
+ *   If you want to alert to the user to an error but don't want to
+ *   kill the query be sure to use the WARNING error code.
  */
 enum SQLErrorCode {
-	WARNING, LOGIC, SYNTAX, DUPLICATE, LENGTH
+	WARNING, LOGIC, SYNTAX, DUPLICATE
 };
 
 #endif

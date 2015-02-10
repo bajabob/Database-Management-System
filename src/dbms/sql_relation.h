@@ -35,7 +35,7 @@ public:
 		for (auto &attr : this->attr) {
 			// this is an ID column, and is auto incrementing (skip data[])
 			if (attr.get_index() == PRIMARY && attr.has_auto_increment()) {
-				tuple->add_attribute(attr.get_name(),
+				tuple->add_attribute(attr,
 						to_string(attr.get_auto_increment()), error_manager);
 				attr.on_auto_increment();
 				continue;
@@ -48,12 +48,12 @@ public:
 							SQLError(DUPLICATE,
 									"Relation already contains a unique value '"
 											+ data[data_offset] + "' in '"
-											+ attr.get_name()+"'"));
+											+ attr.get_name()+"'."));
 				}
 			}
 
 			// Fall through - this is not a fancy column, just add it
-			tuple->add_attribute(attr.get_name(), data[data_offset],
+			tuple->add_attribute(attr, data[data_offset],
 					error_manager);
 			data_offset++;
 		}

@@ -88,13 +88,13 @@ public:
 	}
 
 	friend ostream& operator<<(std::ostream& os, const SQLAttribute& obj) {
-		os << "Attribute [name] :" << obj.name << "\n";
-		os << "kind             :" << obj.kind << "\n";
-		os << "length           :" << obj.length << "\n";
-		os << "defualt_value    :" << obj.default_value << "\n";
-		os << "index            :" << obj.index << "\n";
-		os << "is_auto_increment:" << obj.is_auto_increment << "\n";
-		os << "auto_increment   :" << obj.auto_increment << "\n";
+		os << "Attribute [name]    :" << obj.name << "\n";
+		os << " - kind             :" << obj.kind << "\n";
+		os << " - length           :" << obj.length << "\n";
+		os << " - defualt_value    :" << obj.default_value << "\n";
+		os << " - index            :" << obj.index << "\n";
+		os << " - is_auto_increment:" << obj.is_auto_increment << "\n";
+		os << " - auto_increment   :" << obj.auto_increment << "\n";
 		return os;
 	}
 
