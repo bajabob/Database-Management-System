@@ -1,22 +1,16 @@
-
 #ifndef SRC_DBMS_ENUM_H_
 #define SRC_DBMS_ENUM_H_
 
-
-enum SQLType
-{
+enum SQLType {
 	VARCHAR, INT
 };
 
-enum SQLIndex
-{
+enum SQLIndex {
 	NONE, PRIMARY, UNIQUE
 };
 
-enum SQLStorageOptions
-{
-	SKIP, STORE, AUTO_INCREMENT
+enum SQLErrorCode {
+	WARNING, LOGIC, SYNTAX
 };
-
 
 #endif
