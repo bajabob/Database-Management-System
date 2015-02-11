@@ -63,3 +63,38 @@ bool SQLRelation::has_unique( string key, string data ) {
 	return false;
 }
 
+
+void SQLRelation::attr_to_json(){
+	/*for(int i = 0;i<attr.size();++i){
+		json_db->to_json("attributes", "name", attr[i].name, i);	
+		json_db->to_json("attributes", "kind", to_string(attr[i].kind), i);
+		json_db->to_json("attributes", "length", to_string(attr[i].length), i);
+		json_db->to_json("attributes", "default", attr[i].default_value, i);
+		json_db->to_json("attributes", "index", to_string(attr[i].index), i);
+		json_db->to_json("attributes", "is_auto_increment", to_string(attr[i].is_auto_increment), i);
+		json_db->to_json("attributes", "auto_increment", to_string(attr[i].auto_increment), i);		
+	}*/
+}
+
+
+void SQLRelation::json_to_attr(){
+	attr.clear();
+	attr.reserve(4);
+	/*for(int i = 0;i<attr.size();++i){
+		attr[i].name = 
+			json_db->from_json("attributes", "name", i);	
+		attr[i].kind = 
+			SQLType(stoi(json_db->from_json("attributes", "kind",  i)));
+		attr[i].length = 
+			stoi(json_db->from_json("attributes", "length", i));
+		attr[i].default_value = 
+			json_db->from_json("attributes", "default" , i);
+		attr[i].index = 
+			SQLIndex(stoi(json_db->from_json("attributes", "index",  i)));
+		attr[i].is_auto_increment = 
+			stoi(json_db->from_json("attributes", "is_auto_increment", i));
+		attr[i].auto_increment = 
+			stoi(json_db->from_json("attributes", "auto_increment", i));		
+	}*/
+
+}
