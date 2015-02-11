@@ -9,6 +9,7 @@
 #include "json/json.h"
 
 using namespace std;
+
 class jclass {
 
 public:

@@ -18,21 +18,21 @@ public:
 		 * allow the system to keep working
 		 */
 		if (error_code != WARNING) {
-			this->kill_query = true;
+			this->no_save_flag = true;
 		} else {
-			this->kill_query = false;
+			this->no_save_flag = false;
 		}
 	}
 
 	/**
-	 * Should this error kill the query?
+	 * Should this error prevent a save or other important queries?
 	 */
-	bool can_kill_query() {
-		return this->kill_query;
+	bool has_no_save_flagged() {
+		return this->no_save_flag;
 	}
 
 	friend ostream& operator<<(std::ostream& os, const SQLError& obj) {
-		if (obj.kill_query) {
+		if (obj.no_save_flag) {
 			os << "-- Error   [Code: " << obj.error_code << "]: "
 					<< obj.message;
 		} else {
@@ -43,7 +43,7 @@ public:
 	}
 
 private:
-	bool kill_query;
+	bool no_save_flag;
 	SQLErrorCode error_code;
 	string message;
 

@@ -5,10 +5,10 @@ using namespace std;
 void SQLRelation::add_attribute( SQLAttribute at ) {
 	// compare attributes for errors
 	bool has_error = false;
-	for ( auto &attr : this->attr ) {
+	for ( auto &attr : this->attributes ) {
 		attr.compare_for_errors( at, error_manager );
 	}
-	this->attr.push_back( at );
+	this->attributes.push_back( at );
 }
 
 void SQLRelation::add_tuple( vector<string> data ) {
@@ -16,7 +16,7 @@ void SQLRelation::add_tuple( vector<string> data ) {
 	bool had_auto_increment = false;
 	SQLTuple* tuple = new SQLTuple();
 
-	for ( auto &attr : this->attr ) {
+	for ( auto &attr : this->attributes ) {
 
 		// this is an ID column, and is auto incrementing (skip data[])
 		if ( attr.get_index() == PRIMARY && attr.has_auto_increment() ) {
@@ -65,16 +65,16 @@ bool SQLRelation::has_unique( string key, string data ) {
 
 
 void SQLRelation::attr_to_json(){
-	for(int i = 0;i<attr.size();++i){
-		json_db->to_json("attributes", "name", attr[i].get_name(), i);	
-		json_db->to_json("attributes", "kind", to_string(attr[i].get_kind()), i);
-		json_db->to_json("attributes", "length", to_string(attr[i].get_length()), i);
-		json_db->to_json("attributes", "default", attr[i].get_default_value(), i);
-		json_db->to_json("attributes", "index", to_string(attr[i].get_index()), i);
+	for(int i = 0;i<attributes.size();++i){
+		json_db->to_json("attributes", "name", attributes[i].get_name(), i);
+		json_db->to_json("attributes", "kind", to_string(attributes[i].get_kind()), i);
+		json_db->to_json("attributes", "length", to_string(attributes[i].get_length()), i);
+		json_db->to_json("attributes", "default", attributes[i].get_default_value(), i);
+		json_db->to_json("attributes", "index", to_string(attributes[i].get_index()), i);
 		json_db->to_json("attributes", "is_auto_increment",	\
-			to_string(attr[i].has_auto_increment()), i);
+			to_string(attributes[i].has_auto_increment()), i);
 		json_db->to_json("attributes", "auto_increment",	\
-			to_string(attr[i].get_auto_increment()), i);		
+			to_string(attributes[i].get_auto_increment()), i);
 	}
 }
 

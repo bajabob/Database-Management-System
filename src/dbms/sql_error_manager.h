@@ -26,9 +26,9 @@ public:
 	bool has_errors();
 
 	/**
-	 * Does the list of errors contain a kill query flaq?
+	 * Does the list of errors contain a "no save" flagged?
 	 */
-	bool has_kill_query_error();
+	bool has_no_save_flagged();
 
 	/**
 	 * How many errors are in this manager?

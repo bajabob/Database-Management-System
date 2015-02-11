@@ -9,6 +9,7 @@
 #include "sql_attribute.h"
 #include "sql_type_data.h"
 #include "sql_error_manager.h"
+#include "sql_storage_manager.h"
 #include "jsonfunc.h"
 
 using namespace std;
@@ -18,9 +19,10 @@ class SQLRelation {
 public:
 
 	SQLRelation(string name) :
-			name(name) {
+			name(name), storage_manager(name+".db") {
 		/**need destructor now*/
-		json_db = new jclass("file");
+		//json_db = new jclass("file");
+		storage_manager.load(attributes);
 	}
 
 	/**
@@ -43,12 +45,17 @@ public:
 	 */
 	bool has_unique(string key, string data);
 
+
+	void save(){
+		storage_manager.save(error_manager, attributes, tuples);
+	}
+
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {
 		os << "\nRelation: " << obj.name << "\n";
 		os << "----------------------------\n\n";
-		os << "Attributes: " << obj.attr.size() << "\n";
-		for (int i = 0; i < obj.attr.size(); ++i) {
-			os << obj.attr[i];
+		os << "Attributes: " << obj.attributes.size() << "\n";
+		for (int i = 0; i < obj.attributes.size(); ++i) {
+			os << obj.attributes[i];
 		}
 		os << "----------------------------\n\n";
 		os << "Tuples: " << obj.tuples.size() << "\n";
@@ -62,9 +69,12 @@ public:
 
 private:
 	string name; // name of this relation (table)
-	vector<SQLAttribute> attr;
+	vector<SQLAttribute> attributes;
 	vector<SQLTuple> tuples;
 	SQLErrorManager error_manager;
+	SQLStorageManager storage_manager;
+
+
 	/**
 	 *We are going to need to pass in db file name into this.
 	 */

@@ -32,25 +32,46 @@ void SQLAttribute::on_auto_increment() {
 	++this->auto_increment;
 }
 
-bool SQLAttribute::compare_for_errors( SQLAttribute attr,
-		SQLErrorManager &em ) {
+Json::Value SQLAttribute::to_json() {
+	Json::Value node;
+	node["name"] = name;
+	node["kind"] = kind;
+	node["length"] = length;
+	node["default"] = default_value;
+	node["index"] = index;
+	node["is_auto_increment"] = is_auto_increment;
+	node["auto_increment"] = auto_increment;
+	return node;
+}
+
+SQLAttribute::SQLAttribute(Json::Value node){
+	name = node["name"].asString();
+	kind = (SQLType)node["kind"].asInt();
+	length = node["length"].asInt();
+	default_value = node["default"].asString();
+	index = (SQLIndex)node["index"].asInt();
+	is_auto_increment = node["is_auto_increment"].asBool();
+	auto_increment = node["auto_increment"].asInt();
+}
+
+bool SQLAttribute::compare_for_errors(SQLAttribute attr, SQLErrorManager &em) {
 
 	// no two attributes can have the same name
-	if ( attr.get_name() == this->name ) {
+	if (attr.get_name() == this->name) {
 		em.add_error(
-				SQLError( DUPLICATE,
+				SQLError(DUPLICATE,
 						"Duplicate attribute name specified, '" + this->name
-								+ "' already exists." ) );
+								+ "' already exists."));
 		return true;
 	}
 
 	// there can only be one primary key in an SQL table
-	if ( attr.index == PRIMARY && this->index == PRIMARY ) {
+	if (attr.index == PRIMARY && this->index == PRIMARY) {
 		em.add_error(
-				SQLError( SYNTAX,
+				SQLError(SYNTAX,
 						this->name
 								+ " is already defined as the primary key for "
-								+ "the table. There can not be two primary keys." ) );
+								+ "the table. There can not be two primary keys."));
 		return true;
 	}
 	return false;

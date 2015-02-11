@@ -8,6 +8,7 @@
 
 #include "enum.h"
 #include "sql_error.h"
+#include "json/json.h"
 #include "sql_attribute.h"
 #include "sql_type_data.h"
 #include "sql_error_manager.h"
@@ -30,6 +31,11 @@ public:
 	 *  the inquired data? Good for testing if the table contains duplicate data.
 	 */
 	bool has_matching_data(string key, string data);
+
+	/**
+	 * Convert this tuple to a json object
+	 */
+	Json::Value to_json();
 
 	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {
 		for (int i = 0; i < obj.keys.size(); ++i) {

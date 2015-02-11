@@ -14,7 +14,6 @@ using namespace std;
 class SQLTypeData {
 
 public:
-	string data;
 
 	/**
 	 * Keep a reference to this data's attribute
@@ -41,6 +40,13 @@ public:
 		this->data = string( data );
 	}
 
+	/**
+	 * Get the data for this element
+	 */
+	string get_data(){
+		return data;
+	}
+
 	friend ostream& operator<<( std::ostream& os, const SQLTypeData& obj ) {
 		int length =
 				(obj.attr->get_length() > 15) ? 15 : obj.attr->get_length();
@@ -48,6 +54,10 @@ public:
 		os << obj.data;
 		return os;
 	}
+
+private:
+	string data;
+
 };
 
 #endif

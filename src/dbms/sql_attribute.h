@@ -4,6 +4,7 @@
 #include <string>
 
 #include "sql_error.h"
+#include "json/json.h"
 #include "sql_error_manager.h"
 
 using namespace std;
@@ -11,6 +12,8 @@ using namespace std;
 class SQLAttribute {
 
 public:
+
+	SQLAttribute(Json::Value);
 
 	SQLAttribute(string name, SQLType kind, int length, string default_value,
 			SQLIndex index, bool is_auto_increment, int auto_increment) :
@@ -34,6 +37,12 @@ public:
 	 * return true if error is found, store actual error in error manager
 	 */
 	bool compare_for_errors(SQLAttribute attr, SQLErrorManager &em);
+
+	/**
+	 * Convert this attribute to a json obj
+	 */
+	Json::Value to_json();
+
 
 	friend ostream& operator<<(std::ostream& os, const SQLAttribute& obj) {
 		os << "Attribute '" << obj.name << "'\n";

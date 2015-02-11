@@ -8,9 +8,9 @@ bool SQLErrorManager::has_errors() {
 	return (this->errors.size() > 0);
 }
 
-bool SQLErrorManager::has_kill_query_error() {
+bool SQLErrorManager::has_no_save_flagged() {
 	for ( auto &error : this->errors ) {
-		if ( error.can_kill_query() ) {
+		if ( error.has_no_save_flagged() ) {
 			return true;
 		}
 	}

@@ -90,6 +90,8 @@ void table_with_no_errors() {
 	table.add_tuple( row3 );
 
 	cout << table;
+
+	table.save();
 }
 
 int main() {
