@@ -9,14 +9,6 @@
 using namespace std;
 
 class SQLAttribute {
-private:
-	string name;
-	SQLType kind;
-	int length;
-	string default_value;
-	SQLIndex index;
-	bool is_auto_increment;
-	int auto_increment;
 
 public:
 
@@ -43,7 +35,6 @@ public:
 	 */
 	bool compare_for_errors(SQLAttribute attr, SQLErrorManager &em);
 
-
 	friend ostream& operator<<(std::ostream& os, const SQLAttribute& obj) {
 		os << "Attribute '" << obj.name << "'\n";
 		os << " - kind             :" << obj.kind << "\n";
@@ -54,6 +45,15 @@ public:
 		os << " - auto_increment   :" << obj.auto_increment << "\n";
 		return os;
 	}
+
+private:
+	string name;
+	SQLType kind;
+	int length;
+	string default_value;
+	SQLIndex index;
+	bool is_auto_increment;
+	int auto_increment;
 
 };
 

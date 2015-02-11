@@ -80,37 +80,29 @@ void SQLRelation::attr_to_json(){
 
 
 void SQLRelation::json_to_attr(){
-	attr.clear();
-<<<<<<< HEAD
-	vector<string> at_name, at_default;
-	vector<SQLType> at_kind;
-	vector<int> at_length, at_bauto, at_auto;
-	vector<SQLIndex> at_indx;
-	for(int i = 0;i<4;++i){
-		at_name.push_back(json_db->from_json("attributes", "name", i));	
-		at_kind.push_back(	\
-			SQLType(stoi(json_db->from_json("attributes", "kind", i))));	
-		at_length.push_back(stoi(json_db->from_json("attributes", "length", i)));
-		at_default.push_back(json_db->from_json("attributes", "default" , i));
-		at_indx.push_back(SQLIndex(stoi(json_db->from_json("attributes", "index", i))));
-		at_bauto.push_back(	\
-			stoi(json_db->from_json("attributes", "is_auto_increment", i))); 
-		at_auto.push_back(stoi(json_db->from_json("attributes", "auto_increment", i)));		
-	}
-	for(int j = 0;j<4;++j){
-		attr.push_back(	SQLAttribute(at_name[j], at_kind[j], at_length[j],
-		at_default[j], at_indx[j], at_bauto[j], at_auto[j]));
-	}
-	
-	
-}
-
-
-
-
-
-=======
-	attr.reserve(4);
+//	attr.clear();
+//
+//	vector<string> at_name, at_default;
+//	vector<SQLType> at_kind;
+//	vector<int> at_length, at_bauto, at_auto;
+//	vector<SQLIndex> at_indx;
+//	for(int i = 0;i<4;++i){
+//		at_name.push_back(json_db->from_json("attributes", "name", i));
+//		at_kind.push_back(	\
+//			SQLType(stoi(json_db->from_json("attributes", "kind", i))));
+//		at_length.push_back(stoi(json_db->from_json("attributes", "length", i)));
+//		at_default.push_back(json_db->from_json("attributes", "default" , i));
+//		at_indx.push_back(SQLIndex(stoi(json_db->from_json("attributes", "index", i))));
+//		at_bauto.push_back(	\
+//			stoi(json_db->from_json("attributes", "is_auto_increment", i)));
+//		at_auto.push_back(stoi(json_db->from_json("attributes", "auto_increment", i)));
+//	}
+//	for(int j = 0;j<4;++j){
+//		attr.push_back(	SQLAttribute(at_name[j], at_kind[j], at_length[j],
+//		at_default[j], at_indx[j], at_bauto[j], at_auto[j]));
+//	}
+//
+//	attr.reserve(4);
 	/*for(int i = 0;i<attr.size();++i){
 		attr[i].name = 
 			json_db->from_json("attributes", "name", i);	
@@ -129,4 +121,3 @@ void SQLRelation::json_to_attr(){
 	}*/
 
 }
->>>>>>> 0ffc65f83c323e102cc2945194a7b6f454da48b7

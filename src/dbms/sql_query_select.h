@@ -8,6 +8,10 @@ using namespace std;
 
 class SQLQuerySelect{
 
+public:
+
+	SQLQuerySelect(){}
+
 private:
 	vector<string> select;
 

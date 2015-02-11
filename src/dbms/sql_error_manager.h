@@ -11,9 +11,6 @@ using namespace std;
 
 class SQLErrorManager {
 
-private:
-	vector<SQLError> errors;
-
 public:
 	SQLErrorManager() {
 	}
@@ -33,7 +30,6 @@ public:
 	 */
 	bool has_kill_query_error();
 
-
 	/**
 	 * How many errors are in this manager?
 	 */
@@ -50,6 +46,9 @@ public:
 		}
 		return os;
 	}
+
+private:
+	vector<SQLError> errors;
 
 };
 

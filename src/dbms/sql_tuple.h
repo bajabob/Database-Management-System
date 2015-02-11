@@ -15,21 +15,6 @@
 using namespace std;
 
 class SQLTuple {
-private:
-
-	/**
-	 * This object (SQLTuple) represents a single row in the table.
-	 * We store all the data for this tuple by it's column name (a key)
-	 * This allows the tuple to contain any number of columns.
-	 */
-	map<string, SQLTypeData> data;
-
-	/**
-	 * It is difficult to iterate a map since it's data is stored in a tree
-	 *  we store a list of local key's so we can figure out if this tuple has
-	 *  all the keys required for the relation.
-	 */
-	vector<string> keys;
 
 public:
 	SQLTuple() {
@@ -53,6 +38,22 @@ public:
 		os << "\n";
 		return os;
 	}
+
+private:
+
+	/**
+	 * This object (SQLTuple) represents a single row in the table.
+	 * We store all the data for this tuple by it's column name (a key)
+	 * This allows the tuple to contain any number of columns.
+	 */
+	map<string, SQLTypeData> data;
+
+	/**
+	 * It is difficult to iterate a map since it's data is stored in a tree
+	 *  we store a list of local key's so we can figure out if this tuple has
+	 *  all the keys required for the relation.
+	 */
+	vector<string> keys;
 };
 
 #endif
