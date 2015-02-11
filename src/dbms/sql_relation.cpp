@@ -11,7 +11,7 @@ void SQLRelation::add_attribute( SQLAttribute at ) {
 	this->attr.push_back( at );
 }
 
-void SQLRelation::add_tuple( string data[], int size ) {
+void SQLRelation::add_tuple( vector<string> data ) {
 	int data_offset = 0;
 	bool had_auto_increment = false;
 	SQLTuple* tuple = new SQLTuple();
@@ -38,7 +38,7 @@ void SQLRelation::add_tuple( string data[], int size ) {
 		}
 
 		// run out of data, send empty date to tuple
-		if ( size <= data_offset ) {
+		if ( data.size() <= data_offset ) {
 			tuple->add_attribute( attr, "", error_manager );
 		} else { // default, send data to tuple
 
@@ -81,6 +81,7 @@ void SQLRelation::attr_to_json(){
 
 void SQLRelation::json_to_attr(){
 	attr.clear();
+<<<<<<< HEAD
 	vector<string> at_name, at_default;
 	vector<SQLType> at_kind;
 	vector<int> at_length, at_bauto, at_auto;
@@ -108,3 +109,24 @@ void SQLRelation::json_to_attr(){
 
 
 
+=======
+	attr.reserve(4);
+	/*for(int i = 0;i<attr.size();++i){
+		attr[i].name = 
+			json_db->from_json("attributes", "name", i);	
+		attr[i].kind = 
+			SQLType(stoi(json_db->from_json("attributes", "kind",  i)));
+		attr[i].length = 
+			stoi(json_db->from_json("attributes", "length", i));
+		attr[i].default_value = 
+			json_db->from_json("attributes", "default" , i);
+		attr[i].index = 
+			SQLIndex(stoi(json_db->from_json("attributes", "index",  i)));
+		attr[i].is_auto_increment = 
+			stoi(json_db->from_json("attributes", "is_auto_increment", i));
+		attr[i].auto_increment = 
+			stoi(json_db->from_json("attributes", "auto_increment", i));		
+	}*/
+
+}
+>>>>>>> 0ffc65f83c323e102cc2945194a7b6f454da48b7

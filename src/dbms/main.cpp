@@ -16,8 +16,7 @@ using namespace std;
 /**
  * General table with errors
  */
-void table_with_errors()
-{
+void table_with_errors() {
 	// create table
 	SQLRelation table( "error_table" );
 
@@ -38,20 +37,20 @@ void table_with_errors()
 	table.add_attribute( at1 ); // error, duplicate attribute name
 
 	// define data for table
-	string row0[] = { "bob27", "Timm", "Robert" };
-	string row1[] = { "raf28", "Salas", "robert" };
-	string row2[] = { "nikki22", "Schreier", "Nicolette" };
-	string row3[] = { "mike20", "Turner", "Michael" };
-	string dupUser[] = { "bob27", "Man", "12th" };
-	string tooLong[] = { "this-is-too-long", "Loftin", "Bowtie" };
+	vector<string> row0 = { "bob27", "Timm", "Robert" };
+	vector<string> row1 = { "raf28", "Salas", "Raf" };
+	vector<string> row2 = { "nikki22", "Schreier", "Nicolette" };
+	vector<string> row3 = { "mike20", "Turner", "Michael" };
+	vector<string> dupUser = { "bob27", "Man", "12th" };
+	vector<string> tooLong = { "this-is-too-long", "Loftin", "Bowtie" };
 
 	// add data to table
-	table.add_tuple( row0, 3 );
-	table.add_tuple( row1, 3 );
-	table.add_tuple( row2, 3 );
-	table.add_tuple( row3, 3 );
-	table.add_tuple( dupUser, 3 ); // error, username is unique! (contains duplicate)
-	table.add_tuple( tooLong, 3 ); // warning, username is too long! (gets truncated)
+	table.add_tuple( row0 );
+	table.add_tuple( row1 );
+	table.add_tuple( row2 );
+	table.add_tuple( row3 );
+	table.add_tuple( dupUser ); // error, username is unique! (contains duplicate)
+	table.add_tuple( tooLong ); // warning, username is too long! (gets truncated)
 
 	cout << table;
 }
@@ -59,8 +58,7 @@ void table_with_errors()
 /**
  * General table with no errors
  */
-void table_with_no_errors()
-{
+void table_with_no_errors() {
 	// create table
 	SQLRelation table( "error_free_table" );
 
@@ -80,22 +78,21 @@ void table_with_no_errors()
 	table.add_attribute( at4 );
 
 	// define data for table
-	string row0[] = { "bob27", "Timm" };
-	string row1[] = { "raf28", "Salas" };
-	string row2[] = { "nikki22", "", "Nicolette" };
-	string row3[] = { "mike20", "Turner", "Michael" };
+	vector<string> row0 = { "bob27", "Timm" };
+	vector<string> row1 = { "raf28", "Salas" };
+	vector<string> row2 = { "nikki22", "", "Nicolette" };
+	vector<string> row3 = { "mike20", "Turner", "Michael" };
 
 	// add data to table
-	table.add_tuple( row0, 2 );
-	table.add_tuple( row1, 2 );
-	table.add_tuple( row2, 3 );
-	table.add_tuple( row3, 3 );
+	table.add_tuple( row0 );
+	table.add_tuple( row1 );
+	table.add_tuple( row2 );
+	table.add_tuple( row3 );
 
 	cout << table;
 }
 
-int main()
-{
+int main() {
 
 	table_with_errors();
 	cout << endl << endl;
