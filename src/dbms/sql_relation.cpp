@@ -11,7 +11,7 @@ void SQLRelation::add_attribute( SQLAttribute at ) {
 	this->attr.push_back( at );
 }
 
-void SQLRelation::add_tuple( string data[], int size ) {
+void SQLRelation::add_tuple( vector<string> data ) {
 	int data_offset = 0;
 	bool had_auto_increment = false;
 	SQLTuple* tuple = new SQLTuple();
@@ -38,7 +38,7 @@ void SQLRelation::add_tuple( string data[], int size ) {
 		}
 
 		// run out of data, send empty date to tuple
-		if ( size <= data_offset ) {
+		if ( data.size() <= data_offset ) {
 			tuple->add_attribute( attr, "", error_manager );
 		} else { // default, send data to tuple
 

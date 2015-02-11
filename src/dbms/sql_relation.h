@@ -32,8 +32,12 @@ public:
 
 	/**
 	 * Add a new row to this relation (add row to table)
+	 * This function fills in the table left to right, so the first element
+	 *  in the vector assumes the leftmost column, and so on. The function
+	 *  will automatically skip columns that can't accept data, like an
+	 *  auto incrementing primary key.
 	 */
-	void add_tuple( string data[], int size );
+	void add_tuple( vector<string> data );
 
 	/**
 	 * Test if a unique value exists in in the
