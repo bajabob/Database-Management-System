@@ -20,25 +20,25 @@ class SQLStorageManager {
 
 public:
 
-	SQLStorageManager(string filename) :
-			filename(filename) {
+	SQLStorageManager( string filename ) :
+			filename( filename ) {
 		// intentionally blank
 	}
 
-	void load(vector<SQLAttribute> &attributes) {
+	void load( SQLErrorManager &em, vector<SQLAttribute> &attributes , vector<SQLTuple> &tuples) {
 
 		cout << "Loading '" << filename << "'..." << endl;
 
 		// if the db file exists on disk, load it
-		if (this->file_exists(this->filename)) {
+		if ( this->file_exists( this->filename ) ) {
 			cout << " - Found on disk, loading..." << endl;
 
-			ifstream config_doc(this->filename, ifstream::binary);
+			ifstream config_doc( this->filename, ifstream::binary );
 
 			Json::Value root;   // will contains the root value after parsing
 			Json::Reader reader;
-			bool parsingSuccessful = reader.parse(config_doc, root);
-			if (!parsingSuccessful) {
+			bool parsingSuccessful = reader.parse( config_doc, root );
+			if ( !parsingSuccessful ) {
 				// report to the user the failure and their locations in the document.
 				std::cout << "Failed to parse " << this->filename << endl
 						<< reader.getFormattedErrorMessages();
@@ -46,9 +46,17 @@ public:
 			}
 
 			// load attributes into table
-			Json::Value j_attributes = root.get("attributes", 0);
-			for (int i = 0; i < j_attributes.size(); ++i) {
-				attributes.push_back( SQLAttribute( j_attributes[i] ) );
+			Json::Value j_attributes = root.get( "attributes", 0 );
+			for ( int i = 0; i < j_attributes.size(); ++i ) {
+				SQLAttribute *at = new SQLAttribute( j_attributes[i] );
+				attributes.push_back( *at );
+			}
+
+			// load tuples into table
+			Json::Value j_tuples = root.get( "tuples", 0 );
+			for ( int i = 0; i < j_tuples.size(); ++i ) {
+				SQLTuple *t = new SQLTuple( j_tuples[i], attributes, em );
+				tuples.push_back( *t );
 			}
 
 		} else {
@@ -59,42 +67,44 @@ public:
 
 	}
 
-	void save(SQLErrorManager &em, vector<SQLAttribute> &attributes,
-			vector<SQLTuple> tuples) {
+	void save( SQLErrorManager &em, vector<SQLAttribute> &attributes,
+			vector<SQLTuple> tuples ) {
+
+		cout << "Saving '" << filename << "' to disk..." << endl;
 
 		// check for no-save errors
-		if (em.has_no_save_flagged()) {
+		if ( em.has_no_save_flagged() ) {
 			cout << "Can not save '" << filename << "', errors detected"
 					<< endl;
 			return;
 		}
 
 		// remove old db file
-		if (file_exists(filename)) {
-			remove(filename.c_str());
+		if ( file_exists( filename ) ) {
+			remove( filename.c_str() );
 		}
 
 		Json::Value j_root;
 
 		// add attributes to json structure
-		Json::Value j_attributes(Json::arrayValue);
-		for (auto &a : attributes) {
-			j_attributes.append(a.to_json());
+		Json::Value j_attributes( Json::arrayValue );
+		for ( auto &a : attributes ) {
+			j_attributes.append( a.to_json() );
 		}
 		j_root["attributes"] = j_attributes;
 
 		// add tuples to json structure
-		Json::Value j_tuples(Json::arrayValue);
-		for (auto &t : tuples) {
-			j_tuples.append(t.to_json());
+		Json::Value j_tuples( Json::arrayValue );
+		for ( auto &t : tuples ) {
+			j_tuples.append( t.to_json() );
 		}
 		j_root["tuples"] = j_tuples;
 
 		// Make a new JSON document for the configuration. Preserve original comments
 		Json::StyledWriter writer;
-		string outputConfig = writer.write(j_root);
+		string outputConfig = writer.write( j_root );
 
-		std::ofstream out(filename);
+		std::ofstream out( filename );
 		out << outputConfig;
 		out.close();
 	}
@@ -106,9 +116,9 @@ private:
 	/**
 	 * Does the specified file exist?
 	 */
-	inline bool file_exists(const string& name) {
+	inline bool file_exists( const string& name ) {
 		struct stat buffer;
-		return (stat(name.c_str(), &buffer) == 0);
+		return (stat( name.c_str(), &buffer ) == 0);
 	}
 
 }

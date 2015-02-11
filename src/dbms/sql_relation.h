@@ -10,7 +10,6 @@
 #include "sql_type_data.h"
 #include "sql_error_manager.h"
 #include "sql_storage_manager.h"
-#include "jsonfunc.h"
 
 using namespace std;
 
@@ -20,9 +19,6 @@ public:
 
 	SQLRelation(string name) :
 			name(name), storage_manager(name+".db") {
-		/**need destructor now*/
-		//json_db = new jclass("file");
-		storage_manager.load(attributes);
 	}
 
 	/**
@@ -50,6 +46,10 @@ public:
 		storage_manager.save(error_manager, attributes, tuples);
 	}
 
+	void load(){
+		storage_manager.load(error_manager, attributes, tuples);
+	}
+
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {
 		os << "\nRelation: " << obj.name << "\n";
 		os << "----------------------------\n\n";
@@ -73,22 +73,6 @@ private:
 	vector<SQLTuple> tuples;
 	SQLErrorManager error_manager;
 	SQLStorageManager storage_manager;
-
-
-	/**
-	 *We are going to need to pass in db file name into this.
-	 */
-	jclass *json_db; //json class
-
-	/**
-	 *Adding these functions as private for internal use.
-	 *Another function will use these to load the whole table.
-	 *Do not call these before jclass::read_db is called or else
-	 *we will get an exception.
-	 */
-	void attr_to_json(); // load attributes from a Json::Value
-
-	void json_to_attr(); // load attr to Json::Value
 
 };
 

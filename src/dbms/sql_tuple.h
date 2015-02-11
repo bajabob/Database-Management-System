@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 #include "enum.h"
 #include "sql_error.h"
@@ -18,8 +19,10 @@ using namespace std;
 class SQLTuple {
 
 public:
-	SQLTuple() {
-	}
+
+	SQLTuple() {}
+
+	SQLTuple(Json::Value, vector<SQLAttribute>&, SQLErrorManager&);
 
 	/**
 	 * Add an attribute (column) to the tuple.
@@ -38,8 +41,14 @@ public:
 	Json::Value to_json();
 
 	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {
-		for (int i = 0; i < obj.keys.size(); ++i) {
-			os << obj.data.find(obj.keys[i])->second << " ";
+		vector<string> copy(obj.keys);
+
+		// need to sort as keys may be out of order in relation
+		//  to others accross the table
+		sort(copy.begin(), copy.end());
+
+		for (int i = 0; i < copy.size(); ++i) {
+			os << obj.data.find(copy[i])->second << " ";
 		}
 		os << "\n";
 		return os;

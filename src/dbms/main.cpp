@@ -57,6 +57,7 @@ void table_with_errors() {
 
 /**
  * General table with no errors
+ * Save table to disk
  */
 void table_with_no_errors() {
 	// create table
@@ -94,12 +95,30 @@ void table_with_no_errors() {
 	table.save();
 }
 
+/**
+ * Attempt to load a table from disk
+ */
+void load_no_error_table() {
+	SQLRelation table( "error_free_table" );
+
+	table.load();
+
+	// add some more data
+	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
+	table.add_tuple( row0 );
+
+	cout << table;
+}
+
 int main() {
 
 	table_with_errors();
 	cout << endl << endl;
 
 	table_with_no_errors();
+	cout << endl << endl;
+
+	load_no_error_table();
 	cout << endl << endl;
 
 }

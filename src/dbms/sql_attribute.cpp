@@ -1,5 +1,15 @@
 #include "sql_attribute.h"
 
+SQLAttribute::SQLAttribute(Json::Value node){
+	name = string(node["name"].asString());
+	kind = (SQLType)int(node["kind"].asInt());
+	length = int(node["length"].asInt());
+	default_value = string(node["default"].asString());
+	index = (SQLIndex)int(node["index"].asInt());
+	is_auto_increment = bool(node["is_auto_increment"].asBool());
+	auto_increment = int(node["auto_increment"].asInt());
+}
+
 string SQLAttribute::get_name() {
 	return this->name;
 }
@@ -44,15 +54,6 @@ Json::Value SQLAttribute::to_json() {
 	return node;
 }
 
-SQLAttribute::SQLAttribute(Json::Value node){
-	name = node["name"].asString();
-	kind = (SQLType)node["kind"].asInt();
-	length = node["length"].asInt();
-	default_value = node["default"].asString();
-	index = (SQLIndex)node["index"].asInt();
-	is_auto_increment = node["is_auto_increment"].asBool();
-	auto_increment = node["auto_increment"].asInt();
-}
 
 bool SQLAttribute::compare_for_errors(SQLAttribute attr, SQLErrorManager &em) {
 
