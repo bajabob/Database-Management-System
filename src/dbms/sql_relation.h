@@ -1,76 +1,62 @@
 #ifndef SRC_DBMS_SQL_RELATION_H_
 #define SRC_DBMS_SQL_RELATION_H_
 
-/*	We can create the data base and entries by using the jclass here.
- By initializing the jclass here we can have access to its Json::Value
- and jclass' functions to build and get a table from the DB
+#include <map>
+#include <string>
+#include <vector>
 
- */
+#include "sql_tuple.h"
+#include "sql_attribute.h"
+#include "sql_type_data.h"
+#include "sql_error_manager.h"
 
 using namespace std;
 
-class SQLRelation
-{
+class SQLRelation {
 private:
-	string name; // name of this ralation (table)
+	string name; // name of this relation (table)
 	vector<SQLAttribute> attr;
 	vector<SQLTuple> tuples;
+	SQLErrorManager error_manager;
 
 public:
 
 	SQLRelation( string name ) :
-			name( name )
-	{
+			name( name ) {
 	}
 
-	void add_attribute( SQLAttribute at )
-	{
-		this->attr.push_back( at );
-	}
+	/**
+	 * Add a new attribute to this relation (add new column)
+	 */
+	void add_attribute( SQLAttribute at );
 
-	void add_tuple( string data[] )
-	{
-		int data_offset = 0;
-		bool had_auto_increment = false;
-		SQLTuple* tuple = new SQLTuple();
+	/**
+	 * Add a new row to this relation (add row to table)
+	 */
+	void add_tuple( string data[], int size );
 
-		for ( int i = 0; i < attr.size(); ++i )
-		{
-			// this is an ID column, and is auto incrementing (skip data[])
-			if ( attr[i].index == PRIMARY && attr[i].auto_increment )
-			{
-				tuple->add_attribute( attr[i].name,
-						to_string( attr[i].auto_increment ) );
-				attr[i].auto_increment++;
-				continue;
-			}
+	/**
+	 * Test if a unique value exists in in the
+	 *  list of tuples by the specified key
+	 */
+	bool has_unique( string key, string data );
 
-			// this column is UNIQUE, check table for pre-existing data
-			//...
 
-			// Fall through - this is not a fancy column, just add it
-			tuple->add_attribute( attr[i].name, data[data_offset] );
-			data_offset++;
-		}
 
-		// test for errors (need error reporting class within this table)
-		// then add tuple to table
-		this->tuples.push_back( *tuple );
-	}
-
-	friend ostream& operator<<( std::ostream& os, const SQLRelation& obj )
-	{
-		os << "Relation: " << obj.name << "\n";
-		os << "Attributes:\n";
-		for ( int i = 0; i < obj.attr.size(); ++i )
-		{
+	friend ostream& operator<<( std::ostream& os, const SQLRelation& obj ) {
+		os << "\nRelation: " << obj.name << "\n";
+		os << "----------------------------\n\n";
+		os << "Attributes: " << obj.attr.size() << "\n";
+		for ( int i = 0; i < obj.attr.size(); ++i ) {
 			os << obj.attr[i];
 		}
-		os << "Tuples:\n";
-		for ( int i = 0; i < obj.tuples.size(); ++i )
-		{
+		os << "----------------------------\n\n";
+		os << "Tuples: " << obj.tuples.size() << "\n";
+		for ( int i = 0; i < obj.tuples.size(); ++i ) {
 			os << obj.tuples[i];
 		}
+		os << "----------------------------\n\n";
+		os << obj.error_manager << endl;
 		return os;
 	}
 

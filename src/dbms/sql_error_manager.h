@@ -1,0 +1,56 @@
+#ifndef SRC_DBMS_SQL_ERROR_MANAGER_H_
+#define SRC_DBMS_SQL_ERROR_MANAGER_H_
+
+#include <string>
+#include <vector>
+#include <iostream>
+
+#include "sql_error.h"
+
+using namespace std;
+
+class SQLErrorManager {
+
+private:
+	vector<SQLError> errors;
+
+public:
+	SQLErrorManager() {
+	}
+
+	/**
+	 * Add a error to the list
+	 */
+	void add_error(SQLError error);
+
+	/**
+	 * Does this manager have any errors?
+	 */
+	bool has_errors();
+
+	/**
+	 * Does the list of errors contain a kill query flaq?
+	 */
+	bool has_kill_query_error();
+
+
+	/**
+	 * How many errors are in this manager?
+	 */
+	int error_count();
+
+	friend ostream& operator<<(std::ostream& os, const SQLErrorManager& obj) {
+		if (obj.errors.size() > 0) {
+			os << obj.errors.size() << " Errors \n";
+			for (auto &error : obj.errors) {
+				os << error << " \n";
+			}
+		} else {
+			os << "0 Errors \n";
+		}
+		return os;
+	}
+
+};
+
+#endif

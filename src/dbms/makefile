@@ -1,5 +1,22 @@
-all: main.o
-	g++ -std=c++11 main.o -o main
+all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o
+	g++ -std=c++11 \
+	sql_relation.o \
+	sql_tuple.o \
+	sql_attribute.o \
+	sql_error_manager.o \
+	main.o -o main
+
+sql_relation.o: sql_relation.cpp
+	g++ -std=c++11 -c sql_relation.cpp
+	
+sql_tuple.o: sql_tuple.cpp
+	g++ -std=c++11 -c sql_tuple.cpp
+		
+sql_attribute.o: sql_attribute.cpp
+	g++ -std=c++11 -c sql_attribute.cpp
+	
+sql_error_manager.o: sql_error_manager.cpp
+	g++ -std=c++11 -c sql_error_manager.cpp	
 
 main.o: main.cpp
 	g++ -std=c++11 -c main.cpp
