@@ -1,6 +1,8 @@
 #ifndef SRC_DBMS_SQL_TUPLE_H_
 #define SRC_DBMS_SQL_TUPLE_H_
 
+#include <map>
+#include <vector>
 #include <string>
 #include <iostream>
 
@@ -36,19 +38,13 @@ public:
 	/**
 	 * Add an attribute (column) to the tuple.
 	 */
-	void add_attribute(SQLAttribute &attr, string data, SQLErrorManager &em) {
-		this->data.insert(pair<string, SQLTypeData>(attr.get_name(), SQLTypeData(attr, em, data)));
-		this->keys.push_back(attr.get_name());
-	}
+	void add_attribute(SQLAttribute &attr, string data, SQLErrorManager &em);
 
 	/**
 	 * Does this tuple contain data (by a specified key) that matches
 	 *  the inquired data? Good for testing if the table contains duplicate data.
 	 */
-	bool has_matching_data(string key, string data) {
-		SQLTypeData s = this->data.find(key)->second;
-		return data == s.data;
-	}
+	bool has_matching_data(string key, string data);
 
 	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {
 		for (int i = 0; i < obj.keys.size(); ++i) {

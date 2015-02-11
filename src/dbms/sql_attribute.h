@@ -28,64 +28,21 @@ public:
 		// intentionally blank
 	}
 
-	string get_name() {
-		return this->name;
-	}
-
-	SQLType get_kind() {
-		return this->kind;
-	}
-
-	int get_length() {
-		return this->length;
-	}
-
-	string get_default_value() {
-		return this->default_value;
-	}
-
-	SQLIndex get_index() {
-		return this->index;
-	}
-
-	bool has_auto_increment() {
-		return this->is_auto_increment;
-	}
-
-	int get_auto_increment() {
-		return this->auto_increment;
-	}
-
-	void on_auto_increment() {
-		++this->auto_increment;
-	}
+	string get_name();
+	SQLType get_kind();
+	int get_length();
+	string get_default_value();
+	SQLIndex get_index();
+	bool has_auto_increment();
+	int get_auto_increment();
+	void on_auto_increment();
 
 	/**
 	 * Compare this attribute against another for errors
-	 * return true if error is found
+	 * return true if error is found, store actual error in error manager
 	 */
-	bool compare_for_errors(SQLAttribute attr, SQLErrorManager &em) {
+	bool compare_for_errors(SQLAttribute attr, SQLErrorManager &em);
 
-		// no two attributes can have the same name
-		if (attr.get_name() == this->name) {
-			em.add_error(
-					SQLError(DUPLICATE,
-							"Duplicate attribute name specified, '" + this->name
-									+ "' already exists."));
-			return true;
-		}
-
-		// there can only be one primary key in an SQL table
-		if (attr.index == PRIMARY && this->index == PRIMARY) {
-			em.add_error(
-					SQLError(SYNTAX,
-							this->name
-									+ " is already defined as the primary key for "
-									+ "the table. There can not be two primary keys."));
-			return true;
-		}
-		return false;
-	}
 
 	friend ostream& operator<<(std::ostream& os, const SQLAttribute& obj) {
 		os << "Attribute '" << obj.name << "'\n";
