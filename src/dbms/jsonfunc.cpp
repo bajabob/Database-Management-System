@@ -12,7 +12,7 @@ using namespace std;
 such as is the case with the Table entry. The id value in the data section corresponds 
 with id in the json functions seen below. id has a default arguement if not used. */
 
-string jclass::from_json(string &index, string label, int id){
+string jclass::from_json(string index, string label, int id){
 	if(database.empty())//return nothing empty
 		return "";
 	else{	
@@ -26,7 +26,7 @@ string jclass::from_json(string &index, string label, int id){
 }
 
 //id must be 0 or greater. It is the callers responsibility to ensure this.
-void jclass::to_json(string &index, string label,string val, int id){					//need to find a way to pass in different types of val
+void jclass::to_json(string index, string label,string val, int id){					//need to find a way to pass in different types of val
 	if(id == -1) //make json object that does not hav and id(-1 is a default)
 		database[index][label] = val;
 	else

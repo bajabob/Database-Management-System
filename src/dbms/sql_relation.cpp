@@ -65,36 +65,46 @@ bool SQLRelation::has_unique( string key, string data ) {
 
 
 void SQLRelation::attr_to_json(){
-	/*for(int i = 0;i<attr.size();++i){
-		json_db->to_json("attributes", "name", attr[i].name, i);	
-		json_db->to_json("attributes", "kind", to_string(attr[i].kind), i);
-		json_db->to_json("attributes", "length", to_string(attr[i].length), i);
-		json_db->to_json("attributes", "default", attr[i].default_value, i);
-		json_db->to_json("attributes", "index", to_string(attr[i].index), i);
-		json_db->to_json("attributes", "is_auto_increment", to_string(attr[i].is_auto_increment), i);
-		json_db->to_json("attributes", "auto_increment", to_string(attr[i].auto_increment), i);		
-	}*/
+	for(int i = 0;i<attr.size();++i){
+		json_db->to_json("attributes", "name", attr[i].get_name(), i);	
+		json_db->to_json("attributes", "kind", to_string(attr[i].get_kind()), i);
+		json_db->to_json("attributes", "length", to_string(attr[i].get_length()), i);
+		json_db->to_json("attributes", "default", attr[i].get_default_value(), i);
+		json_db->to_json("attributes", "index", to_string(attr[i].get_index()), i);
+		json_db->to_json("attributes", "is_auto_increment",	\
+			to_string(attr[i].has_auto_increment()), i);
+		json_db->to_json("attributes", "auto_increment",	\
+			to_string(attr[i].get_auto_increment()), i);		
+	}
 }
 
 
 void SQLRelation::json_to_attr(){
 	attr.clear();
-	attr.reserve(4);
-	/*for(int i = 0;i<attr.size();++i){
-		attr[i].name = 
-			json_db->from_json("attributes", "name", i);	
-		attr[i].kind = 
-			SQLType(stoi(json_db->from_json("attributes", "kind",  i)));
-		attr[i].length = 
-			stoi(json_db->from_json("attributes", "length", i));
-		attr[i].default_value = 
-			json_db->from_json("attributes", "default" , i);
-		attr[i].index = 
-			SQLIndex(stoi(json_db->from_json("attributes", "index",  i)));
-		attr[i].is_auto_increment = 
-			stoi(json_db->from_json("attributes", "is_auto_increment", i));
-		attr[i].auto_increment = 
-			stoi(json_db->from_json("attributes", "auto_increment", i));		
-	}*/
-
+	vector<string> at_name, at_default;
+	vector<SQLType> at_kind;
+	vector<int> at_length, at_bauto, at_auto;
+	vector<SQLIndex> at_indx;
+	for(int i = 0;i<4;++i){
+		at_name.push_back(json_db->from_json("attributes", "name", i));	
+		at_kind.push_back(	\
+			SQLType(stoi(json_db->from_json("attributes", "kind", i))));	
+		at_length.push_back(stoi(json_db->from_json("attributes", "length", i)));
+		at_default.push_back(json_db->from_json("attributes", "default" , i));
+		at_indx.push_back(SQLIndex(stoi(json_db->from_json("attributes", "index", i))));
+		at_bauto.push_back(	\
+			stoi(json_db->from_json("attributes", "is_auto_increment", i))); 
+		at_auto.push_back(stoi(json_db->from_json("attributes", "auto_increment", i)));		
+	}
+	for(int j = 0;j<4;++j){
+		attr.push_back(	SQLAttribute(at_name[j], at_kind[j], at_length[j],
+		at_default[j], at_indx[j], at_bauto[j], at_auto[j]));
+	}
+	
+	
 }
+
+
+
+
+

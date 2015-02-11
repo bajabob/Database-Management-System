@@ -15,10 +15,10 @@ public:
 	jclass(string file):fname(file){}	//intialize constructor and file name
   
   //returns json object in form of string
-	string from_json(string &index, string label, int id=-1);
+	string from_json(string index, string label, int id=-1);
   
   //formats arguements into json 
-	void to_json( string &index, string label,string val,int id=-1);
+	void to_json( string index, string label,string val,int id=-1);
   
  //read from database
 	void read_db();
