@@ -33,7 +33,7 @@ void jclass::to_json(string index, string label,string val, int id){					//need 
 		database[index][id][label] = val;
 }
 
-void jclass::read_db(){
+void jclass::read_db(string fname){
 	database.clear(); //ensure Json::Value database is clear before writing to
 	Json::Reader reader;// will parse json file
 	ifstream fs((fname+".db").c_str());
@@ -44,7 +44,7 @@ void jclass::read_db(){
 	fs.close();
 }
 
-void jclass::write_db(){
+void jclass::write_db(string fname){
 	ofstream fs;//output stream to file
 	fs.open(fname+".db", ios::out | ios::trunc);
 	Json::StyledWriter styledWriter;

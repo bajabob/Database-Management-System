@@ -13,6 +13,7 @@
 #include "sql_type_data.h"
 #include "sql_error_manager.h"
 #include "json/json.h"
+#include "jsonfunc.h"
 
 using namespace std;
 
@@ -111,6 +112,9 @@ public:
 
 private:
 
+	void load_attribute();
+	void save_attribute();
+	jclass json_manager;
 	string filename;
 
 	/**
@@ -120,8 +124,59 @@ private:
 		struct stat buffer;
 		return (stat( name.c_str(), &buffer ) == 0);
 	}
-
 }
 ;
+
+
+
+void SQLStorageManager::save_attribute(vector<SQLAttribute> &attributes){
+	for(int i = 0;i<attributes.size();++i){
+		json_db->to_json("attributes", "name", attributes[i].get_name(), i);	
+		json_db->to_json("attributes", "kind", to_string(attributes[i].get_kind()), i);
+		json_db->to_json("attributes", "length", to_string(attributes[i].get_length()), i);
+		json_db->to_json("attributes", "default", attributes[i].get_default_value(), i);
+		json_db->to_json("attributes", "index", to_string(attributes[i].get_index()), i);
+		json_db->to_json("attributes", "is_auto_increment",	\
+			to_string(attributes[i].has_auto_increment()), i);
+		json_db->to_json("attributes", "auto_increment",	\
+			to_string(attr[i].get_auto_increment()), i);		
+	}
+}
+
+
+void SQLStorageManager::load_attribute(vector<SQLAttribute> &attributes){
+	attributes.clear();
+	vector<string> at_name, at_default;
+	vector<SQLType> at_kind;
+	vector<int> at_length, at_bauto, at_auto;
+	vector<SQLIndex> at_indx;
+	Json::Value j_attributes = json_db.get( "attributes", 0 );
+	for(int i = 0;i<j_attributes.size();++i){
+		at_name.push_back(json_db->from_json("attributes", "name", i));	
+		at_kind.push_back(	
+			SQLType(stoi(json_db->from_json("attributes", "kind", i))));	
+		at_length.push_back(stoi(json_db->from_json("attributes", "length", i)));
+		at_default.push_back(json_db->from_json("attributes", "default" , i));
+		at_indx.push_back(SQLIndex(stoi(json_db->from_json("attributes", "index", i))));
+		at_bauto.push_back(	
+			stoi(json_db->from_json("attributes", "is_auto_increment", i))); 
+		at_auto.push_back(stoi(json_db->from_json("attributes", "auto_increment", i)));		
+	}
+	for(int j = 0;j<j_attributes.size();++j){
+		attributes.push_back(	SQLAttribute(at_name[j], at_kind[j], at_length[j],
+		at_default[j], at_indx[j], at_bauto[j], at_auto[j]));
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

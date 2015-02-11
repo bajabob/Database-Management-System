@@ -12,7 +12,7 @@ using namespace std;
 class jclass{
 
 public:
-	jclass(string file):fname(file){}	//intialize constructor and file name
+	jclass(){//intentionally left blank }	//initialize constructor and file name
 
   //returns json object in form of string
 	string from_json(string index, string label, int id=-1);
@@ -21,10 +21,10 @@ public:
 	void to_json( string index, string label,string val,int id=-1);
 
  //read from database
-	void read_db();
+	void read_db(string fname);
 
 //writes to the database file. Caution this will truncate the file
-	void write_db();
+	void write_db(string fname);
 
  // json object. Append labels and values to to get the json architecture
 	Json::Value database;
