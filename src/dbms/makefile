@@ -1,9 +1,10 @@
-all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o jsoncpp.o
+all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o sql_storage_manager.o jsoncpp.o
 	g++ -std=c++11 \
 	sql_relation.o \
 	sql_tuple.o \
 	sql_attribute.o \
 	sql_error_manager.o \
+	sql_storage_manager.o \
 	jsoncpp.o \
 	main.o -o main
 
@@ -18,6 +19,9 @@ sql_attribute.o: sql_attribute.cpp
 	
 sql_error_manager.o: sql_error_manager.cpp
 	g++ -std=c++11 -c sql_error_manager.cpp	
+
+sql_storage_manager.o: sql_storage_manager.cpp
+	g++ -std=c++11 -c sql_storage_manager.cpp	
 
 jsoncpp.o: jsoncpp.cpp	
 	g++ -std=c++11 -c jsoncpp.cpp
