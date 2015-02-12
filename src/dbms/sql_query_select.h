@@ -6,18 +6,20 @@
 
 using namespace std;
 
-class SQLQuerySelect{
+class SQLQuerySelect {
 
 public:
 
-	SQLQuerySelect(){}
+	SQLQuerySelect() {
+	}
+
+	SQLQuerySelect(vector<string> attributes) :
+			select(select) {
+
+	}
 
 private:
 	vector<string> select;
-
-	SQLQuerySelect(vector<string> attributes, ):select(select){
-
-	}
 
 };
 

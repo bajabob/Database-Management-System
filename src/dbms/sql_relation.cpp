@@ -11,6 +11,14 @@ void SQLRelation::add_attribute(SQLAttribute at) {
 	this->attributes.push_back(at);
 }
 
+vector<string> SQLRelation::get_attribute_names(){
+	vector<string> names;
+	for(auto &attr : this->attributes){
+		names.push_back(attr.get_name());
+	}
+	return names;
+}
+
 void SQLRelation::add_tuple(vector<string> data) {
 	int data_offset = 0;
 	bool had_auto_increment = false;
