@@ -25,7 +25,7 @@ public:
 		// intentionally blank
 	}
 
-	void load_from_value(Json::Value root, vector<SQLAttribute> &attributes , vector<SQLTuple> &tuples){	
+	void load_from_value(Json::Value root, vector<SQLAttribute> &attributes , vector<SQLTuple> &tuples, SQLErrorManager &em){	
 			// load attributes into table
 			Json::Value j_attributes = root.get( "attributes", 0 );
 			for ( int i = 0; i < j_attributes.size(); ++i ) {
@@ -62,7 +62,7 @@ public:
 				return;
 			}
 
-		load_from_value(root, attributes , tuples);// goto a helper function
+		load_from_value(root, attributes , tuples, em);// goto a helper function
 
 		} else {
 			cout << " - No DB by that name exists on disk, creating new DB..."
@@ -130,7 +130,7 @@ public:
 		}
 		j_root["tuples"] = j_tuples;
 			
-		return j_root			
+		return j_root;			
 	}
 	
 	void save( SQLErrorManager &em, vector<SQLAttribute> &attributes,
@@ -146,7 +146,7 @@ public:
 		// Make a new JSON document for the configuration. Preserve original comments
 		Json::StyledWriter writer;
 		string outputConfig = writer.write( j_root );
-		std::ofstream out( filename | ios::trunc);
+		std::ofstream out( filename , ios::trunc);
 		out << outputConfig;
 		out.close();
 	}
