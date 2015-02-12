@@ -1,4 +1,4 @@
-all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o jsoncpp.o jsonfunc.o
+all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o jsoncpp.o
 	g++ -std=c++11 \
 	sql_relation.o \
 	sql_tuple.o \
