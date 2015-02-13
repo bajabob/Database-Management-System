@@ -1,5 +1,13 @@
-DBMS
-====
+DBMS - Team #6
+==============
+Team Members:
+* Rafael (Raf) Salas
+* Robert (Bob) Timm
+* Nicolette (Nikki) Schreier
+* Michael Turner
+
+How to run
+==========
 * In a terminal window, type "make" to compile the test application. 
 * Then type "./main" to run the test program.
 * The test program currently has three parts: 
