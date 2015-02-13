@@ -18,7 +18,7 @@ How to run
 Sample Output
 =============
 
-Bobs-MBP:dbms bob$ ./main
+```$ ./main
 
 Relation: error_table
 ----------------------------
@@ -169,4 +169,4 @@ Tuples: 5
        4            BTHO         Alabama newguy55 
 ----------------------------
 
-0 Errors 
+0 Errors ```
