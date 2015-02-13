@@ -41,11 +41,23 @@ public:
 	 */
 	bool has_unique(string key, string data);
 
+	/**
+	 * Get a vector of all the attribute names for this relation
+	 */
+	vector<string> get_attribute_names();
 
+	/**
+	 * Attempt to save this table to disk, if there are any
+	 *  errors in the storage manager it will be prevented
+	 */
 	void save(){
 		storage_manager.save(error_manager, attributes, tuples);
 	}
 
+	/**
+	 * Attempt to find this table on disk, if it doen't exist on
+	 *  disk, do nothing.
+	 */
 	void load(){
 		storage_manager.load(error_manager, attributes, tuples);
 	}

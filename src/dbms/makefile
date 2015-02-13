@@ -1,10 +1,11 @@
-all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o jsoncpp.o jsonfunc.o
+all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o sql_storage_manager.o json/jsoncpp.o
 	g++ -std=c++11 \
 	sql_relation.o \
 	sql_tuple.o \
 	sql_attribute.o \
 	sql_error_manager.o \
-	jsoncpp.o \
+	sql_storage_manager.o \
+	json/jsoncpp.o \
 	main.o -o main
 
 sql_relation.o: sql_relation.cpp
@@ -19,14 +20,14 @@ sql_attribute.o: sql_attribute.cpp
 sql_error_manager.o: sql_error_manager.cpp
 	g++ -std=c++11 -c sql_error_manager.cpp	
 
-jsoncpp.o: jsoncpp.cpp	
-	g++ -std=c++11 -c jsoncpp.cpp
-	
-jsonfunc.o: jsonfunc.cpp	
-	g++ -std=c++11 -c jsonfunc.cpp
+sql_storage_manager.o: sql_storage_manager.cpp
+	g++ -std=c++11 -c sql_storage_manager.cpp	
+
+jsoncpp.o: json/jsoncpp.cpp	
+	g++ -std=c++11 -c json/jsoncpp.cpp
 	
 main.o: main.cpp
 	g++ -std=c++11 -c main.cpp
 	
 clean:
-	rm *.o main
+	rm *.o json/*.o main
