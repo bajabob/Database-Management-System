@@ -10,7 +10,7 @@
 #include "sql_attribute.h"
 #include "sql_tuple.h"
 #include "sql_relation.h"
-#include "sql_sql_query_builder.h"
+#include "sql_query_builder.h"
 
 using namespace std;
 
@@ -107,7 +107,7 @@ void load_no_error_table() {
 	// add some more data
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
-
+	//table.delete_column("name_last");
 	cout << table;
 }
 

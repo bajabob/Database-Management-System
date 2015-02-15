@@ -40,12 +40,15 @@ Json::Value SQLTuple::to_json() {
 	return node;
 }
 
-/*void delete_data(string attr){
+/*void SQLTuple::delete_data(string attr){
 	std::map<string, SQLTypeData>::iterator it;
+	std::vector<string>::iterator it_2;
 	it = data.find(attr);
 	data.erase(it);
-}*/
-
+	it_2 = find(keys.begin(), keys.end(), attr);
+	keys.erase(it_2);
+}
+*/
 
 
 

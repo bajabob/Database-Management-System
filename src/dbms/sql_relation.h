@@ -62,20 +62,7 @@ public:
 		storage_manager.load(error_manager, attributes, tuples);
 	}
 
-	/*void delete_column(string attr){
-		std::vector<SQLAttribute>::iterator it.
-		for(it = attribute.begin(); it != attributes.end(); ++it){
-			if (it->name->get_name()== attr)
-				attributes.erase(it);
-		}
-		if(it != attr){
-			cout<<"\nColumn doesn't exsist.\n";
-			return;
-		}
-		for(int i = 0; i < tuples.size() ; ++i ){
-			tuples[i].delete_data(string attr);
-		}
-	}*/
+	//void delete_column(string attr); 
 	
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {
 		os << "\nRelation: " << obj.name << "\n";
