@@ -10,6 +10,7 @@
 #include "sql_attribute.h"
 #include "sql_tuple.h"
 #include "sql_relation.h"
+#include "sql_sql_query_builder.h"
 
 using namespace std;
 

@@ -39,3 +39,14 @@ Json::Value SQLTuple::to_json() {
 	}
 	return node;
 }
+
+/*void delete_data(string attr){
+	std::map<string, SQLTypeData>::iterator it;
+	it = data.find(attr);
+	data.erase(it);
+}*/
+
+
+
+
+
