@@ -62,7 +62,8 @@ public:
 		storage_manager.load(error_manager, attributes, tuples);
 	}
 
-	//void delete_column(string attr); 
+	//added for testing
+	void delete_column(string attr); 
 	
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {
 		os << "\nRelation: " << obj.name << "\n";

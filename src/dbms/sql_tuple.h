@@ -39,8 +39,9 @@ public:
 	 * Convert this tuple to a json object
 	 */
 	Json::Value to_json();
-
-	//void delete_data(string attr);
+	
+	//added for testing
+	void delete_data(string attr);
 	
 	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {
 		vector<string> copy(obj.keys);

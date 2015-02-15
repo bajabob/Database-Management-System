@@ -18,7 +18,7 @@ public:
 
 	}
 	
-	vector<string> get_select(){ return this->select;}
+	vector<string> get_queries(){ return this->select;}
 
 private:
 	vector<string> select;

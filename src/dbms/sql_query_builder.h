@@ -31,7 +31,7 @@ class SQLQueryBuilder{
 
 public:
 
-	SQLQueryBuilder(SQLRelation *relation):relation(relation){
+	SQLQueryBuilder(SQLRelation *rel):relation(rel){
 
 
 	}
@@ -40,8 +40,17 @@ public:
 	/**
 	 * Add an altered select to this query
 	 */
-	void add_select(SQLQuerySelect &select){
-		
+	void add_select(SQLQuerySelect &sel){ 
+	/*	query_attr = sel.get_queries();
+		attributes = relation->get_attribute_names();
+		vector<string>::iterator it;
+		for(int i = 0;i < attributes.size(); ++i){
+			it = find(query_attr.begin(), query_attr.end(),attributes[i]);
+			if(*it != attributes[i] ){
+				relation->delete_column(attributes[i]);
+			}
+		}
+		show_new_table();*/
 	}
 
 	/**
@@ -50,12 +59,16 @@ public:
 	void run_select(){
 
 	}
-
+	
+	void show_new_table(){
+		cout<<"\n"<<relation;
+	}
 	
 private:
 
 	SQLRelation *relation;
-	
+	vector<string> query_attr;
+	vector<string> attributes;
 	SQLQuerySelect select;
 
 };
