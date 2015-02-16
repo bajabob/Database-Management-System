@@ -40,6 +40,8 @@ public:
 	 */
 	Json::Value to_json();
 	
+	string get_data(string attr_name);
+	
 	//added for testing
 	void delete_data(string attr);
 	

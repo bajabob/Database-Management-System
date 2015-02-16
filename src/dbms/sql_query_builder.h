@@ -40,18 +40,7 @@ public:
 	/**
 	 * Add an altered select to this query
 	 */
-	void add_select(SQLQuerySelect &sel){ 
-	/*	query_attr = sel.get_queries();
-		attributes = relation->get_attribute_names();
-		vector<string>::iterator it;
-		for(int i = 0;i < attributes.size(); ++i){
-			it = find(query_attr.begin(), query_attr.end(),attributes[i]);
-			if(*it != attributes[i] ){
-				relation->delete_column(attributes[i]);
-			}
-		}
-		show_new_table();*/
-	}
+	void add_select(SQLQuerySelect &sel);
 
 	/**
 	 * Run the now built query

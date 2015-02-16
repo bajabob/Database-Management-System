@@ -93,3 +93,21 @@ void SQLRelation::delete_column(string attr){
 	
 }
 
+void SQLRelation::delete_row(string attr, string data){
+	std::vector<SQLAttribute>::iterator it;
+	std::vector<SQLTuple>::iterator it_2;
+	for(it = attributes.begin(); it != attributes.end(); ++it){
+		if (it->get_name()== attr){
+			break;
+		}		
+	}
+	if (it->get_name()!= attr){
+		cout<<"\nAttribute does not exist";
+		return;
+	}
+	for(int i= 0;i<tuples.size(); ++i){
+		if(tuples[i].has_matching_data( it->get_name(), data )){
+			tuples.erase(&tuples[i]);
+		}
+	}
+}
