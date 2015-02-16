@@ -40,9 +40,6 @@ Json::Value SQLTuple::to_json() {
 	return node;
 }
 
-string SQLTuple::get_data(string attr_name){
-	return data[attr_name].get_data();
-}
 
 //added for testing
 void SQLTuple::delete_data(string attr){

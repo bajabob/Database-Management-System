@@ -105,9 +105,9 @@ void SQLRelation::delete_row(string attr, string data){
 		cout<<"\nAttribute does not exist";
 		return;
 	}
-	for(int i= 0;i<tuples.size(); ++i){
-		if(tuples[i].has_matching_data( it->get_name(), data )){
-			tuples.erase(&tuples[i]);
+	for(it_2=tuples.begin();it_2 != tuples.end(); ++it_2){
+		if(it_2->has_matching_data( it->get_name(), data )){
+			tuples.erase(it_2);
 		}
 	}
 }

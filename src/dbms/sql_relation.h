@@ -65,7 +65,7 @@ public:
 	//added for testing
 	void delete_column(string attr); 
 	
-	void delete_row(string attr);
+	void delete_row(string attr, string data);
 	
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {
 		os << "\nRelation: " << obj.name << "\n";
