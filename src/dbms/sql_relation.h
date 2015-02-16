@@ -62,6 +62,11 @@ public:
 		storage_manager.load(error_manager, attributes, tuples);
 	}
 
+	//added for testing
+	void delete_column(string attr); 
+	
+	void delete_row(string attr);
+	
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {
 		os << "\nRelation: " << obj.name << "\n";
 		os << "----------------------------\n\n";
@@ -79,6 +84,7 @@ public:
 		return os;
 	}
 
+	
 private:
 	string name; // name of this relation (table)
 	vector<SQLAttribute> attributes;

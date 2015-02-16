@@ -70,3 +70,44 @@ bool SQLRelation::has_unique(string key, string data) {
 	return false;
 }
 
+//added for testing
+void SQLRelation::delete_column(string attr){
+	std::vector<SQLAttribute>::iterator it;
+	for(it = attributes.begin(); it != attributes.end(); ++it){
+		if (it->get_name()== attr){
+			if(it->get_index()==1){
+				cout<<"Cannot delete a Primary Attribute";
+				return;
+			}	
+			attributes.erase(it);
+			break;
+		}
+	}
+	if(it->get_name()== attr){
+		cout<<"\nColumn does not exist";
+		return;
+	}
+	for(int i = 0; i < tuples.size() ; ++i ){
+		tuples[i].delete_data(attr);
+	}
+	
+}
+
+void SQLRelation::delete_row(string attr, string data){
+	std::vector<SQLAttribute>::iterator it;
+	std::vector<SQLTuple>::iterator it_2;
+	for(it = attributes.begin(); it != attributes.end(); ++it){
+		if (it->get_name()== attr){
+			break;
+		}		
+	}
+	if (it->get_name()!= attr){
+		cout<<"\nAttribute does not exist";
+		return;
+	}
+	for(int i= 0;i<tuples.size(); ++i){
+		if(tuples[i].has_matching_data( it->get_name(), data )){
+			tuples.erase(&tuples[i]);
+		}
+	}
+}

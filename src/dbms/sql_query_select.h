@@ -14,9 +14,11 @@ public:
 	}
 
 	SQLQuerySelect(vector<string> attributes) :
-			select(select) {
+			select(attributes) {
 
 	}
+	
+	vector<string> get_queries(){ return this->select;}
 
 private:
 	vector<string> select;

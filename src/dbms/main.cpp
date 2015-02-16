@@ -10,6 +10,7 @@
 #include "sql_attribute.h"
 #include "sql_tuple.h"
 #include "sql_relation.h"
+#include "sql_query_builder.h"
 
 using namespace std;
 
@@ -106,17 +107,18 @@ void load_no_error_table() {
 	// add some more data
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
-
+	//added for testing
+	table.delete_column("name_last");
 	cout << table;
 }
 
 int main() {
 
-	table_with_errors();
+	/*table_with_errors();
 	cout << endl << endl;
 
 	table_with_no_errors();
-	cout << endl << endl;
+	cout << endl << endl;*/
 
 	load_no_error_table();
 	cout << endl << endl;

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "sql_query_select.h"
+#include "sql_attribute.h"
 
 using namespace std;
 
@@ -30,17 +31,16 @@ class SQLQueryBuilder{
 
 public:
 
-	SQLQueryBuilder(SQLRelation &relation):relation(relation){
+	SQLQueryBuilder(SQLRelation *rel):relation(rel){
 
 
 	}
+	
 
 	/**
 	 * Add an altered select to this query
 	 */
-	void add_select(SQLQuerySelect &select){
-
-	}
+	void add_select(SQLQuerySelect &sel);
 
 	/**
 	 * Run the now built query
@@ -48,11 +48,16 @@ public:
 	void run_select(){
 
 	}
-
+	
+	void show_new_table(){
+		cout<<"\n"<<relation;
+	}
+	
 private:
 
 	SQLRelation *relation;
-
+	vector<string> query_attr;
+	vector<string> attributes;
 	SQLQuerySelect select;
 
 };
