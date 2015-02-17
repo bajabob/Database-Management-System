@@ -90,7 +90,6 @@ void SQLRelation::delete_column(string attr){
 	for(int i = 0; i < tuples.size() ; ++i ){
 		tuples[i].delete_data(attr);
 	}
-	
 }
 
 void SQLRelation::delete_row(string attr, string data){
@@ -101,10 +100,12 @@ void SQLRelation::delete_row(string attr, string data){
 			break;
 		}		
 	}
-	if (it->get_name()!= attr){
+
+	if (it==attributes.end()){
 		cout<<"\nAttribute does not exist";
 		return;
 	}
+	
 	for(it_2=tuples.begin();it_2 != tuples.end(); ++it_2){
 		if(it_2->has_matching_data( it->get_name(), data )){
 			tuples.erase(it_2);

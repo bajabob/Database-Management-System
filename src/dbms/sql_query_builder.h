@@ -40,21 +40,20 @@ public:
 	/**
 	 * Add an altered select to this query
 	 */
-	void add_select(SQLQuerySelect &sel);
+	void add_select();
 
 	/**
 	 * Run the now built query
 	 */
 	void run_select(){
-
+	
 	}
 	
-	void show_new_table(){
-		cout<<"\n"<<relation;
-	}
+	void show_new_table();
 	
 private:
-
+	string where;
+	string sel;
 	SQLRelation *relation;
 	vector<string> query_attr;
 	vector<string> attributes;

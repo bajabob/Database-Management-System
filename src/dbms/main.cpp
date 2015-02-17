@@ -108,7 +108,8 @@ void load_no_error_table() {
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
 	//added for testing
-	table.delete_column("name_last");
+	//table.delete_column("name_last");
+	table.delete_row("name_last", "Salas");
 	cout << table;
 }
 

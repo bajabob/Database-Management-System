@@ -1,7 +1,7 @@
 #include "sql_query_build"
 
-void SQLQueryBuilder::add_select(SQLQuerySelect &sel){ 
-	query_attr = sel.get_queries();
+void SQLQueryBuilder::add_select(){ 
+	query_attr = select.get_queries();
 	attributes = relation->get_attribute_names();
 	vector<string>::iterator it;
 	for(int i = 0;i < attributes.size(); ++i){
@@ -12,3 +12,8 @@ void SQLQueryBuilder::add_select(SQLQuerySelect &sel){
 	}
 	show_new_table();
 }
+
+void SQLQueryBuilder::show_new_table(){
+		cout<<"\n"<<relation;
+		relation->load();
+	}
