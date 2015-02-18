@@ -11,9 +11,6 @@ void SQLQueryBuilder::add_select(){
 		}
 	}
 	show_new_table();
+	cout<<"\n"<<relation;
+	relation->load();
 }
-
-void SQLQueryBuilder::show_new_table(){
-		cout<<"\n"<<relation;
-		relation->load();
-	}

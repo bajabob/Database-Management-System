@@ -40,9 +40,18 @@ Json::Value SQLTuple::to_json() {
 	return node;
 }
 
+string SQLTuple::get_data(string attr){
+	map<string, SQLTypeData>::iterator it = data.find(attr);
+	return it->second.get_data();
+}
 
-//added for testing
-void SQLTuple::delete_data(string attr){
+void SQLTuple::update_data(SQLAttribute &attr, SQLErrorManager &em, string new_data){
+	map<string, SQLTypeData>::iterator it = data.find(attr.get_name());
+	it->second = SQLTypeData(attr, em, new_data);					//update date with new value
+}
+
+
+void SQLTuple::delete_data(string attr){ 
 	data.erase(data.find(attr));
 	keys.erase(find(keys.begin(), keys.end(), attr));
 }

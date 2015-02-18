@@ -42,6 +42,10 @@ void SQLAttribute::on_auto_increment() {
 	++this->auto_increment;
 }
 
+void SQLAttribute::on_auto_decrement(){
+	--this->auto_increment;
+}
+
 Json::Value SQLAttribute::to_json() {
 	Json::Value node;
 	node["name"] = name;
