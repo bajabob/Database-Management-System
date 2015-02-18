@@ -115,6 +115,10 @@ void SQLRelation::delete_row(string attr, string data){
 			break;
 		}
 	}
+	if(it_2 == tuples.end()){
+		cout<<"\nData not found";
+		return;
+	}	
 	//find attribute with auto increment
 	for(it = attributes.begin(); it != attributes.end(); ++it){
 		if (it->has_auto_increment()){
@@ -130,8 +134,6 @@ void SQLRelation::delete_row(string attr, string data){
 			string mod_data = to_string(--c_data);
 			cout<<"\n"<<mod_data;
 			it_2->update_data(*it, error_manager, mod_data);
-	
-	
 		}
 	}
 	

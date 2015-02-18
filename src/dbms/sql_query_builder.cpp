@@ -10,7 +10,17 @@ void SQLQueryBuilder::add_select(){
 			relation->delete_column(attributes[i]);
 		}
 	}
-	show_new_table();
+	if(where != "__None"){
+		
+	
+	
+	
+	
+	
+	
+	
+	}
+	
 	cout<<"\n"<<relation;
 	relation->load();
 }

@@ -40,7 +40,7 @@ public:
 	/**
 	 * Add an altered select to this query
 	 */
-	void add_select();
+	void add_select(string where = "__None");
 
 	/**
 	 * Run the now built query
@@ -49,7 +49,6 @@ public:
 	
 	}
 	
-	void show_new_table();
 	
 private:
 	string where;
