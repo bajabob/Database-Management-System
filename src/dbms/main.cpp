@@ -109,10 +109,10 @@ void load_no_error_table() {
 	table.add_tuple( row0 );
 	//added for testing
 	//table.delete_column("name_last");
-	table.delete_row("name_last", "Salas");
-	vector<string> row1 = { "newguy56", "bell", "taco" };
-	table.add_tuple( row1 );
-	cout << table;
+	//table.delete_row("name_last", "Salas");
+	//vector<string> row1 = { "newguy56", "bell", "taco" };
+	//table.add_tuple( row1 );
+	//cout << table;
 }
 
 int main() {
@@ -124,6 +124,11 @@ int main() {
 	cout << endl << endl;*/
 
 	load_no_error_table();
+	
+	
+	
+	
+	
 	cout << endl << endl;
 
 }

@@ -31,31 +31,30 @@ class SQLQueryBuilder{
 
 public:
 
-	SQLQueryBuilder(SQLRelation *rel):relation(rel){
-
-
+	SQLQueryBuilder(SQLRelation *rel,SQLQuerySelect &sel):relation(rel), select(sel)  {
+		query_attr = select.get_queries();
+		where = select.get_wheres();
+		
 	}
 	
 
 	/**
 	 * Add an altered select to this query
 	 */
-	void add_select(string where = "__None");
-
+	void add_select();
+	void add_where();
 	/**
-	 * Run the now built query
+	 * Run the now built query if unaltered flag is true otherwise run altered
 	 */
-	void run_select(){
-	
-	}
+	void run_select(bool unaltered = true);
 	
 	
 private:
-	string where;
-	string sel;
+	
 	SQLRelation *relation;
 	vector<string> query_attr;
 	vector<string> attributes;
+	vector<string> where;
 	SQLQuerySelect select;
 
 };

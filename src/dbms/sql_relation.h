@@ -45,7 +45,10 @@ public:
 	 * Get a vector of all the attribute names for this relation
 	 */
 	vector<string> get_attribute_names();
-
+	
+	vector<SQLTuple> get_tuples()const {
+		return this->tuples;
+	}
 	/**
 	 * Attempt to save this table to disk, if there are any
 	 *  errors in the storage manager it will be prevented

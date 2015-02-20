@@ -19,9 +19,10 @@ public:
 	}
 	
 	vector<string> get_queries(){ return this->select;}
-
+	vector<string> get_wheres(){ return this->where;}
 private:
 	vector<string> select;
+	vector<string> where;
 
 };
 
