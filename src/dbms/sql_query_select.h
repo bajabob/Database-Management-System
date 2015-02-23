@@ -10,20 +10,15 @@ class SQLQuerySelect {
 
 public:
 
-	SQLQuerySelect() {
-	}
+	SQLQuerySelect(){}
 
-	SQLQuerySelect(vector<string> attributes) :
-			select(attributes) {
-
-	}
-	
+	SQLQuerySelect(vector<string> attributes);
 	vector<string> get_queries(){ return this->select;}
-	vector<string> get_wheres(){ return this->where;}
+	vector<vector<string>> get_wheres(){ return this->where;}
 private:
 	vector<string> select;
-	vector<string> where;
-
+	vector<vector<string>>  where;
+	
 };
 
 #endif

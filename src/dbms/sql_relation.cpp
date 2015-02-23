@@ -73,6 +73,7 @@ bool SQLRelation::has_unique(string key, string data) {
 void SQLRelation::delete_column(string attr){
 	std::vector<SQLAttribute>::iterator it;
 	//find column attribute and ensure it is not a primary
+	bool found = false;
 	for(it = attributes.begin(); it != attributes.end(); ++it){
 		if (it->get_name()== attr){
 			if(it->get_index()==1){
@@ -80,11 +81,13 @@ void SQLRelation::delete_column(string attr){
 				return;
 			}	
 			attributes.erase(it);
+			if(it==attributes.end())
+				found = true;
 			break;
 		}
 	}
 	//attribute not found insert error
-	if(it == attributes.end()){
+	if(it == attributes.end() && !found){
 		cout<<"\nColumn does not exist";
 		return;
 	}
@@ -97,6 +100,7 @@ void SQLRelation::delete_column(string attr){
 void SQLRelation::delete_row(string attr, string data){
 	std::vector<SQLAttribute>::iterator it;
 	std::vector<SQLTuple>::iterator it_2;
+	bool found = false;
 	//find attribute
 	for(it = attributes.begin(); it != attributes.end(); ++it){
 		if (it->get_name()== attr){
@@ -112,10 +116,12 @@ void SQLRelation::delete_row(string attr, string data){
 	for(it_2=tuples.begin();it_2 != tuples.end(); ++it_2){
 		if(it_2->has_matching_data( it->get_name(), data )){
 			tuples.erase(it_2);
-			break;
+			if(it_2 == tuples.end())
+				found = true;
+			break;		
 		}
 	}
-	if(it_2 == tuples.end()){
+	if(it_2 == tuples.end() && !found){
 		cout<<"\nData not found";
 		return;
 	}	
@@ -132,7 +138,7 @@ void SQLRelation::delete_row(string attr, string data){
 			string current_data = it_2->get_data(it->get_name());
 			int c_data = stoi(current_data);
 			string mod_data = to_string(--c_data);
-			cout<<"\n"<<mod_data;
+			
 			it_2->update_data(*it, error_manager, mod_data);
 		}
 	}
