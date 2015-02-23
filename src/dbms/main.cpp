@@ -128,8 +128,8 @@ int main() {
 	load_no_error_table(table);
 	SQLQuerySelect sel(table.get_attribute_names());
 	SQLQueryBuilder qb(&table,sel);
-	cout<<"\n in main "<<table.get_tuples()[0].get_data("last_name");
-	qb.run_select(1);  
+	//cout<<"\n in main "<<table.get_tuples()[0].get_data("name_last");
+	qb.run_select(0);  
 	cout << endl << endl;
 	return 0;
 }   

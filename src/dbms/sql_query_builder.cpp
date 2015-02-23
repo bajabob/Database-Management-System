@@ -21,7 +21,8 @@ void SQLQueryBuilder::add_where(){
 		if (where[j].size()>0){	
 			for( vector<SQLTuple>::iterator tup_it = relation->get_tuples().begin();tup_it != relation->get_tuples().end(); ++tup_it){
 				string data = tup_it->get_data(query_attr[j]);
-				//cout<<"\n"<<data<<" "<<query_attr[j];//<< where[j].size();
+				cout<<"\n row"<<*tup_it;
+				cout<<"\nin add where "<<data<<" "<<query_attr[j];//<< where[j].size();
 				vector<string>::iterator it = find(where[j].begin(), where[j].end(),data);
 				if(it != where[j].end()){
 					not_where.insert(std::pair<string,string>(query_attr[j],data));

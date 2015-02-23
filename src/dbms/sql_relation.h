@@ -46,7 +46,7 @@ public:
 	 */
 	vector<string> get_attribute_names();
 	
-	vector<SQLTuple> get_tuples()const {
+	vector<SQLTuple> get_tuples() {
 		return this->tuples;
 	}
 	/**
