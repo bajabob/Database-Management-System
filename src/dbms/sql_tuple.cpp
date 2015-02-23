@@ -41,10 +41,10 @@ Json::Value SQLTuple::to_json() {
 }
 
 string SQLTuple::get_data(string attr){
-	cout<<"\n attribute sent: " << attr;
+	//cout<<"\n attribute sent: " << attr;
 	map<string, SQLTypeData>::iterator it = data.find(attr);
 	if(it==data.end()){ cout<< "\ndate not_found";}
-	cout<<"\n data that should be recieved: "<<it->second.get_data();
+	//cout<<"\n data that should be recieved: "<<it->second.get_data();
 	return it->second.get_data();
 }
 
