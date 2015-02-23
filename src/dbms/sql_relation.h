@@ -45,7 +45,10 @@ public:
 	 * Get a vector of all the attribute names for this relation
 	 */
 	vector<string> get_attribute_names();
-
+	
+	vector<SQLTuple> get_tuples() {
+		return this->tuples;
+	}
 	/**
 	 * Attempt to save this table to disk, if there are any
 	 *  errors in the storage manager it will be prevented
@@ -62,9 +65,10 @@ public:
 		storage_manager.load(error_manager, attributes, tuples);
 	}
 
-	//added for testing
-	void delete_column(string attr); 
-	
+	/**
+	*delete columns and rows associated with given attribute name
+	*/
+	void delete_column(string attr);  
 	void delete_row(string attr, string data);
 	
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {

@@ -70,44 +70,77 @@ bool SQLRelation::has_unique(string key, string data) {
 	return false;
 }
 
-//added for testing
 void SQLRelation::delete_column(string attr){
 	std::vector<SQLAttribute>::iterator it;
+	//find column attribute and ensure it is not a primary
+	bool found = false;
 	for(it = attributes.begin(); it != attributes.end(); ++it){
 		if (it->get_name()== attr){
 			if(it->get_index()==1){
-				cout<<"Cannot delete a Primary Attribute";
+				cout<<"\n"<<"Cannot delete a Primary Attribute";
 				return;
 			}	
 			attributes.erase(it);
+			if(it==attributes.end())
+				found = true;
 			break;
 		}
 	}
-	if(it->get_name()== attr){
+	//attribute not found insert error
+	if(it == attributes.end() && !found){
 		cout<<"\nColumn does not exist";
 		return;
 	}
+	//delete column if attribute found
 	for(int i = 0; i < tuples.size() ; ++i ){
 		tuples[i].delete_data(attr);
 	}
-	
 }
 
 void SQLRelation::delete_row(string attr, string data){
 	std::vector<SQLAttribute>::iterator it;
 	std::vector<SQLTuple>::iterator it_2;
+	bool found = false;
+	//find attribute
 	for(it = attributes.begin(); it != attributes.end(); ++it){
 		if (it->get_name()== attr){
 			break;
 		}		
 	}
-	if (it->get_name()!= attr){
+	//attribute not found insert error
+	if (it==attributes.end()){
 		cout<<"\nAttribute does not exist";
 		return;
 	}
+	//delete row
 	for(it_2=tuples.begin();it_2 != tuples.end(); ++it_2){
 		if(it_2->has_matching_data( it->get_name(), data )){
 			tuples.erase(it_2);
+			if(it_2 == tuples.end())
+				found = true;
+			break;		
 		}
 	}
+	if(it_2 == tuples.end() && !found){
+		cout<<"\nData not found";
+		return;
+	}	
+	//find attribute with auto increment
+	for(it = attributes.begin(); it != attributes.end(); ++it){
+		if (it->has_auto_increment()){
+			it->on_auto_decrement();
+			break;
+		}		
+	}
+	//decrement id's by updating data 
+	if(it->has_auto_increment()){
+		for(;it_2 !=tuples.end(); ++it_2){
+			string current_data = it_2->get_data(it->get_name());
+			int c_data = stoi(current_data);
+			string mod_data = to_string(--c_data);
+			
+			it_2->update_data(*it, error_manager, mod_data);
+		}
+	}
+	
 }

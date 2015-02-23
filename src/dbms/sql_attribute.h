@@ -31,7 +31,8 @@ public:
 	bool has_auto_increment();
 	int get_auto_increment();
 	void on_auto_increment();
-
+	void on_auto_decrement();
+	
 	/**
 	 * Compare this attribute against another for errors
 	 * return true if error is found, store actual error in error manager

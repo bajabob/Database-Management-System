@@ -40,8 +40,11 @@ public:
 	 */
 	Json::Value to_json();
 	
-	
-	//added for testing
+	/**
+	* Used for data manipulation
+	*/
+	void update_data(SQLAttribute &attr, SQLErrorManager &em, string new_data);
+	string get_data(string attr);
 	void delete_data(string attr);
 	
 	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {

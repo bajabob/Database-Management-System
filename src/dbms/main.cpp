@@ -11,6 +11,7 @@
 #include "sql_tuple.h"
 #include "sql_relation.h"
 #include "sql_query_builder.h"
+#include "sql_query_select.h"
 
 using namespace std;
 
@@ -99,11 +100,11 @@ void table_with_no_errors() {
 /**
  * Attempt to load a table from disk
  */
-void load_no_error_table() {
-	SQLRelation table( "error_free_table" );
-
-	table.load();
-
+ 
+ SQLRelation table( "error_free_table" );
+void load_no_error_table(SQLRelation &table) {
+	
+	table.load(); 
 	// add some more data
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
@@ -115,12 +116,12 @@ void load_no_error_table() {
 int main() {
 
 	table_with_errors();
-	cout << endl << endl;
+	
+	//added for testing 
+	//table.delete_column("name_first");
+	//table.delete_row("name_last", "Salas");
+	//vector<string> row1 = { "newguy56", "bell", "taco" };
+	//table.add_tuple( row1 );
+	//cout << table;
+}  
 
-	table_with_no_errors();
-	cout << endl << endl;
-
-	load_no_error_table();
-	cout << endl << endl;
-
-}

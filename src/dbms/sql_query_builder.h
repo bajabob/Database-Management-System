@@ -4,7 +4,7 @@
 
 #include <string>
 #include <vector>
-
+#include "sql_relation.h"
 #include "sql_query_select.h"
 #include "sql_attribute.h"
 
@@ -31,33 +31,30 @@ class SQLQueryBuilder{
 
 public:
 
-	SQLQueryBuilder(SQLRelation *rel):relation(rel){
-
-
+	SQLQueryBuilder(SQLRelation *rel,SQLQuerySelect &sel):relation(rel), select(sel)  {
+		query_attr = select.get_queries();
+		where = select.get_wheres();
+		//cout<<"\n"<< where[1].size();
 	}
 	
 
 	/**
 	 * Add an altered select to this query
 	 */
-	void add_select(SQLQuerySelect &sel);
-
+	void add_select();
+	void add_where();
 	/**
-	 * Run the now built query
+	 * Run the now built query if unaltered flag is true otherwise run altered
 	 */
-	void run_select(){
-
-	}
+	void run_select(bool unaltered = true);
 	
-	void show_new_table(){
-		cout<<"\n"<<relation;
-	}
 	
 private:
-
+	
 	SQLRelation *relation;
 	vector<string> query_attr;
 	vector<string> attributes;
+	vector<vector<string>> where;
 	SQLQuerySelect select;
 
 };
