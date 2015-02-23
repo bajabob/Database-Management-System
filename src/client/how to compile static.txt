@@ -1,0 +1,4 @@
+gcc -Wall -c ctest1.c ctest2.c
+ar rcs libctest.a ctest1.o ctest2.o
+gcc -static cprog.c -L. -lctest -o cprog
+./cprog
