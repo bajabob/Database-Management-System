@@ -27,6 +27,7 @@ using namespace std;
  *  - query builder performs operations on table and saves the
  *     new table if needed
  */
+ 
 class SQLQueryBuilder{
 
 public:
@@ -34,7 +35,7 @@ public:
 	SQLQueryBuilder(SQLRelation *rel,SQLQuerySelect &sel):relation(rel), select(sel)  {
 		query_attr = select.get_queries();
 		where = select.get_wheres();
-		//cout<<"\n"<< where[1].size();
+		
 	}
 	
 
@@ -54,7 +55,7 @@ private:
 	SQLRelation *relation;
 	vector<string> query_attr;
 	vector<string> attributes;
-	vector<vector<string>> where;
+	vector<where_obj> where;
 	SQLQuerySelect select;
 
 };

@@ -16,25 +16,46 @@ void SQLQueryBuilder::add_select(){
 }
 
 void SQLQueryBuilder::add_where(){
-	map<string,string> not_where;
+	vector<where_obj>::iterator wh_it;
+	vector<SQLTuple>::iterator tup_it;
+	vector<where_obj> not_where;
+	bool to_delete = true;
+	for(tup_it = relation->get_tuples().begin(); tup_it != relation->get_tuples().end(); ++tup_it){
+		for(wh_it != where.begin();wh_it != where.end();++wh_it){
+			string data = tup_it->get_data(wh_it->attr);
+			where_obj temp_where(wh_it->attr,data);
+			not_where.push_back(temp_where);
+			if(data == wh_it->where){
+				to_delete = false;
+			
+			}
+		}
+		if(to_delete){
+			for(int i = 0;i<not_where.size();++i){
+				relation->delete_row(not_where[i].attr,not_where[i].where);	
+			}			
+		}
+		not_where.clear();
+	}
+/*	map<string,string> not_where;
 	for(int j =0 ;j < query_attr.size(); ++j){
 		if (where[j].size()>0){	
 			for( vector<SQLTuple>::iterator  tup_it = relation->get_tuples().begin(); tup_it != relation->get_tuples().end(); ++tup_it){
 				string data = tup_it->get_data(query_attr[j]);
-				//cout<<"\n row"<<*tup_it;
 				cout<<"\nin add where "<<data<<" "<<query_attr[j];
 				vector<string>::iterator it = find(where[j].begin(), where[j].end(),data);
-				if(it != where[j].end()){
-					not_where.insert(std::pair<string,string>(query_attr[j],data));
-					//relation->delete_row(query_attr[j], data);			
+				if(it == where[j].end()){
+					//not_where.insert(std::pair<string,string>(query_attr[j],data));
+					relation->delete_row(query_attr[j], data);			
 				}
 			}
 		}
-	}
-	for(map<string,string>::iterator mapit= not_where.begin();mapit !=not_where.end();++mapit ){
+	}*/
+	/*for(map<string,string>::iterator mapit= not_where.begin();mapit !=not_where.end();++mapit ){
+	
 		relation->delete_row(mapit->first, mapit->second);
 	
-	}
+	}*/
 }
  
 void SQLQueryBuilder::run_select(bool unaltered){

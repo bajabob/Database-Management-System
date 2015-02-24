@@ -9,12 +9,10 @@ SQLQuerySelect::SQLQuerySelect(vector<string> attributes)
 		
 		select.push_back("id");	
 		select.push_back("name_last");
-		vector<string>  id;
-		vector<string> last;
-		last.push_back("Timm");
-		last.push_back("Salas");
+		where_obj wh1("name_last","Salas");
+		where_obj wh2("name_last","Timm");
 		
-		where.push_back(id);
-		where.push_back(last);
-	//	cout<<"\nHellooooooo:"<< where.size();
+		where.push_back(wh1);
+		where.push_back(wh2);
+		//cout<<"\nHellooooooo:"<< where.size();
 	}

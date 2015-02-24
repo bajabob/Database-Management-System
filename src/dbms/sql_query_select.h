@@ -6,6 +6,17 @@
 
 using namespace std;
 
+struct where_obj{
+	where_obj(string attribute, string wher){
+		attr = attribute;
+		where = wher;
+	}
+	string attr;
+	string where;
+	
+};
+
+
 class SQLQuerySelect {
 
 public:
@@ -14,10 +25,10 @@ public:
 
 	SQLQuerySelect(vector<string> attributes);
 	vector<string> get_queries(){ return this->select;}
-	vector<vector<string>> get_wheres(){ return this->where;}
+	vector<where_obj> get_wheres(){ return this->where;}
 private:
 	vector<string> select;
-	vector<vector<string>>  where;
+	vector<where_obj>  where;
 	
 };
 
