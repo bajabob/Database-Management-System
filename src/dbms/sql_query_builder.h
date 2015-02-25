@@ -32,11 +32,7 @@ class SQLQueryBuilder{
 
 public:
 
-	SQLQueryBuilder(SQLRelation *rel,SQLQuerySelect &sel):relation(rel), select(sel)  {
-		query_attr = select.get_queries();
-		where = select.get_wheres();
-		
-	}
+	SQLQueryBuilder(SQLRelation &rel,SQLQuerySelect &sel);
 	
 
 	/**
@@ -52,7 +48,7 @@ public:
 	
 private:
 	
-	SQLRelation *relation;
+	SQLRelation relation;
 	vector<string> query_attr;
 	vector<string> attributes;
 	vector<where_obj> where;
