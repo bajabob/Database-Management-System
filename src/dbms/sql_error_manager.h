@@ -35,11 +35,11 @@ public:
 	 */
 	int error_count();
 
-	friend ostream& operator<<(std::ostream& os, const SQLErrorManager& obj) {
+	friend ostream& operator<<(ostream& os, const SQLErrorManager& obj) {
 		if (obj.errors.size() > 0) {
 			os << obj.errors.size() << " Errors \n";
-			for (auto &error : obj.errors) {
-				os << error << " \n";
+			for (auto &e : obj.errors) {
+				os << e << " \n";
 			}
 		} else {
 			os << "0 Errors \n";

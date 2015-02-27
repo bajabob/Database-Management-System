@@ -123,13 +123,13 @@ void load_no_error_table() {
  
 int main() {  
 	
-	/*table_with_errors();
+	table_with_errors();
 	cout << endl << endl;
 
 	table_with_no_errors();
-	cout << endl << endl; */
+	cout << endl << endl;
    
-	load_no_error_table();
+	//load_no_error_table();
 	
 	cout << endl << endl;
 	return 0;
