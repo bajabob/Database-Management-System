@@ -27,15 +27,12 @@ using namespace std;
  *  - query builder performs operations on table and saves the
  *     new table if needed
  */
+ 
 class SQLQueryBuilder{
 
 public:
 
-	SQLQueryBuilder(SQLRelation *rel,SQLQuerySelect &sel):relation(rel), select(sel)  {
-		query_attr = select.get_queries();
-		where = select.get_wheres();
-		//cout<<"\n"<< where[1].size();
-	}
+	SQLQueryBuilder(SQLRelation &rel,SQLQuerySelect &sel);
 	
 
 	/**
@@ -43,18 +40,20 @@ public:
 	 */
 	void add_select();
 	void add_where();
+	void subtract_where(vector<where_obj> not_wheres);
+	bool is_duplicate(where_obj& data ,vector<where_obj> &wher);	
 	/**
 	 * Run the now built query if unaltered flag is true otherwise run altered
 	 */
 	void run_select(bool unaltered = true);
 	
-	
 private:
 	
-	SQLRelation *relation;
+	SQLRelation relation;
 	vector<string> query_attr;
 	vector<string> attributes;
-	vector<vector<string>> where;
+	vector<where_obj> where;
+	vector<where_obj> non_where;
 	SQLQuerySelect select;
 
 };

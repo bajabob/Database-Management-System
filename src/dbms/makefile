@@ -1,4 +1,4 @@
-all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o sql_storage_manager.o sql_query_builder.o sql_query_select.o json/jsoncpp.o
+all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o sql_storage_manager.o sql_query_builder.o sql_query_select.o sql_command.o json/jsoncpp.o
 	g++ -std=c++11 \
 	sql_relation.o \
 	sql_tuple.o \
@@ -7,6 +7,7 @@ all: main.o sql_relation.o sql_tuple.o sql_attribute.o sql_error_manager.o sql_s
 	sql_storage_manager.o \
 	sql_query_builder.o \
 	sql_query_select.o \
+	sql_command.o \
 	json/jsoncpp.o \
 	main.o -o main
 
@@ -33,6 +34,9 @@ sql_query_select.o: sql_query_select.cpp
 	
 sql_query_builder.o: sql_query_builder.cpp
 	g++ -std=c++11 -c sql_query_builder.cpp
+	
+sql_command.o: sql_command.cpp
+	g++ -std=c++11 -c sql_command.cpp
 
 main.o: main.cpp
 	g++ -std=c++11 -c main.cpp

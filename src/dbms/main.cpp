@@ -100,37 +100,37 @@ void table_with_no_errors() {
 /**
  * Attempt to load a table from disk
  */
-
+ 
 void load_no_error_table() {
 	SQLRelation table( "error_free_table" );
-	table.load();
+	table.load(); 
 	// add some more data
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
-
-	//added for testing 
-	//table.delete_column("name_first");
-	//table.delete_row("name_last", "Salas");
-	//vector<string> row1 = { "newguy56", "bell", "taco" };
-	//table.add_tuple( row1 );
-	//cout << table;
-
-
-	SQLQuerySelect sel( table.get_attribute_names() );
-	SQLQueryBuilder qb( &table, sel );
-	//cout<<"\n in main "<<table.get_tuples()[0].get_data("name_last");
-	qb.run_select( 0 );
-	cout << endl << endl;
-}
-
-int main() {
-	table_with_errors();
+	SQLQuerySelect sel(table.get_attribute_names());
+	SQLQueryBuilder qb(table,sel);
+	
+	/*table.delete_column("username");
+	table.delete_column("name_first");
+	table.delete_row("name_last","Timm");
+	table.delete_row("name_last","Salas");
+	cout << table;*/
+	qb.run_select(0);  
+	
+	
+	
+}  
+ 
+int main() {  
+	
+	/*table_with_errors();
 	cout << endl << endl;
 
 	table_with_no_errors();
-	cout << endl << endl;
-
-	load_no_error_table( );
+	cout << endl << endl; */
+   
+	load_no_error_table();
+	
 	cout << endl << endl;
 	return 0;
 }
