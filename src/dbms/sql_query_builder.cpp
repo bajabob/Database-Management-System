@@ -82,16 +82,17 @@ void SQLQueryBuilder::add_where(){
 }	
  
 void SQLQueryBuilder::run_select(bool unaltered){
+	query_attr = select.get_queries();
+	where = select.get_wheres();
+	non_where = select.get_not_wheres();
+	subtract_where(non_where);
 	if(unaltered){
 		cout<<"\n"<<relation;
 	}
 	else{
 		add_where();
 		add_select();
-		
-		cout<<"\n"<<relation;
-		relation.load();
-		
 	}
 		
 }
+

@@ -16,11 +16,11 @@ using namespace std;
 class SQLRelation {
 
 public:
-
+	SQLRelation();
 	SQLRelation(string name) :
 			name(name), storage_manager(name+".db") {
 	}
-
+	
 	/**
 	 * Add a new attribute to this relation (add new column)
 	 */
@@ -64,7 +64,10 @@ public:
 	void load(){
 		storage_manager.load(error_manager, attributes, tuples);
 	}
-
+	
+	void change_name(string tname){
+		name = tname;
+	}
 	/**
 	*delete columns and rows associated with given attribute name
 	*/

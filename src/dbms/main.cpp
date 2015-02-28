@@ -12,6 +12,7 @@
 #include "sql_relation.h"
 #include "sql_query_builder.h"
 #include "sql_query_select.h"
+#include "sql_command.h"
 
 using namespace std;
 
@@ -107,19 +108,50 @@ void load_no_error_table() {
 	// add some more data
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
-	SQLQuerySelect sel(table.get_attribute_names());
-	SQLQueryBuilder qb(table,sel);
+	//SQLQuerySelect sel(table.get_attribute_names());
+	//SQLQueryBuilder qb(table,sel);
 	
 	/*table.delete_column("username");
 	table.delete_column("name_first");
 	table.delete_row("name_last","Timm");
 	table.delete_row("name_last","Salas");
 	cout << table;*/
-	qb.run_select(0);  
+	//qb.run_select(0);  
 	
 	
 	
 }  
+
+void select_test() {
+	SQLCommand command;
+	vector<string> ops;
+	ops.push_back("name_last == \"Timm\"");
+	ops.push_back("name_first != \"NO_NAME\"");
+	ops.push_back("username != \"newguy55\"");
+	ops.push_back("&&");
+	ops.push_back("||");
+	SQLRelation table( "error_free_table" );
+	table.load(); 
+	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
+	table.add_tuple( row0 );
+	SQLRelation table_2 = command.select(ops, "error_free_table" );
+	
+	/*
+	SQLQuerySelect sel(table);
+	sel.select_cmd(ops,"error_free_table" );
+	SQLQueryBuilder qb(table,sel);*/
+	//qb.run_select(0); 
+	
+	cout<<table_2<<"\n";
+
+}  
+
+
+
+
+
+
+
  
 int main() {  
 	
@@ -129,7 +161,9 @@ int main() {
 	table_with_no_errors();
 	cout << endl << endl; */
    
-	load_no_error_table();
+	//load_no_error_table();
+	select_test();
+	
 	
 	cout << endl << endl;
 	return 0;
