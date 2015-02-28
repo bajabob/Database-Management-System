@@ -31,7 +31,7 @@ public:
 		return this->no_save_flag;
 	}
 
-	friend ostream& operator<<(std::ostream& os, const SQLError& obj) {
+	friend ostream& operator<<(ostream& os, const SQLError& obj) {
 		if (obj.no_save_flag) {
 			os << "-- Error   [Code: " << obj.error_code << "]: "
 					<< obj.message;

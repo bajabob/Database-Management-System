@@ -95,4 +95,7 @@ void SQLQueryBuilder::run_select(bool unaltered){
 	}
 		
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4b54176fd0d2a2d54642713b87b5dff160477228
