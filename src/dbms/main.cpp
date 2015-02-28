@@ -121,13 +121,39 @@ void load_no_error_table() {
 
 }  
  
-int main() {  
+ void select_test() {
+	SQLCommand command;
+	vector<string> ops;
+	ops.push_back("name_last == \"Timm\"");
+	ops.push_back("name_first != \"NO_NAME\"");
+	ops.push_back("username != \"newguy55\"");
+	ops.push_back("&&");
+	ops.push_back("||");
+	SQLRelation table( "error_free_table" );
+	table.load(); 
+	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
+	table.add_tuple( row0 );
+	SQLRelation table_2 = command.select(ops, "error_free_table" );
+	
+	/*
+	SQLQuerySelect sel(table);
+	sel.select_cmd(ops,"error_free_table" );
+	SQLQueryBuilder qb(table,sel);*/
+	//qb.run_select(0); 
+	
+	cout<<table_2 <<"\n";
 
-	table_with_errors();
+}  
+ 
+ 
+ 
+int main() {  
+	select_test();
+	/*table_with_errors();
 	cout << endl << endl;
 
 	table_with_no_errors();
-	cout << endl << endl;
+	cout << endl << endl;*/
    
 	//load_no_error_table();
 
