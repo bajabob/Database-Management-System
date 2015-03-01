@@ -190,8 +190,8 @@ void product_test() {
 int main() {
 	//select_test();
 	//create_test();
-	create_test();
-	product_test();
+	//create_test();
+	//product_test();
 	/*table_with_errors();
 	 cout << endl << endl;
 
@@ -201,7 +201,7 @@ int main() {
 	//load_no_error_table();
 	//cout << endl << endl;
 	
-	//char str[] = "CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);";
+	char str[] = "CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name);";
 	//char str[] = "DELETE FROM test WHERE dk != k || dk != k;";
 	//char str[] = "UPDATE test SET bob = \"g\", alb = \"b\" WHERE dk != k || (an == n && ak != k) && (bn == n || bkind != k && ckind != k) || dk != k;";
 	//char str[] = "INSERT INTO animals VALUES FROM (\"Joe\", \"cat\", 4);";
@@ -217,7 +217,7 @@ int main() {
 	
 	//char str[] = "SHOW (a - animals);";
 	//char str[] = "SHOW animals;";
-	char str[] = "INSERT INTO species VALUES FROM RELATION project (kind) animals;";
+	//char str[] = "INSERT INTO species VALUES FROM RELATION project (kind) animals;";
 	//char str[] = "a <- rename (aname, akind) (project (name, kind) animals);";
 	//char str[] = "cats_or_dogs <- dogs + (select (kind == \"cat\") animals);";
 	//char str[] = "common_names <- project (name) (select (aname == name && akind != kind) (a * animals));";
