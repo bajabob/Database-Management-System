@@ -16,10 +16,12 @@ class SQLCommand{
 public:
 	SQLCommand();
 
-	SQLRelation select(string name, vector<string> ops);
+	SQLRelation select(SQLRelation tab, vector<string> ops);
 	void delete_row(string name, vector<string> constraint);
 	void update_data(string name, vector<string> constraint,vector<where_obj> updata);
-
+	SQLRelation get_table(string name);
+	
+	
 	SQLRelation create_table(string name, vector<SQLAttribute> attrs);
 	void insert_row(SQLRelation &relation, vector<string> tuples);
 	void assign_table(string name, SQLRelation assign_from);
@@ -33,6 +35,7 @@ public:
 	
 
 private:
+	vector<SQLRelation*> tables; 
 	SQLRelation *table;
 	SQLErrorManager error_manager;
 };

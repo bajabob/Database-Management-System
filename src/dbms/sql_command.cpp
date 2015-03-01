@@ -2,16 +2,13 @@
 
 SQLCommand::SQLCommand(){}
 
-SQLRelation SQLCommand::select( string name, vector<string> ops){
-	if(table == NULL || table->get_name()== name)
-		open_table(name);
-	SQLQuerySelect sel(*table);
-	sel.select_cmd(name, ops);
-	SQLQueryBuilder qb(*table,sel);
+SQLRelation SQLCommand::select( SQLRelation tab, vector<string> ops){
+	SQLQuerySelect sel(tab);
+	sel.select_cmd(ops);
+	SQLQueryBuilder qb(tab,sel);
 	SQLRelation ret_table = qb.run_select(0);
-	table->load();
-	ret_table.change_name(name+"1");
-	open_table(name);
+	tab.load();
+	ret_table.change_name( tab.get_name()+ "1" );
 	return ret_table;
 }
 
@@ -31,6 +28,15 @@ void SQLCommand::update_data(string name, vector<string> constraint,vector<where
 	*table = sel.update_cmd(constraint, updata);
 }
 
+SQLRelation get_table(string name){
+	for(int i = 0;i < tables.size();++i){
+		if(tables[i]->)
+	
+	
+	
+	}
+}
+
 SQLRelation SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
 	table = new SQLRelation(name);	
 	for(int i = 0;i< attrs.size() ; ++i)
@@ -43,9 +49,11 @@ void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
 }
 
 void SQLCommand::assign_table(string name, SQLRelation assign_from){
+
 	table = new SQLRelation(name);
 	*table = assign_from;
 	table->save();
+	
 }
 //needs work
 void SQLCommand::open_table(string name){

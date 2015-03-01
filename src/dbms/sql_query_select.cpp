@@ -5,6 +5,7 @@ SQLQuerySelect::SQLQuerySelect(SQLRelation &rel):relation(rel)
 		tups = relation.get_tuples();
 
 	} 
+	
 int SQLQuerySelect::conv_attr(SQLTuple tup, string operand){
 	if(isalpha(operand[0])){
 		return stoi(tup.get_data(operand));
@@ -166,7 +167,7 @@ bool SQLQuerySelect::operation(vector<string> ops){
 
 }
 	
-void SQLQuerySelect::select_cmd(string name, vector<string> ops ){
+void SQLQuerySelect::select_cmd(vector<string> ops ){
 	operation( ops);
 	string attr = relation.get_attribute_names()[1];
 	if(tups.size()!=show_row.size())

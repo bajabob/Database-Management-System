@@ -38,7 +38,7 @@ public:
 	vector<string> get_queries(){ return this->select;}
 	vector<where_obj> get_wheres(){ return this->where;}
 	vector<where_obj> get_not_wheres(){ return this->not_where;}
-	void select_cmd( string name, vector<string> ops);
+	void select_cmd( vector<string> ops);
 	SQLRelation update_cmd(vector<string> ops,vector<where_obj> updata);
 	void delete_cmd(string name, vector<string> ops);
 	
