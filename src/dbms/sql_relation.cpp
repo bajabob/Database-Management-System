@@ -19,6 +19,16 @@ vector<string> SQLRelation::get_attribute_names(){
 	return names;
 }
 
+vector<string> SQLRelation::get_attribute_names_no_primary(){
+	vector<string> names;
+	for(auto &attr : this->attributes){
+		if(attr.get_index() != PRIMARY){
+			names.push_back(attr.get_name());
+		}
+	}
+	return names;
+}
+
 void SQLRelation::add_tuple(vector<string> data) {
 	int data_offset = 0;
 	bool had_auto_increment = false;
@@ -161,4 +171,109 @@ void SQLRelation::delete_row(string attr, string data){
 		}
 	}
 	
+}
+
+SQLRelation* SQLRelation::product(SQLRelation *table){
+	string newname("product-"+this->name);
+	SQLRelation *newtable = new SQLRelation(newname);
+
+	for (auto &attr : this->attributes) {
+		newtable->add_attribute(attr);
+	}
+
+	for (auto &attr : table->get_attributes()) {
+		newtable->add_attribute(attr);
+	}
+
+	for (auto &tupleft : this->tuples){
+		vector<string> leftkeys = this->get_attribute_names_no_primary();
+
+		for(auto &tupright : table->get_tuples()){
+			vector<string> row;
+			for(auto &key : leftkeys){
+
+				row.push_back(tupleft.get_data(key));
+			}
+			vector<string> rightkeys = table->get_attribute_names_no_primary();
+			for(auto &key : rightkeys){
+				row.push_back(tupright.get_data(key));
+			}
+
+			newtable->add_tuple(row);
+		}
+
+	}
+	return newtable;
+}
+
+SQLRelation* SQLRelation::union_tables(SQLRelation *table){
+	string newname("product-"+this->name);
+	SQLRelation *newtable = new SQLRelation(newname);
+
+	for (auto &attr : this->attributes) {
+		newtable->add_attribute(attr);
+	}
+
+	for (auto &tupleft : this->tuples){
+		vector<string> leftkeys = this->get_attribute_names_no_primary();
+		vector<string> row;
+		for(auto &key : leftkeys){
+			row.push_back(tupleft.get_data(key));
+		}
+		newtable->add_tuple(row);
+	}
+	for (auto &tupright : table->tuples){
+		vector<string> rightkeys = table->get_attribute_names_no_primary();
+		vector<string> row;
+		for(auto &key : rightkeys){
+			row.push_back(tupright.get_data(key));
+		}
+		newtable->add_tuple(row);
+	}
+	return newtable;
+}
+
+SQLRelation* SQLRelation::difference(SQLRelation *table){
+	string newname("product-"+this->name);
+	SQLRelation *newtable = new SQLRelation(newname);
+
+	for (auto &attr : this->attributes) {
+		newtable->add_attribute(attr);
+	}
+
+	for (auto &tupleft : this->tuples){
+		vector<string> leftkeys = this->get_attribute_names_no_primary();
+		vector<string> row;
+		for(auto &key : leftkeys){
+			row.push_back(tupleft.get_data(key));
+		}
+
+		bool has_match = false;
+		for(auto &key : leftkeys){
+			if(table->has_unique(key, tupleft.get_data(key))){
+				has_match = true;
+			}
+		}
+		if(!has_match){
+			newtable->add_tuple(row);
+		}
+	}
+	for (auto &tupright : table->tuples){
+		vector<string> rightkeys = table->get_attribute_names_no_primary();
+		vector<string> row;
+		for(auto &key : rightkeys){
+			row.push_back(tupright.get_data(key));
+		}
+
+		bool has_match = false;
+		for(auto &key : rightkeys){
+			if(this->has_unique(key, tupright.get_data(key))){
+				has_match = true;
+			}
+		}
+		if(!has_match){
+			newtable->add_tuple(row);
+		}
+	}
+	return newtable;
 }
