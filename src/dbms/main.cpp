@@ -106,8 +106,8 @@ void load_no_error_table() {
 	SQLRelation table( "error_free_table" );
 	table.load();
 	// add some more data
-	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
-	table.add_tuple( row0 );
+	//vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
+	//table.add_tuple( row0 );
 
 	//qb.run_select(0);  
 
@@ -138,7 +138,7 @@ void select_test() {
 }
 
 void create_test() {
-	string tname = "tabletable";
+	string tname = "etable";
 	SQLCommand command;
 	vector<string> ops;
 
@@ -150,11 +150,11 @@ void create_test() {
 	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
 			0 );
 	vector<SQLAttribute> atties { at1, at2, at3, at4 };
-	SQLRelation table = command.create_table( tname, atties );
-	vector<string> row0 = { "bob27", "Timm", "Robert" };
-	table.add_tuple( row0 );
-	command.save_table();
-	cout << table;
+	SQLRelation *table = command.create_table( tname, atties );
+	//vector<string> row0 = { "bob27", "Timm", "Robert" };
+	//table->add_tuple( row0 );
+	command.save_table(table->get_name());
+	cout << *table;
 }
 
 void product_test() {
@@ -180,7 +180,7 @@ int main() {
 	 table_with_no_errors();
 	 cout << endl << endl;*/
 
-	//load_no_error_table();
+	load_no_error_table();
 	cout << endl << endl;
 	return 0;
 }
