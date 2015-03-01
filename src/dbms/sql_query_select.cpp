@@ -212,9 +212,11 @@ void SQLQuerySelect::delete_cmd(string name, vector<string> ops){
 	if(attr == "magic number 6")
 		attr = relation.get_attribute_names()[0];
 	for(int i =0;i<tups.size() ;++i){
+		cout<<"\nrowbool:"<<show_row[i];
 		if(!show_row[i]){ 
 			string data = tups[i].get_data(attr);
 			where.push_back(where_obj(attr,data));
+			
 		}
 	}
 	select = relation.get_attribute_names();

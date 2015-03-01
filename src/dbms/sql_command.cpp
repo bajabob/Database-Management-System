@@ -19,6 +19,7 @@ void SQLCommand::delete_row(string name, vector<string> ops){
 	sel.delete_cmd(name, ops);
 	SQLQueryBuilder qb(*table,sel);
 	*table = qb.run_select(0);
+	cout<<*table;
 }
 
 void SQLCommand::update_data(string name, vector<string> constraint,vector<where_obj> updata){
