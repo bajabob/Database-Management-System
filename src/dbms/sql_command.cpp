@@ -2,13 +2,14 @@
 
 SQLCommand::SQLCommand(){}
 
-SQLRelation SQLCommand::select( SQLRelation tab, vector<string> ops){
+SQLRelation *SQLCommand::select( SQLRelation tab, vector<string> ops){
 	SQLQuerySelect sel(tab);
 	sel.select_cmd(ops);
 	SQLQueryBuilder qb(tab,sel);
-	SQLRelation ret_table = qb.run_select(0);
+	SQLRelation *ret_table = new SQLRelation(tab.get_name()+"1");
+	 *ret_table = qb.run_select(0);
 	tab.load();
-	ret_table.change_name( tab.get_name()+ "1" );
+	ret_table->change_name( tab.get_name()+ "1" );
 	return ret_table;
 }
 
@@ -36,6 +37,14 @@ SQLRelation *SQLCommand::get_table(string name){
 	return NULL;
 }
 
+SQLRelation *project(SQLRelation tab, vector<string> colname){
+	SQLQuerySelect sel(tab);
+	SQLQueryBuilder qb(tab,sel);
+	
+	
+
+}
+
 SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
 	SQLRelation *table = new SQLRelation(name);	
 	for(int i = 0;i< attrs.size() ; ++i)
@@ -51,9 +60,8 @@ void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
 void SQLCommand::insert_table(string name, SQLRelation assign_from){
 	SQLRelation *table = new SQLRelation(name);
 	*table = assign_from;
-	table->change_name(assign_from->get_name()+"1");
+	table->change_name(assign_from.get_name()+"1");
 	tables.push_back(table);
-	
 }
 //needs work
 void SQLCommand::open_table(string name){
