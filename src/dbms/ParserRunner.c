@@ -2,6 +2,8 @@
 
 int yyparse(char* out, yyscan_t scanner);
 
+SQLCommand command;
+
 char* runparser(char *str) {
 	//cout<<strlen(str)<<endl;
 	char *out = (char*)malloc(MAX_QUERY_SIZE * sizeof(char));
@@ -47,8 +49,7 @@ bool endsWith (char* base, char* str) {
     return (blen >= slen) && (0 == strcmp(base + blen - slen, str));
 }
 
-char* getrealation(char * Psql, vector<int> &tables) {
-	SQLCommand command;
+char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 	char atname[MAX_AT_SIZE];
 	char value[MAX_VALUE_SIZE];
 	char aoper[MAX_AT_SIZE];
@@ -87,7 +88,7 @@ char* getrealation(char * Psql, vector<int> &tables) {
 		col = strstr(Psql+1, "(");
 	}
 	
-	col = strstr(Psql, "SELECT");
+	col = strstr(Psql, "SELECT"); // done?
 	if(col) {
 		col = strstr(Psql, "OP");
 		while(col!=NULL) {
@@ -106,50 +107,44 @@ char* getrealation(char * Psql, vector<int> &tables) {
 				where.push_back(atname);
 				col = col + 3;
 			} else {
-				int i;
-				for(i=0;i<where.size();++i) {
-					cout<<where[i]<<", ";
-				}
-				cout<<endl;
 				break;
 			}
 		}
-		cout<<col<<endl;
 		col = strstr(Psql, "TABLEAT");
-		cout<<col<<endl;
 		sscanf(col, "%*s %s", atname);
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
-		int table=tables[loc];
-		cout<<"TABLE "<<atname<<endl;
-		tables.push_back(table);
+		SQLRelation *table=tables[loc];
+		SQLRelation *newtable = command.select(*table, where);
+		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "PROJECT");
+	col = strstr(Psql, "PROJECT"); // done?
 	if(col) {
 		col = strstr(Psql, " ATTNAME ");
+		vector<string> atra;
 		while(col!=NULL) {
 			sscanf(col, "%*s %s", atname);
-			cout<<"ATTNAME "<<atname<<endl;
+			string temp(atname);
+			atra.push_back(temp);
 			col = strstr(col+1, " ATTNAME ");
 		}
 		col = strstr(Psql, "TABLEAT");
-		cout<<col<<endl;
 		sscanf(col, "%*s %s", atname);
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
-		int table=tables[loc];
-		cout<<"TABLE "<<atname<<endl;
-		tables.push_back(table);
+		SQLRelation *table=tables[loc];
+		SQLRelation *newtable; // = command.project(*table, atra);
+		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "RENAME");
+	col = strstr(Psql, "RENAME"); // not
 	if(col) {
 		col = strstr(Psql, " REATTNAME ");
 		while(col!=NULL) {
@@ -162,15 +157,36 @@ char* getrealation(char * Psql, vector<int> &tables) {
 		sscanf(col, "%*s %s", atname);
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
-		int table=tables[loc];
-		cout<<"TABLE "<<atname<<endl;
-		tables.push_back(table);
+		SQLRelation *table=tables[loc];
+		SQLRelation *newtable ;//= command.project(*table, atra);
+		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "+");
+	col = strstr(Psql, "+"); // not
+	if(col) {
+		col = strstr(Psql, "TABLEAT");
+		cout<<col<<endl;
+		sscanf(col, "%*s %s", atname);
+		int loc1=-1;
+		sscanf(atname, "%d", &loc1);
+		SQLRelation *table1=tables[loc1];
+		col = strstr(col+1, "TABLEAT");
+		cout<<col<<endl;
+		sscanf(col, "%*s %s", atname);
+		int loc2=-1;
+		sscanf(atname, "%d", &loc2);
+		SQLRelation *table2=tables[loc2];
+		SQLRelation *newtable;// = command.project(*table, atra);
+		tables.push_back(newtable);
+		string str="TABLEAT "+to_string(tables.size()-1);
+		char *cstr = new char[str.length() + 1];
+		strcpy(cstr, str.c_str());
+		return cstr;
+	}
+	col = strstr(Psql, "-"); // not
 	if(col) {
 		col = strstr(Psql, "TABLEAT");
 		cout<<col<<endl;
@@ -178,22 +194,21 @@ char* getrealation(char * Psql, vector<int> &tables) {
 		int loc1=-1;
 		sscanf(atname, "%d", &loc1);
 		cout<<"TABLE "<<atname<<endl;
-		int table1=tables[loc1];
+		SQLRelation *table1=tables[loc1];
 		col = strstr(col+1, "TABLEAT");
 		cout<<col<<endl;
 		sscanf(col, "%*s %s", atname);
 		int loc2=-1;
 		sscanf(atname, "%d", &loc2);
-		int table2=tables[loc2];
-		cout<<"TABLE "<<atname<<endl;
-		int table = table1 + table2;
-		tables.push_back(table);
+		SQLRelation *table2=tables[loc2];
+		SQLRelation *newtable;// = command.project(*table, atra);
+		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "-");
+	col = strstr(Psql, "*"); // not
 	if(col) {
 		col = strstr(Psql, "TABLEAT");
 		cout<<col<<endl;
@@ -201,49 +216,25 @@ char* getrealation(char * Psql, vector<int> &tables) {
 		int loc1=-1;
 		sscanf(atname, "%d", &loc1);
 		cout<<"TABLE "<<atname<<endl;
-		int table1=tables[loc1];
+		SQLRelation *table1=tables[loc1];
 		col = strstr(col+1, "TABLEAT");
 		cout<<col<<endl;
 		sscanf(col, "%*s %s", atname);
 		int loc2=-1;
 		sscanf(atname, "%d", &loc2);
-		int table2=tables[loc2];
-		cout<<"TABLE "<<atname<<endl;
-		int table = table1 + table2;
-		tables.push_back(table);
+		SQLRelation *table2=tables[loc2];
+		SQLRelation *newtable;// = command.project(*table, atra);
+		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "*");
-	if(col) {
-		col = strstr(Psql, "TABLEAT");
-		cout<<col<<endl;
-		sscanf(col, "%*s %s", atname);
-		int loc1=-1;
-		sscanf(atname, "%d", &loc1);
-		cout<<"TABLE "<<atname<<endl;
-		int table1=tables[loc1];
-		col = strstr(col+1, "TABLEAT");
-		cout<<col<<endl;
-		sscanf(col, "%*s %s", atname);
-		int loc2=-1;
-		sscanf(atname, "%d", &loc2);
-		int table2=tables[loc2];
-		cout<<"TABLE "<<atname<<endl;
-		int table = table1 + table2;
-		tables.push_back(table);
-		string str="TABLEAT "+to_string(tables.size()-1);
-		char *cstr = new char[str.length() + 1];
-		strcpy(cstr, str.c_str());
-		return cstr;
-	}
-	col = strstr(Psql, "RELATION");
+	col = strstr(Psql, "RELATION"); // done
 	if(col) {
 		sscanf(col, "%*s %s", atname);
-		cout<<"TABLE "<<atname<<endl;
-		int table=1;
+		string temp(atname);
+		SQLRelation *table = command.get_table(temp);
 		tables.push_back(table);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
@@ -256,12 +247,11 @@ char* getrealation(char * Psql, vector<int> &tables) {
 ///////////////////////////////////////////////////////////////////////////
 
 void queryDB(char * Psql) {
-	SQLCommand command;
 	char atname[MAX_AT_SIZE];
 	char value[MAX_VALUE_SIZE];
 	char aoper[MAX_AT_SIZE];
 	vector<string> where;
-	char *ptr = strstr(Psql, "CREATE");
+	char *ptr = strstr(Psql, "CREATE"); //done
 	if(ptr) {
 		char *col = strstr(Psql, "TYPE");
 		int size = -1;
@@ -333,33 +323,30 @@ void queryDB(char * Psql) {
 		col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
 		string temp2(atname);
-		SQLRelation *table = command.create_table( temp2, sqlatra );
-		cout<<*table;
+		command.create_table( temp2, sqlatra );
 		return;
 	}
-	ptr = strstr(Psql, "INSERT");
+	ptr = strstr(Psql, "INSERT"); // not
 	if(ptr) {
 		char *col = strstr(Psql, "LIT");
 		if(col) {
+			vector<string> values;
 			while(col!=NULL) {
-				int size = NULL;
 				sscanf(col, "%*s %s", value);
-				sscanf(value, "%d", &size);
-				if(size!=NULL) {
-					cout<<"NUM "<<size<<endl;
-				} else {
-					cout<<"LIT "<<value<<endl;
-				}
+				string temp(value);
+				values.push_back(temp);
 				col = strstr(col+1, "LIT");
 			}
 			col = strstr(Psql, "RELATION");
 			sscanf(col, "%*s %s", atname);
-			cout<<"TABLE "<<atname<<endl;
+			string temp(atname);
+			SQLRelation *table = command.get_table(temp);
+			command.insert_row(*table, values);
 			return;
 		}
 		else {
 			char* col = strstr(Psql, "RELATION");
-			vector<int> tables;
+			vector<SQLRelation*> tables;
 			char* table=getrealation(col+1, tables);
 			col = strstr(Psql, "INSERT");
 			sscanf(col, "%*s %s", atname);
@@ -368,41 +355,49 @@ void queryDB(char * Psql) {
 			return;
 		}
 	}
-	ptr = strstr(Psql, "SHOW");
+	ptr = strstr(Psql, "SHOW"); // not
 	if(ptr) {
 		char* col = strstr(Psql, "SHOW");
-		vector<int> tables;
+		vector<SQLRelation*> tables;
 		char* table=getrealation(col+1, tables);
 		col = strstr(table, "TABLEAT");
+		sscanf(col, "%*s %s", atname);
+		int loc=-1;
+		sscanf(atname, "%d", &loc);
+		SQLRelation *newtable=tables[loc];
+		command.show_table(*newtable);
 		cout<<"SHOW "<<col<<endl;	
 		return;
 	}
-	ptr = strstr(Psql, "WRITE");
+	ptr = strstr(Psql, "WRITE"); // done
 	if(ptr) {
 		char *col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
-		cout<<"WRITE "<<atname<<endl;
+		string temp(atname);
+		command.save_table(temp);
 		return;
 	}
-	ptr = strstr(Psql, "OPEN");
+	ptr = strstr(Psql, "OPEN"); // done
 	if(ptr) {
 		char *col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
-		cout<<"OPEN "<<atname<<endl;
+		string temp(atname);
+		command.open_table(temp);
 		return;
 	}
-	ptr = strstr(Psql, "CLOSE");
+	ptr = strstr(Psql, "CLOSE"); // done
 	if(ptr) {
 		char *col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
-		cout<<"CLOSE "<<atname<<endl;
+		string temp(atname);
+		command.close_table(temp);
 		return;
 	}
-	ptr = strstr(Psql, "EXIT");
+	ptr = strstr(Psql, "EXIT"); // done
 	if(ptr) {
 		return;
 	}
-	ptr = strstr(Psql, "DELETE");
+	ptr = strstr(Psql, "DELETE"); // done
 	if(ptr) {
 		char *col = strstr(Psql, "OP");
 		while(col!=NULL) {
@@ -421,31 +416,22 @@ void queryDB(char * Psql) {
 				where.push_back(atname);
 				col = col + 3;
 			} else {
-				int i;
-				for(i=0;i<where.size();++i) {
-					cout<<where[i]<<", ";
-				}
-				cout<<endl;
 				break;
 			}
 		}
 		col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
-		cout<<"TABLE "<<atname<<endl;
+		string temp(atname);
+		command.delete_row(temp, where);
 		return;
 	}
-	ptr = strstr(Psql, "UPDATE");
+	ptr = strstr(Psql, "UPDATE"); // done
 	if(ptr) {
 		char *col = strstr(Psql, "SET");
+		vector<where_obj>setss;
 		while(col!=NULL) {
-			int size = NULL;
 			sscanf(col, "%*s %s %*s %s", atname, value);
-			sscanf(value, "%d", &size);
-			if(size!=NULL) {
-				cout<<"SET "<<atname<<" = "<<size<<endl;
-			} else {
-				cout<<"SET "<<atname<<" = "<<value<<endl;
-			}
+			setss.push_back(where_obj(atname, value));
 			col = strstr(col+1, "SET");
 		}
 		col = strstr(Psql, "OP");
@@ -465,23 +451,19 @@ void queryDB(char * Psql) {
 				where.push_back(atname);
 				col = col + 3;
 			} else {
-				int i;
-				for(i=0;i<where.size();++i) {
-					cout<<where[i]<<", ";
-				}
-				cout<<endl;
 				break;
 			}
 		}
 		col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
-		cout<<"TABLE "<<atname<<endl;
+		string temp(atname);
+		command.update_data(temp, where, setss);
 		return;
 	}
-	ptr = strstr(Psql, "ASSIGN");
+	ptr = strstr(Psql, "ASSIGN"); //so not done
 	if(ptr) {
 		char* col = strstr(Psql, ">");
-		vector<int> tables;
+		vector<SQLRelation*> tables;
 		char* table=getrealation(col+1, tables);
 		col = strstr(Psql, "ASSIGN");
 		sscanf(col, "%*s %*s %s", atname);
