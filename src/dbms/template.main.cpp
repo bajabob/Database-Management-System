@@ -239,6 +239,48 @@ void union_test() {
 	cout << *newtable << endl;
 }
 
+void difference_test() {
+	string left = "lefttable";
+	string right = "righttable";
+
+	SQLCommand command;
+	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at2 = SQLAttribute( "animal", VARCHAR, 15, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties1 { at1, at2 };
+	SQLRelation *lefttable = command.create_table( left, atties1 );
+	vector<string> row0 = { "cat" };
+	lefttable->add_tuple( row0 );
+	vector<string> row1 = { "dog" };
+	lefttable->add_tuple( row1 );
+	vector<string> row2 = { "rabbit"};
+	lefttable->add_tuple( row2 );
+	vector<string> row2_2 = { "whale"};
+	lefttable->add_tuple( row2_2 );
+
+	cout << *lefttable << endl;
+
+	SQLAttribute at4 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at5 = SQLAttribute( "animal", VARCHAR, 15, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties2 { at4, at5 };
+	SQLRelation *righttable = command.create_table( right, atties2 );
+	vector<string> row3 = { "cat" };
+	righttable->add_tuple( row3 );
+	vector<string> row4 = { "dog" };
+	righttable->add_tuple( row4 );
+	vector<string> row5 = { "platapus" };
+	righttable->add_tuple( row5 );
+	vector<string> row6 = { "anteater" };
+	righttable->add_tuple( row6 );
+
+
+	cout << *righttable << endl;
+
+	SQLRelation *newtable = command.difference(lefttable, righttable);
+	cout << *newtable << endl;
+}
+
 int main() {
 	
 	return 0;

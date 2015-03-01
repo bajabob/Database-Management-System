@@ -89,6 +89,7 @@ public:
 
 	SQLRelation* product(SQLRelation *table);
 	SQLRelation* union_tables(SQLRelation *table);
+	SQLRelation* difference(SQLRelation *table);
 
 	/**
 	*delete columns and rows associated with given attribute name

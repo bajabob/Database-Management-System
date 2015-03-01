@@ -232,3 +232,48 @@ SQLRelation* SQLRelation::union_tables(SQLRelation *table){
 	}
 	return newtable;
 }
+
+SQLRelation* SQLRelation::difference(SQLRelation *table){
+	string newname("product-"+this->name);
+	SQLRelation *newtable = new SQLRelation(newname);
+
+	for (auto &attr : this->attributes) {
+		newtable->add_attribute(attr);
+	}
+
+	for (auto &tupleft : this->tuples){
+		vector<string> leftkeys = this->get_attribute_names_no_primary();
+		vector<string> row;
+		for(auto &key : leftkeys){
+			row.push_back(tupleft.get_data(key));
+		}
+
+		bool has_match = false;
+		for(auto &key : leftkeys){
+			if(table->has_unique(key, tupleft.get_data(key))){
+				has_match = true;
+			}
+		}
+		if(!has_match){
+			newtable->add_tuple(row);
+		}
+	}
+	for (auto &tupright : table->tuples){
+		vector<string> rightkeys = table->get_attribute_names_no_primary();
+		vector<string> row;
+		for(auto &key : rightkeys){
+			row.push_back(tupright.get_data(key));
+		}
+
+		bool has_match = false;
+		for(auto &key : rightkeys){
+			if(this->has_unique(key, tupright.get_data(key))){
+				has_match = true;
+			}
+		}
+		if(!has_match){
+			newtable->add_tuple(row);
+		}
+	}
+	return newtable;
+}

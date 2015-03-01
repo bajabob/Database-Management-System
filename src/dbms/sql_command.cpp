@@ -91,3 +91,7 @@ SQLRelation* SQLCommand::product(SQLRelation *table_left, SQLRelation *table_rig
 SQLRelation* SQLCommand::union_tables(SQLRelation *table_left, SQLRelation *table_right){
 	return table_left->union_tables(table_right);
 }
+
+SQLRelation* SQLCommand::difference(SQLRelation *table_left, SQLRelation *table_right){
+	return table_left->difference(table_right);
+}
