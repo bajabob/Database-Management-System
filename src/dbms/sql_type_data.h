@@ -47,6 +47,9 @@ public:
 		return data;
 	}
 
+	void set_data(string data){
+		this->data = data;
+	}
 	friend ostream& operator<<( std::ostream& os, const SQLTypeData& obj ) {
 		int length =
 				(obj.attr->get_length() > 15) ? 15 : obj.attr->get_length();
