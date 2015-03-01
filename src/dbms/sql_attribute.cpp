@@ -70,14 +70,14 @@ bool SQLAttribute::compare_for_errors(SQLAttribute attr, SQLErrorManager &em) {
 		return true;
 	}
 
-	// there can only be one primary key in an SQL table
-	if (attr.index == PRIMARY && this->index == PRIMARY) {
-		em.add_error(
-				SQLError(SYNTAX,
-						this->name
-								+ " is already defined as the primary key for "
-								+ "the table. There can not be two primary keys."));
-		return true;
-	}
+//	// there can only be one primary key in an SQL table
+//	if (attr.index == PRIMARY && this->index == PRIMARY) {
+//		em.add_error(
+//				SQLError(SYNTAX,
+//						this->name
+//								+ " is already defined as the primary key for "
+//								+ "the table. There can not be two primary keys."));
+//		return true;
+//	}
 	return false;
 }

@@ -19,6 +19,16 @@ vector<string> SQLRelation::get_attribute_names(){
 	return names;
 }
 
+vector<string> SQLRelation::get_attribute_names_no_primary(){
+	vector<string> names;
+	for(auto &attr : this->attributes){
+		if(attr.get_index() != PRIMARY){
+			names.push_back(attr.get_name());
+		}
+	}
+	return names;
+}
+
 void SQLRelation::add_tuple(vector<string> data) {
 	int data_offset = 0;
 	bool had_auto_increment = false;
