@@ -57,7 +57,15 @@ void SQLTuple::delete_data(string attr){
 	keys.erase(find(keys.begin(), keys.end(), attr));
 }
 
+vector<string> SQLTuple::get_keys() const {
+	vector<string> copy(this->keys);
 
+	// need to sort as keys may be out of order in relation
+	//  to others accross the table
+	sort(copy.begin(), copy.end());
+
+	return copy;
+}
 
 
 

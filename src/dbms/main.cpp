@@ -13,6 +13,7 @@
 #include "sql_query_builder.h"
 #include "sql_query_select.h"
 #include "sql_command.h"
+#include "ParserRunner.h"
 
 using namespace std;
 
@@ -165,17 +166,36 @@ void product_test() {
 
 	SQLCommand command;
 	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
-	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 8, "", UNIQUE, false,
+	SQLAttribute at2 = SQLAttribute( "name", VARCHAR, 8, "", UNIQUE, false, 0 );
+	SQLAttribute at3 = SQLAttribute( "age", VARCHAR, 25, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties1 { at1, at2, at3 };
+	SQLRelation *lefttable = command.create_table( left, atties1 );
+	vector<string> row0 = { "bob", "27" };
+	lefttable->add_tuple( row0 );
+	vector<string> row1 = { "raf", "28" };
+	lefttable->add_tuple( row1 );
+	vector<string> row2 = { "mike", "21" };
+	lefttable->add_tuple( row2 );
+
+	cout << *lefttable << endl;
+
+	SQLAttribute at4 = SQLAttribute( "oid", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at5 = SQLAttribute( "amount", VARCHAR, 8, "", UNIQUE, false,
 			0 );
-	SQLAttribute at3 = SQLAttribute( "name_last", VARCHAR, 25, "", NONE, false,
-			0 );
-	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
-			0 );
+
+	vector<SQLAttribute> atties2 { at4, at5 };
+	SQLRelation *righttable = command.create_table( right, atties2 );
+
 }
 
 int main() {
 	select_test();
 	//create_test();
+	//select_test();
+	//create_test();
+	create_test();
+	product_test();
 	/*table_with_errors();
 	 cout << endl << endl;
 
@@ -183,6 +203,33 @@ int main() {
 	 cout << endl << endl;*/
 
 	//load_no_error_table();
+	//cout << endl << endl;
+	
+	//char str[] = "CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);";
+	//char str[] = "DELETE FROM test WHERE dk != k || dk != k;";
+	//char str[] = "UPDATE test SET bob = \"g\", alb = \"b\" WHERE dk != k || (an == n && ak != k) && (bn == n || bkind != k && ckind != k) || dk != k;";
+	//char str[] = "INSERT INTO animals VALUES FROM (\"Joe\", \"cat\", 4);";
+	
+	//char str[] = "answer <- common_names;";
+	//char str[] = "dogs <- select (kind == \"dog\") animals;";
+	//char str[] = "dogs <- project (name, kind) animals;";
+	//char str[] = "dogs <- rename (name, kind) animals;";
+	//char str[] = "dogs <- a * animals;";
+	//char str[] = "dogs <- a + animals;";
+	//char str[] = "dogs <- a - animals;";
+	
+	
+	//char str[] = "SHOW (a - animals);";
+	//char str[] = "SHOW animals;";
+	char str[] = "INSERT INTO species VALUES FROM RELATION project (kind) animals;";
+	//char str[] = "a <- rename (aname, akind) (project (name, kind) animals);";
+	//char str[] = "cats_or_dogs <- dogs + (select (kind == \"cat\") animals);";
+	//char str[] = "common_names <- project (name) (select (aname == name && akind != kind) (a * animals));";
+	//char str[] = "common_names <- select (aname == name && akind != kind) (select (kind == \"dog\") animals);";
+	//char str[] = "common_names <- (rename (aname, akind) (project (name, kind) animals)) * (select (kind == \"dog\") animals);";
+	//cout<<sizeof(str)<<endl;
+	ExecuteQuery(str);
+
 	cout << endl << endl;
 	return 0;
 }
