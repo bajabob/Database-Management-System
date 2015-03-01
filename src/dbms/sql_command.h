@@ -28,8 +28,7 @@ public:
 	void show_table(string name);
 	void close_table();
 	
-
-	
+	SQLRelation product(SQLRelation table_left, SQLRelation table_right);
 	
 
 private:

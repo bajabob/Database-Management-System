@@ -68,3 +68,7 @@ void SQLCommand::close_table(){
 	if(table != NULL)
 		table = NULL;
 }
+
+SQLRelation product(SQLRelation table_left, SQLRelation table_right){
+
+}

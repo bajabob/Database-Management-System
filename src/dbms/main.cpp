@@ -101,10 +101,10 @@ void table_with_no_errors() {
 /**
  * Attempt to load a table from disk
  */
- 
+
 void load_no_error_table() {
 	SQLRelation table( "error_free_table" );
-	table.load(); 
+	table.load();
 	// add some more data
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
@@ -113,35 +113,35 @@ void load_no_error_table() {
 
 	cout << table;
 
-}  
- 
- void select_test() {
+}
+
+void select_test() {
 	SQLCommand command;
 	vector<string> ops;
-	ops.push_back("name_last == \"Timm\"");
-	ops.push_back("name_first != \"NO_NAME\"");
-	ops.push_back("username != \"newguy55\"");
-	ops.push_back("&&");
-	ops.push_back("||");
+	ops.push_back( "name_last == \"Timm\"" );
+	ops.push_back( "name_first != \"NO_NAME\"" );
+	ops.push_back( "username != \"newguy55\"" );
+	ops.push_back( "&&" );
+	ops.push_back( "||" );
 	SQLRelation table( "error_free_table" );
-	table.load(); 
+	table.load();
 	//vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	//table.add_tuple( row0 );
 	table.save();
 	//SQLRelation table_2 = command.select(ops, "error_free_table" );
-	where_obj wh("name_last","awesome");
+	where_obj wh( "name_last", "awesome" );
 	vector<where_obj> updata;
-	updata.push_back(wh);
-	command.update_data("error_free_table", ops, updata);
+	updata.push_back( wh );
+	command.update_data( "error_free_table", ops, updata );
 	//command.delete_row("error_free_table", ops);
 	//cout<<command.select("error_free_table", ops);
-}  
+}
 
 void create_test() {
-	string tname= "tabletable";
+	string tname = "tabletable";
 	SQLCommand command;
 	vector<string> ops;
-	
+
 	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
 	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 8, "", UNIQUE, false,
 			0 );
@@ -149,26 +149,38 @@ void create_test() {
 			0 );
 	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
 			0 );
-	vector<SQLAttribute> atties{at1,at2,at3,at4};	
-	SQLRelation table = command.create_table(tname,atties);
+	vector<SQLAttribute> atties { at1, at2, at3, at4 };
+	SQLRelation table = command.create_table( tname, atties );
 	vector<string> row0 = { "bob27", "Timm", "Robert" };
 	table.add_tuple( row0 );
 	command.save_table();
-	cout<<table;
+	cout << table;
 }
- 
- 
-int main() {  
+
+void product_test() {
+	string left = "lefttable";
+	string right = "righttable";
+
+	SQLCommand command;
+	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 8, "", UNIQUE, false,
+			0 );
+	SQLAttribute at3 = SQLAttribute( "name_last", VARCHAR, 25, "", NONE, false,
+			0 );
+	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
+			0 );
+}
+
+int main() {
 	//select_test();
 	create_test();
 	/*table_with_errors();
-	cout << endl << endl;
+	 cout << endl << endl;
 
-	table_with_no_errors();
-	cout << endl << endl;*/
-   
+	 table_with_no_errors();
+	 cout << endl << endl;*/
+
 	//load_no_error_table();
-
 	cout << endl << endl;
 	return 0;
 }
