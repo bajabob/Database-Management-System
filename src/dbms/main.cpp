@@ -106,8 +106,8 @@ void load_no_error_table() {
 	SQLRelation table( "error_free_table" );
 	table.load();
 	// add some more data
-	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
-	table.add_tuple( row0 );
+	//vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
+	//table.add_tuple( row0 );
 
 	//qb.run_select(0);  
 
@@ -138,7 +138,7 @@ void select_test() {
 }
 
 void create_test() {
-	string tname = "tabletable";
+	string tname = "etable";
 	SQLCommand command;
 	vector<string> ops;
 
@@ -150,10 +150,10 @@ void create_test() {
 	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
 			0 );
 	vector<SQLAttribute> atties { at1, at2, at3, at4 };
-	SQLRelation table = command.create_table( tname, atties );
-	vector<string> row0 = { "bob27", "Timm", "Robert" };
-	table.add_tuple( row0 );
-	command.save_table();
+	SQLRelation *table = command.create_table( tname, atties );
+	//vector<string> row0 = { "bob27", "Timm", "Robert" };
+	//table->add_tuple( row0 );
+	command.save_table(table->get_name());
 	cout << table;
 }
 
@@ -167,22 +167,22 @@ void product_test() {
 	SQLAttribute at3 = SQLAttribute( "age", VARCHAR, 25, "", NONE, false, 0 );
 
 	vector<SQLAttribute> atties1 { at1, at2, at3 };
-	SQLRelation lefttable = command.create_table( left, atties1 );
+	SQLRelation *lefttable = command.create_table( left, atties1 );
 	vector<string> row0 = { "bob", "27" };
-	lefttable.add_tuple( row0 );
+	lefttable->add_tuple( row0 );
 	vector<string> row1 = { "raf", "28" };
-	lefttable.add_tuple( row1 );
+	lefttable->add_tuple( row1 );
 	vector<string> row2 = { "mike", "21" };
-	lefttable.add_tuple( row2 );
+	lefttable->add_tuple( row2 );
 
-	cout << lefttable << endl;
+	cout << *lefttable << endl;
 
 	SQLAttribute at4 = SQLAttribute( "oid", INT, 8, "", PRIMARY, true, 0 );
 	SQLAttribute at5 = SQLAttribute( "amount", VARCHAR, 8, "", UNIQUE, false,
 			0 );
 
 	vector<SQLAttribute> atties2 { at4, at5 };
-	SQLRelation righttable = command.create_table( right, atties2 );
+	SQLRelation *righttable = command.create_table( right, atties2 );
 
 }
 
@@ -196,7 +196,7 @@ int main() {
 	 table_with_no_errors();
 	 cout << endl << endl;*/
 
-	//load_no_error_table();
+	load_no_error_table();
 	cout << endl << endl;
 	return 0;
 }

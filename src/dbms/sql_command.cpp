@@ -2,22 +2,18 @@
 
 SQLCommand::SQLCommand(){}
 
-SQLRelation SQLCommand::select( string name, vector<string> ops){
-	if(table == NULL || table->get_name()== name)
-		open_table(name);
-	SQLQuerySelect sel(*table);
-	sel.select_cmd(name, ops);
-	SQLQueryBuilder qb(*table,sel);
+SQLRelation SQLCommand::select( SQLRelation tab, vector<string> ops){
+	SQLQuerySelect sel(tab);
+	sel.select_cmd(ops);
+	SQLQueryBuilder qb(tab,sel);
 	SQLRelation ret_table = qb.run_select(0);
-	table->load();
-	ret_table.change_name(name+"1");
-	open_table(name);
+	tab.load();
+	ret_table.change_name( tab.get_name()+ "1" );
 	return ret_table;
 }
 
 void SQLCommand::delete_row(string name, vector<string> ops){
-	if(table == NULL || table->get_name()== name)
-		open_table(name);
+	SQLRelation *table =	get_table(name);
 	SQLQuerySelect sel(*table);
 	sel.delete_cmd(name, ops);
 	SQLQueryBuilder qb(*table,sel);
@@ -25,17 +21,27 @@ void SQLCommand::delete_row(string name, vector<string> ops){
 }
 
 void SQLCommand::update_data(string name, vector<string> constraint,vector<where_obj> updata){
-	if(table == NULL || table->get_name()== name)
-		open_table(name);
+	SQLRelation *table =	get_table(name);
 	SQLQuerySelect sel(*table);
 	*table = sel.update_cmd(constraint, updata);
 }
 
-SQLRelation SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
-	table = new SQLRelation(name);	
+SQLRelation *SQLCommand::get_table(string name){
+	for(int i = 0;i < tables.size();++i){
+		if(tables[i]->get_name() == name ){
+			return tables[i];
+		}
+	}
+	cout<<"error table  does not exist";
+	return NULL;
+}
+
+SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
+	SQLRelation *table = new SQLRelation(name);	
 	for(int i = 0;i< attrs.size() ; ++i)
 		table->add_attribute(attrs[i]);
-	return *table;
+	tables.push_back(table);	
+	return table;
 }
 
 void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
@@ -43,30 +49,30 @@ void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
 }
 
 void SQLCommand::assign_table(string name, SQLRelation assign_from){
-	table = new SQLRelation(name);
+	SQLRelation *table = new SQLRelation(name);
 	*table = assign_from;
-	table->save();
+	tables.push_back(table);
+	
 }
 //needs work
 void SQLCommand::open_table(string name){
-  table = new SQLRelation(name);
-  table->load();
+	SQLRelation *table =  get_table(name);
+	table->load();
 }
 //needs work
 void SQLCommand::show_table(string name){
-	open_table(name);
-	cout<<"\n"<<table;
-	close_table();
+	SQLRelation* table =  get_table(name);
+	cout<<"\n"<<*table;
 }
 
-void SQLCommand::save_table(){
-	if(table != NULL)
-		table->save();
+void SQLCommand::save_table(string name){
+	SQLRelation *table =  get_table(name);
+	table->save();
 }
 
-void SQLCommand::close_table(){
-	if(table != NULL)
-		table = NULL;
+void SQLCommand::close_table(string name){
+	vector<SQLRelation*>::iterator it = find(tables.begin(),tables.end(),get_table(name));
+	tables.erase(it);
 }
 
 SQLRelation product(SQLRelation table_left, SQLRelation table_right){
