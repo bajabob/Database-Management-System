@@ -48,6 +48,7 @@ bool endsWith (char* base, char* str) {
 }
 
 char* getrealation(char * Psql, vector<int> &tables) {
+	SQLCommand command;
 	char atname[MAX_AT_SIZE];
 	char value[MAX_VALUE_SIZE];
 	char aoper[MAX_AT_SIZE];
@@ -255,6 +256,7 @@ char* getrealation(char * Psql, vector<int> &tables) {
 ///////////////////////////////////////////////////////////////////////////
 
 void queryDB(char * Psql) {
+	SQLCommand command;
 	char atname[MAX_AT_SIZE];
 	char value[MAX_VALUE_SIZE];
 	char aoper[MAX_AT_SIZE];
@@ -263,16 +265,21 @@ void queryDB(char * Psql) {
 	if(ptr) {
 		char *col = strstr(Psql, "TYPE");
 		int size = -1;
+		vector<string> atra;
 		while(col!=NULL) {
 			int index = col-Psql;
 			index+=5;
 			if(Psql[index]=='V') {
 				sscanf(col, "%*s %*s %*s %d %*s %s", &size, atname);
-				cout<<"VARCHAR "<<size<<" NAME "<<atname<<endl;
+				string temp(atname);
+				string str="VARCHAR "+to_string(size)+" "+temp;
+				atra.push_back(str);
 			}
 			if(Psql[index]=='I') {
 				sscanf(col, "%*s %*s %*s %s", atname);
-				cout<<"INTEGER NAME "<<atname<<endl;
+				string temp(atname);
+				string str="INTEGER "+temp;
+				atra.push_back(str);
 			}
 			col = strstr(col+1, "TYPE");
 		}
@@ -280,12 +287,54 @@ void queryDB(char * Psql) {
 		while(col!=NULL) {
 			int index = col-Psql;
 			sscanf(col, "%*s %s", atname);
-			cout<<"Key "<<atname<<endl;
+			string temp(atname);
+			int i;
+			for(i=0;i<atra.size();++i) {
+				if(string::npos != atra[i].find(temp)) {
+					atra[i]+=" KEY";
+				}
+			}
 			col = strstr(col+1, "KEYNAME");
+		}
+		vector<SQLAttribute> sqlatra;
+		SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+		sqlatra.push_back(at1);
+		int i;
+		for(i=0;i<atra.size();++i) {
+			string temps=atra[i];
+			int size;
+			char name[MAX_AT_SIZE];
+			if(string::npos != temps.find("VARCHAR")) {
+				sscanf(temps.c_str(), "%*s %d %s", &size, name);
+				string temp(name);
+
+				if(string::npos != temps.find("KEY")) {
+					SQLAttribute at2 = SQLAttribute( temp, VARCHAR, size, "", UNIQUE, false, 0 );
+					sqlatra.push_back(at2);
+				}
+				else {
+					SQLAttribute at2 = SQLAttribute( temp, VARCHAR, size, "", NONE, false, 0 );
+					sqlatra.push_back(at2);
+				}
+			}
+			else {
+				sscanf(temps.c_str(), "%*s %s", name);
+				string temp(name);
+				if(string::npos != temps.find("KEY")) {
+					SQLAttribute at2 = SQLAttribute( temp, INT, 32, "", UNIQUE, false, 0 );
+					sqlatra.push_back(at2);
+				}
+				else {
+					SQLAttribute at2 = SQLAttribute( temp, INT, 32, "", NONE, false, 0 );
+					sqlatra.push_back(at2);
+				}
+			}
 		}
 		col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
-		cout<<"TABLE "<<atname<<endl;
+		string temp2(atname);
+		SQLRelation *table = command.create_table( temp2, sqlatra );
+		cout<<*table;
 		return;
 	}
 	ptr = strstr(Psql, "INSERT");
@@ -447,6 +496,7 @@ void queryDB(char * Psql) {
 }
 
 void ExecuteQuery(string query) {
+
 	char *str = new char[query.length() + 1];
 	strcpy(str, query.c_str());
 	char* temp = runparser(str);

@@ -163,19 +163,13 @@ void create_test() {
 	cout << *table;
 }
 
-
-
-
-
-
-
 void product_test() {
 	string left = "lefttable";
 	string right = "righttable";
 
 	SQLCommand command;
 	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
-	SQLAttribute at2 = SQLAttribute( "name", VARCHAR, 8, "", UNIQUE, false, 0 );
+	SQLAttribute at2 = SQLAttribute( "name", VARCHAR, 8, "", NONE, false, 0 );
 	SQLAttribute at3 = SQLAttribute( "age", VARCHAR, 25, "", NONE, false, 0 );
 
 	vector<SQLAttribute> atties1 { at1, at2, at3 };
@@ -190,55 +184,129 @@ void product_test() {
 	cout << *lefttable << endl;
 
 	SQLAttribute at4 = SQLAttribute( "oid", INT, 8, "", PRIMARY, true, 0 );
-	SQLAttribute at5 = SQLAttribute( "amount", VARCHAR, 8, "", UNIQUE, false,
+	SQLAttribute at5 = SQLAttribute( "amount", VARCHAR, 8, "", NONE, false,
 			0 );
 
 	vector<SQLAttribute> atties2 { at4, at5 };
 	SQLRelation *righttable = command.create_table( right, atties2 );
+	vector<string> row3 = { "25105" };
+	righttable->add_tuple( row3 );
+	vector<string> row4 = { "28102" };
+	righttable->add_tuple( row4 );
+	vector<string> row5 = { "21444" };
+	righttable->add_tuple( row5 );
 
+	cout << *righttable << endl;
+
+	SQLRelation *newtable = command.product(lefttable, righttable);
+	cout << *newtable << endl;
+}
+
+void union_test() {
+	string left = "lefttable";
+	string right = "righttable";
+
+	SQLCommand command;
+	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at2 = SQLAttribute( "animal", VARCHAR, 15, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties1 { at1, at2 };
+	SQLRelation *lefttable = command.create_table( left, atties1 );
+	vector<string> row0 = { "cat" };
+	lefttable->add_tuple( row0 );
+	vector<string> row1 = { "dog" };
+	lefttable->add_tuple( row1 );
+	vector<string> row2 = { "rabbit"};
+	lefttable->add_tuple( row2 );
+
+	cout << *lefttable << endl;
+
+	SQLAttribute at4 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at5 = SQLAttribute( "animal", VARCHAR, 15, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties2 { at4, at5 };
+	SQLRelation *righttable = command.create_table( right, atties2 );
+	vector<string> row3 = { "sheep" };
+	righttable->add_tuple( row3 );
+	vector<string> row4 = { "goat" };
+	righttable->add_tuple( row4 );
+	vector<string> row5 = { "platapus" };
+	righttable->add_tuple( row5 );
+
+	cout << *righttable << endl;
+
+	SQLRelation *newtable = command.union_tables(lefttable, righttable);
+	cout << *newtable << endl;
+}
+
+void difference_test() {
+	string left = "lefttable";
+	string right = "righttable";
+
+	SQLCommand command;
+	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at2 = SQLAttribute( "animal", VARCHAR, 15, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties1 { at1, at2 };
+	SQLRelation *lefttable = command.create_table( left, atties1 );
+	vector<string> row0 = { "cat" };
+	lefttable->add_tuple( row0 );
+	vector<string> row1 = { "dog" };
+	lefttable->add_tuple( row1 );
+	vector<string> row2 = { "rabbit"};
+	lefttable->add_tuple( row2 );
+	vector<string> row2_2 = { "whale"};
+	lefttable->add_tuple( row2_2 );
+
+	cout << *lefttable << endl;
+
+	SQLAttribute at4 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at5 = SQLAttribute( "animal", VARCHAR, 15, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties2 { at4, at5 };
+	SQLRelation *righttable = command.create_table( right, atties2 );
+	vector<string> row3 = { "cat" };
+	righttable->add_tuple( row3 );
+	vector<string> row4 = { "dog" };
+	righttable->add_tuple( row4 );
+	vector<string> row5 = { "platapus" };
+	righttable->add_tuple( row5 );
+	vector<string> row6 = { "anteater" };
+	righttable->add_tuple( row6 );
+
+
+	cout << *righttable << endl;
+
+	SQLRelation *newtable = command.difference(lefttable, righttable);
+	cout << *newtable << endl;
+}
+
+void varchar_primary_test() {
+	string left = "lefttable";
+
+	SQLCommand command;
+	SQLAttribute at1 = SQLAttribute( "id", VARCHAR, 8, "", PRIMARY, false, 0 );
+	SQLAttribute at2 = SQLAttribute( "animal", VARCHAR, 15, "", PRIMARY, false, 0 );
+
+	vector<SQLAttribute> atties1 { at1, at2 };
+	SQLRelation *lefttable = command.create_table( left, atties1 );
+	vector<string> row0 = { "a", "cat" };
+	lefttable->add_tuple( row0 );
+	vector<string> row1 = { "b", "dog" };
+	lefttable->add_tuple( row1 );
+	vector<string> row2 = { "c", "rabbit"};
+	lefttable->add_tuple( row2 );
+	vector<string> row3 = { "d", "whale"};
+	lefttable->add_tuple( row3 );
+
+	// test error
+	vector<string> row4 = { "d", "rabbit"};
+	lefttable->add_tuple( row4 );
+
+	cout << *lefttable << endl;
 }
 
 int main() {
-	select_test();
-	//create_test();
-	//select_test();
-	//create_test();
-	//create_test();
-	product_test();
-	/*table_with_errors();
-	 cout << endl << endl;
-
-	 table_with_no_errors();
-	 cout << endl << endl;*/
-
-	//load_no_error_table();
-	//cout << endl << endl;
 	
-	//char str[] = "CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);";
-	//char str[] = "DELETE FROM test WHERE dk != k || dk != k;";
-	//char str[] = "UPDATE test SET bob = \"g\", alb = \"b\" WHERE dk != k || (an == n && ak != k) && (bn == n || bkind != k && ckind != k) || dk != k;";
-	//char str[] = "INSERT INTO animals VALUES FROM (\"Joe\", \"cat\", 4);";
-	
-	//char str[] = "answer <- common_names;";
-	//char str[] = "dogs <- select (kind == \"dog\") animals;";
-	//char str[] = "dogs <- project (name, kind) animals;";
-	//char str[] = "dogs <- rename (name, kind) animals;";
-	//char str[] = "dogs <- a * animals;";
-	//char str[] = "dogs <- a + animals;";
-	//char str[] = "dogs <- a - animals;";
-	
-	
-	//char str[] = "SHOW (a - animals);";
-	//char str[] = "SHOW animals;";
-	char str[] = "INSERT INTO species VALUES FROM RELATION project (kind) animals;";
-	//char str[] = "a <- rename (aname, akind) (project (name, kind) animals);";
-	//char str[] = "cats_or_dogs <- dogs + (select (kind == \"cat\") animals);";
-	//char str[] = "common_names <- project (name) (select (aname == name && akind != kind) (a * animals));";
-	//char str[] = "common_names <- select (aname == name && akind != kind) (select (kind == \"dog\") animals);";
-	//char str[] = "common_names <- (rename (aname, akind) (project (name, kind) animals)) * (select (kind == \"dog\") animals);";
-	//cout<<sizeof(str)<<endl;
-	//ExecuteQuery(str);
-
-	cout << endl << endl;
 	return 0;
 }

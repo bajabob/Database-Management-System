@@ -45,6 +45,7 @@ public:
 	 * Get a vector of all the attribute names for this relation or get vector of attributes
 	 */
 	vector<string> get_attribute_names();
+	vector<string> get_attribute_names_no_primary();
 	vector<SQLAttribute> get_attributes(){return this->attributes;}	
 	
 	/**
@@ -85,6 +86,11 @@ public:
 		name = tname;
 		storage_manager = SQLStorageManager(name+".db");
 	}
+
+	SQLRelation* product(SQLRelation *table);
+	SQLRelation* union_tables(SQLRelation *table);
+	SQLRelation* difference(SQLRelation *table);
+
 	/**
 	*delete columns and rows associated with given attribute name
 	*/
@@ -100,13 +106,15 @@ public:
 		}
 		os << "----------------------------\n\n";
 		os << "Tuples: " << obj.tuples.size() << "\n";
-		const vector<string> keys = obj.tuples[0].get_keys();
-		for (int i = 0; i < keys.size(); ++i) {
-			os << keys[i] << " | ";
-		}
-		os << endl;
-		for (int i = 0; i < obj.tuples.size(); ++i) {
-			os << obj.tuples[i];
+		if(obj.tuples.size() > 0){
+			const vector<string> keys = obj.tuples[0].get_keys();
+			for (int i = 0; i < keys.size(); ++i) {
+				os << keys[i] << " | ";
+			}
+			os << endl;
+			for (int i = 0; i < obj.tuples.size(); ++i) {
+				os << obj.tuples[i];
+			}
 		}
 		os << "----------------------------\n\n";
 		os << obj.error_manager << endl;
