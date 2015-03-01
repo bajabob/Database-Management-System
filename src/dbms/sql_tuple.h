@@ -47,6 +47,8 @@ public:
 	string get_data(string attr);
 	void delete_data(string attr);
 	
+	vector<string> get_keys() const;
+
 	friend ostream& operator<<(std::ostream& os, const SQLTuple& obj) {
 		vector<string> copy(obj.keys);
 
