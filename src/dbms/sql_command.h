@@ -31,7 +31,7 @@ public:
 	void close_table(string name);
 	
 	SQLRelation* product(SQLRelation *table_left, SQLRelation *table_right);
-	
+	SQLRelation* union_tables(SQLRelation *table_left, SQLRelation *table_right);
 
 private:
 	vector<SQLRelation*> tables; 

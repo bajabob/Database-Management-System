@@ -87,3 +87,7 @@ void SQLCommand::close_table(string name){
 SQLRelation* SQLCommand::product(SQLRelation *table_left, SQLRelation *table_right){
 	return table_left->product(table_right);
 }
+
+SQLRelation* SQLCommand::union_tables(SQLRelation *table_left, SQLRelation *table_right){
+	return table_left->union_tables(table_right);
+}

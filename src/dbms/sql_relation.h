@@ -87,38 +87,8 @@ public:
 		storage_manager = SQLStorageManager(name+".db");
 	}
 
-	SQLRelation* product(SQLRelation *table){
-		string newname("product-"+this->name);
-		SQLRelation *newtable = new SQLRelation(newname);
-
-		for (auto &attr : this->attributes) {
-			newtable->add_attribute(attr);
-		}
-
-		for (auto &attr : table->get_attributes()) {
-			newtable->add_attribute(attr);
-		}
-
-		for (auto &tupleft : this->tuples){
-			vector<string> leftkeys = this->get_attribute_names_no_primary();
-
-			for(auto &tupright : table->get_tuples()){
-				vector<string> row;
-				for(auto &key : leftkeys){
-
-					row.push_back(tupleft.get_data(key));
-				}
-				vector<string> rightkeys = table->get_attribute_names_no_primary();
-				for(auto &key : rightkeys){
-					row.push_back(tupright.get_data(key));
-				}
-
-				newtable->add_tuple(row);
-			}
-
-		}
-		return newtable;
-	}
+	SQLRelation* product(SQLRelation *table);
+	SQLRelation* union_tables(SQLRelation *table);
 
 	/**
 	*delete columns and rows associated with given attribute name
