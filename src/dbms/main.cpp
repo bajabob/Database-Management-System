@@ -132,9 +132,11 @@ void select_test() {
 	where_obj wh( "name_last", "awesome" );
 	vector<where_obj> updata;
 	updata.push_back( wh );
-	command.update_data( "error_free_table", ops, updata );
+	command.open_table("error_free_table");
+	//command.update_data( "error_free_table", ops, updata );
 	//command.delete_row("error_free_table", ops);
-	//cout<<command.select("error_free_table", ops);
+	//command.show_table("error_free_table");
+	cout<<command.select(table, ops);
 }
 
 void create_test() {
@@ -172,15 +174,15 @@ void product_test() {
 }
 
 int main() {
-	//select_test();
-	create_test();
+	select_test();
+	//create_test();
 	/*table_with_errors();
 	 cout << endl << endl;
 
 	 table_with_no_errors();
 	 cout << endl << endl;*/
 
-	load_no_error_table();
+	//load_no_error_table();
 	cout << endl << endl;
 	return 0;
 }

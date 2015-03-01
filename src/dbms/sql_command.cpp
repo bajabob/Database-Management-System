@@ -56,8 +56,9 @@ void SQLCommand::assign_table(string name, SQLRelation assign_from){
 }
 //needs work
 void SQLCommand::open_table(string name){
-	SQLRelation *table =  get_table(name);
+	SQLRelation *table =  new SQLRelation(name);
 	table->load();
+	tables.push_back(table);
 }
 //needs work
 void SQLCommand::show_table(string name){
