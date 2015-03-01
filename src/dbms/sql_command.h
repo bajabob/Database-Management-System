@@ -29,7 +29,7 @@ public:
 	void show_table(SQLRelation &relation);
 	void close_table(string name);
 	
-	SQLRelation product(SQLRelation table_left, SQLRelation table_right);
+	SQLRelation* product(SQLRelation *table_left, SQLRelation *table_right);
 	
 
 private:

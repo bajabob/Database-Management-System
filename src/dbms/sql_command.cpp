@@ -76,6 +76,8 @@ void SQLCommand::close_table(string name){
 	tables.erase(it);
 }
 
-SQLRelation product(SQLRelation table_left, SQLRelation table_right){
+SQLRelation* SQLCommand::product(SQLRelation *table_left, SQLRelation *table_right){
+
+
 
 }
