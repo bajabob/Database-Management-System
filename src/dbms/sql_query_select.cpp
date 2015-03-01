@@ -142,7 +142,7 @@ bool SQLQuerySelect::comparison(SQLTuple tup,string comp){
 				
 bool SQLQuerySelect::operation(vector<string> ops){
 	
-	for(int t=0;t< tups.size();++t){
+	for(int t=0;t< relation.get_tuples().size();++t){
 		stack<bool> opers;
 		for(int i=0; i<ops.size() ;++i){
 			if(ops[i] == "&&"){
@@ -158,7 +158,7 @@ bool SQLQuerySelect::operation(vector<string> ops){
 				opers.pop();
 				opers.push(oper_1 || oper_2);		
 			} else{	
-					opers.push(comparison(tups[t], ops[i]));
+					opers.push(comparison(relation.get_tuples()[t], ops[i]));
 			}	
 		}
 		show_row.push_back(opers.top());
@@ -202,7 +202,15 @@ SQLRelation SQLQuerySelect::update_cmd(vector<string> ops, vector<where_obj> upd
 
 void SQLQuerySelect::delete_cmd(string name, vector<string> ops){
 	operation(ops);
-	string attr = relation.get_attribute_names()[1];
+	string attr = "magic number 6";
+	for(int j=0;j<relation.get_attribute_names().size() ;++j){
+		if(!relation.get_attributes()[j].has_auto_increment()){
+			attr = relation.get_attribute_names()[j];
+			break;
+		}
+	}
+	if(attr == "magic number 6")
+		attr = relation.get_attribute_names()[0];
 	for(int i =0;i<tups.size() ;++i){
 		if(!show_row[i]){ 
 			string data = tups[i].get_data(attr);
@@ -210,4 +218,18 @@ void SQLQuerySelect::delete_cmd(string name, vector<string> ops){
 		}
 	}
 	select = relation.get_attribute_names();
+}
+
+void SQLQuerySelect::projet_cmd(vector<string> columns){
+	vector<string> attr = relation.get_attribute_names();
+	for(int i =0;i<tups.size() ;++i){
+		string data = tups[i].get_data(attr[0]);
+		where.push_back(where_obj(attr[0],data));
+	}
+	for(int j= 0;j<columns.size();++j){
+		for(int p = 0; p <attr.size();++p){
+			if(attr[p]== columns[j])
+				select.push_back(columns[j]);
+		}
+	}
 }

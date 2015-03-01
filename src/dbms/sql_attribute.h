@@ -24,6 +24,7 @@ public:
 	}
 
 	string get_name();
+	void change_name(string name);
 	SQLType get_kind();
 	int get_length();
 	string get_default_value();

@@ -14,7 +14,7 @@ SQLRelation *SQLCommand::select( SQLRelation tab, vector<string> ops){
 }
 
 void SQLCommand::delete_row(string name, vector<string> ops){
-	SQLRelation *table =	get_table(name);
+	SQLRelation *table = get_table(name);
 	SQLQuerySelect sel(*table);
 	sel.delete_cmd(name, ops);
 	SQLQueryBuilder qb(*table,sel);
@@ -37,12 +37,34 @@ SQLRelation *SQLCommand::get_table(string name){
 	return NULL;
 }
 
-SQLRelation *project(SQLRelation tab, vector<string> colname){
+SQLRelation *SQLCommand::project(SQLRelation tab, vector<string> colnames){
+	SQLRelation *table = new SQLRelation(tab.get_name()+" Projection");	
 	SQLQuerySelect sel(tab);
+	sel.projet_cmd(colnames);
 	SQLQueryBuilder qb(tab,sel);
-	
-	
+	*table = qb.run_select(0);
+	table->change_name(tab.get_name()+" Projection");
+	tab.load();
+	return table;
+}
 
+SQLRelation *rename_attr(SQLRelation tab,vector<string> colnames){
+	SQLRelation *table = new SQLRelation(tab.get_name());
+	/*if(tab.get_attributes().size()!=colnames.size()){
+		cout<<"\nColumn names don't match number of attributes";
+		return table;
+	}
+	vector<SQLTuples>::iterator it;
+	vector<string> attrs = tab.get_attribute_names();
+	for(it=tab.get_tuples().begin();it!=tab.get_tuples().end();++it){
+		for(int i=0;i<attrs.size();++i)
+			it->rename_attr(attrs[i], colnames[i])
+	}
+	for(int j =0 ;j < attrs.size();++j){
+		tab.get_attributes()[j].change_name(colnames[j]);	
+	}
+	*table = tab;*/
+	return table;
 }
 
 SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
@@ -53,8 +75,8 @@ SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
 	return table;
 }
 
-void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
-		relation.add_tuple(tuples);
+void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){	
+	relation.add_tuple(tuples);
 }
 
 void SQLCommand::insert_table(string name, SQLRelation assign_from){
@@ -63,13 +85,13 @@ void SQLCommand::insert_table(string name, SQLRelation assign_from){
 	table->change_name(assign_from.get_name()+"1");
 	tables.push_back(table);
 }
-//needs work
+
 void SQLCommand::open_table(string name){
 	SQLRelation *table =  new SQLRelation(name);
 	table->load();
 	tables.push_back(table);
 }
-//needs work
+
 void SQLCommand::show_table(SQLRelation &relation){
 	cout<<"\n"<<relation;
 }
