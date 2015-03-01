@@ -14,6 +14,10 @@ string SQLAttribute::get_name() {
 	return this->name; 
 }
  
+void SQLAttribute::change_name(string new_name){
+	name = new_name;
+}
+ 
 SQLType SQLAttribute::get_kind() {
 	return this->kind;
 }

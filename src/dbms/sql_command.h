@@ -20,8 +20,8 @@ public:
 	void delete_row(string name, vector<string> constraint);
 	void update_data(string name, vector<string> constraint,vector<where_obj> updata);
 	SQLRelation *get_table(string name);
-	SQLRelation *project(SQLRelation tab, vector<string> ops);
-	
+	SQLRelation *project(SQLRelation tab, vector<string> colnames);
+	SQLRelation *rename_attr(SQLRelation tab,vector<string> colnames);
 	SQLRelation *create_table(string name, vector<SQLAttribute> attrs);
 	void insert_row(SQLRelation &relation, vector<string> tuples);
 	void insert_table(string name, SQLRelation assign_from);
@@ -36,7 +36,6 @@ public:
 
 private:
 	vector<SQLRelation*> tables; 
-	//SQLRelation *table;
 	SQLErrorManager error_manager;
 };
 

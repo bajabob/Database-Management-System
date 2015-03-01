@@ -41,6 +41,7 @@ public:
 	void select_cmd( vector<string> ops);
 	SQLRelation update_cmd(vector<string> ops,vector<where_obj> updata);
 	void delete_cmd(string name, vector<string> ops);
+	void projet_cmd(vector<string> columns);
 	
 private:
 	
