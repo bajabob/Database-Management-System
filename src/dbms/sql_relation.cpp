@@ -45,6 +45,17 @@ void SQLRelation::add_tuple(vector<string> data) {
 		}
 
 		// this column is UNIQUE, check table for pre-existing data
+		if (attr.get_index() == PRIMARY) {
+			if (this->has_unique(attr.get_name(), data[data_offset])) {
+				error_manager.add_error(
+						SQLError(DUPLICATE,
+								"Relation already contains a matching primary value '"
+										+ data[data_offset] + "' in '"
+										+ attr.get_name() + "'."));
+			}
+		}
+
+		// this column is UNIQUE, check table for pre-existing data
 		if (attr.get_index() == UNIQUE) {
 			if (this->has_unique(attr.get_name(), data[data_offset])) {
 				error_manager.add_error(

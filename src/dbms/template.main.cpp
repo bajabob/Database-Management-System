@@ -281,6 +281,31 @@ void difference_test() {
 	cout << *newtable << endl;
 }
 
+void varchar_primary_test() {
+	string left = "lefttable";
+
+	SQLCommand command;
+	SQLAttribute at1 = SQLAttribute( "id", VARCHAR, 8, "", PRIMARY, false, 0 );
+	SQLAttribute at2 = SQLAttribute( "animal", VARCHAR, 15, "", PRIMARY, false, 0 );
+
+	vector<SQLAttribute> atties1 { at1, at2 };
+	SQLRelation *lefttable = command.create_table( left, atties1 );
+	vector<string> row0 = { "a", "cat" };
+	lefttable->add_tuple( row0 );
+	vector<string> row1 = { "b", "dog" };
+	lefttable->add_tuple( row1 );
+	vector<string> row2 = { "c", "rabbit"};
+	lefttable->add_tuple( row2 );
+	vector<string> row3 = { "d", "whale"};
+	lefttable->add_tuple( row3 );
+
+	// test error
+	vector<string> row4 = { "d", "rabbit"};
+	lefttable->add_tuple( row4 );
+
+	cout << *lefttable << endl;
+}
+
 int main() {
 	
 	return 0;
