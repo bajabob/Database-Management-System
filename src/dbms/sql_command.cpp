@@ -2,13 +2,14 @@
 
 SQLCommand::SQLCommand(){}
 
-SQLRelation SQLCommand::select( SQLRelation tab, vector<string> ops){
+SQLRelation *SQLCommand::select( SQLRelation tab, vector<string> ops){
 	SQLQuerySelect sel(tab);
 	sel.select_cmd(ops);
 	SQLQueryBuilder qb(tab,sel);
-	SQLRelation ret_table = qb.run_select(0);
+	SQLRelation *ret_table = new SQLRelation(tab.get_name()+"1");
+	 *ret_table = qb.run_select(0);
 	tab.load();
-	ret_table.change_name( tab.get_name()+ "1" );
+	ret_table->change_name( tab.get_name()+ "1" );
 	return ret_table;
 }
 
@@ -36,6 +37,14 @@ SQLRelation *SQLCommand::get_table(string name){
 	return NULL;
 }
 
+SQLRelation *project(SQLRelation tab, vector<string> colname){
+	SQLQuerySelect sel(tab);
+	SQLQueryBuilder qb(tab,sel);
+	
+	
+
+}
+
 SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
 	SQLRelation *table = new SQLRelation(name);	
 	for(int i = 0;i< attrs.size() ; ++i)
@@ -48,21 +57,21 @@ void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
 		relation.add_tuple(tuples);
 }
 
-void SQLCommand::assign_table(string name, SQLRelation assign_from){
+void SQLCommand::insert_table(string name, SQLRelation assign_from){
 	SQLRelation *table = new SQLRelation(name);
 	*table = assign_from;
+	table->change_name(assign_from.get_name()+"1");
 	tables.push_back(table);
-	
 }
 //needs work
 void SQLCommand::open_table(string name){
-	SQLRelation *table =  get_table(name);
+	SQLRelation *table =  new SQLRelation(name);
 	table->load();
+	tables.push_back(table);
 }
 //needs work
-void SQLCommand::show_table(string name){
-	SQLRelation* table =  get_table(name);
-	cout<<"\n"<<*table;
+void SQLCommand::show_table(SQLRelation &relation){
+	cout<<"\n"<<relation;
 }
 
 void SQLCommand::save_table(string name){

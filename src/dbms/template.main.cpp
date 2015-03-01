@@ -133,9 +133,11 @@ void select_test() {
 	where_obj wh( "name_last", "awesome" );
 	vector<where_obj> updata;
 	updata.push_back( wh );
-	command.update_data( "error_free_table", ops, updata );
+	command.open_table("error_free_table");
+	//command.update_data( "error_free_table", ops, updata );
 	//command.delete_row("error_free_table", ops);
-	//cout<<command.select("error_free_table", ops);
+	//command.show_table("error_free_table");
+	//cout<<command.select(table, ops);
 }
 
 void create_test() {
@@ -154,9 +156,18 @@ void create_test() {
 	SQLRelation *table = command.create_table( tname, atties );
 	//vector<string> row0 = { "bob27", "Timm", "Robert" };
 	//table->add_tuple( row0 );
-	command.save_table(table->get_name());
+	//command.save_table(table->get_name());
+	
+	
+	
 	cout << *table;
 }
+
+
+
+
+
+
 
 void product_test() {
 	string left = "lefttable";
@@ -188,44 +199,6 @@ void product_test() {
 }
 
 int main() {
-	//select_test();
-	//create_test();
-	//create_test();
-	//product_test();
-	/*table_with_errors();
-	 cout << endl << endl;
-
-	 table_with_no_errors();
-	 cout << endl << endl;*/
-
-	//load_no_error_table();
-	//cout << endl << endl;
 	
-	char str[] = "CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name);";
-	//char str[] = "DELETE FROM test WHERE dk != k || dk != k;";
-	//char str[] = "UPDATE test SET bob = \"g\", alb = \"b\" WHERE dk != k || (an == n && ak != k) && (bn == n || bkind != k && ckind != k) || dk != k;";
-	//char str[] = "INSERT INTO animals VALUES FROM (\"Joe\", \"cat\", 4);";
-	
-	//char str[] = "answer <- common_names;";
-	//char str[] = "dogs <- select (kind == \"dog\") animals;";
-	//char str[] = "dogs <- project (name, kind) animals;";
-	//char str[] = "dogs <- rename (name, kind) animals;";
-	//char str[] = "dogs <- a * animals;";
-	//char str[] = "dogs <- a + animals;";
-	//char str[] = "dogs <- a - animals;";
-	
-	
-	//char str[] = "SHOW (a - animals);";
-	//char str[] = "SHOW animals;";
-	//char str[] = "INSERT INTO species VALUES FROM RELATION project (kind) animals;";
-	//char str[] = "a <- rename (aname, akind) (project (name, kind) animals);";
-	//char str[] = "cats_or_dogs <- dogs + (select (kind == \"cat\") animals);";
-	//char str[] = "common_names <- project (name) (select (aname == name && akind != kind) (a * animals));";
-	//char str[] = "common_names <- select (aname == name && akind != kind) (select (kind == \"dog\") animals);";
-	//char str[] = "common_names <- (rename (aname, akind) (project (name, kind) animals)) * (select (kind == \"dog\") animals);";
-	//cout<<sizeof(str)<<endl;
-	ExecuteQuery(str);
-
-	cout << endl << endl;
 	return 0;
 }
