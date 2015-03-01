@@ -163,17 +163,33 @@ void product_test() {
 
 	SQLCommand command;
 	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
-	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 8, "", UNIQUE, false,
+	SQLAttribute at2 = SQLAttribute( "name", VARCHAR, 8, "", UNIQUE, false, 0 );
+	SQLAttribute at3 = SQLAttribute( "age", VARCHAR, 25, "", NONE, false, 0 );
+
+	vector<SQLAttribute> atties1 { at1, at2, at3 };
+	SQLRelation lefttable = command.create_table( left, atties1 );
+	vector<string> row0 = { "bob", "27" };
+	lefttable.add_tuple( row0 );
+	vector<string> row1 = { "raf", "28" };
+	lefttable.add_tuple( row1 );
+	vector<string> row2 = { "mike", "21" };
+	lefttable.add_tuple( row2 );
+
+	cout << lefttable << endl;
+
+	SQLAttribute at4 = SQLAttribute( "oid", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at5 = SQLAttribute( "amount", VARCHAR, 8, "", UNIQUE, false,
 			0 );
-	SQLAttribute at3 = SQLAttribute( "name_last", VARCHAR, 25, "", NONE, false,
-			0 );
-	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
-			0 );
+
+	vector<SQLAttribute> atties2 { at4, at5 };
+	SQLRelation righttable = command.create_table( right, atties2 );
+
 }
 
 int main() {
 	//select_test();
 	create_test();
+	product_test();
 	/*table_with_errors();
 	 cout << endl << endl;
 

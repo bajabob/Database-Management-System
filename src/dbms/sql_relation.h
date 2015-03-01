@@ -100,6 +100,11 @@ public:
 		}
 		os << "----------------------------\n\n";
 		os << "Tuples: " << obj.tuples.size() << "\n";
+		const vector<string> keys = obj.tuples[0].get_keys();
+		for (int i = 0; i < keys.size(); ++i) {
+			os << keys[i] << " | ";
+		}
+		os << endl;
 		for (int i = 0; i < obj.tuples.size(); ++i) {
 			os << obj.tuples[i];
 		}
