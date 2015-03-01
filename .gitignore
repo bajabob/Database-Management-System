@@ -10,3 +10,7 @@
 cprog
 libtest.*
 /Debug/
+Lexer.h
+Lexer.c
+Parser.h
+Parser.c
