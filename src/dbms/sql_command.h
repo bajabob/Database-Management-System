@@ -20,14 +20,13 @@ public:
 	void delete_row(string name, vector<string> constraint);
 	void update_data(string name, vector<string> constraint,vector<where_obj> updata);
 	SQLRelation *get_table(string name);
-	
-	
+
 	SQLRelation *create_table(string name, vector<SQLAttribute> attrs);
 	void insert_row(SQLRelation &relation, vector<string> tuples);
-	void assign_table(string name, SQLRelation assign_from);
+	void insert_table(string name, SQLRelation assign_from);
 	void open_table(string name);
 	void save_table(string name);//write table to db
-	void show_table(string name);
+	void show_table(SQLRelation &relation);
 	void close_table(string name);
 	
 	SQLRelation product(SQLRelation table_left, SQLRelation table_right);

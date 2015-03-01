@@ -137,7 +137,7 @@ void select_test() {
 	//command.update_data( "error_free_table", ops, updata );
 	//command.delete_row("error_free_table", ops);
 	//command.show_table("error_free_table");
-	cout<<command.select(table, ops);
+	//cout<<command.select(table, ops);
 }
 
 void create_test() {
@@ -156,9 +156,18 @@ void create_test() {
 	SQLRelation *table = command.create_table( tname, atties );
 	//vector<string> row0 = { "bob27", "Timm", "Robert" };
 	//table->add_tuple( row0 );
-	command.save_table(table->get_name());
+	//command.save_table(table->get_name());
+	
+	
+	
 	cout << *table;
 }
+
+
+
+
+
+
 
 void product_test() {
 	string left = "lefttable";
@@ -194,7 +203,7 @@ int main() {
 	//create_test();
 	//select_test();
 	//create_test();
-	create_test();
+	//create_test();
 	product_test();
 	/*table_with_errors();
 	 cout << endl << endl;
@@ -228,7 +237,7 @@ int main() {
 	//char str[] = "common_names <- select (aname == name && akind != kind) (select (kind == \"dog\") animals);";
 	//char str[] = "common_names <- (rename (aname, akind) (project (name, kind) animals)) * (select (kind == \"dog\") animals);";
 	//cout<<sizeof(str)<<endl;
-	ExecuteQuery(str);
+	//ExecuteQuery(str);
 
 	cout << endl << endl;
 	return 0;

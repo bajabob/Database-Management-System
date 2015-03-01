@@ -48,9 +48,10 @@ void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
 		relation.add_tuple(tuples);
 }
 
-void SQLCommand::assign_table(string name, SQLRelation assign_from){
+void SQLCommand::insert_table(string name, SQLRelation assign_from){
 	SQLRelation *table = new SQLRelation(name);
 	*table = assign_from;
+	table->change_name(assign_from->get_name()+"1");
 	tables.push_back(table);
 	
 }
@@ -61,9 +62,8 @@ void SQLCommand::open_table(string name){
 	tables.push_back(table);
 }
 //needs work
-void SQLCommand::show_table(string name){
-	SQLRelation* table =  get_table(name);
-	cout<<"\n"<<*table;
+void SQLCommand::show_table(SQLRelation &relation){
+	cout<<"\n"<<relation;
 }
 
 void SQLCommand::save_table(string name){
