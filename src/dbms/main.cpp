@@ -154,7 +154,7 @@ void create_test() {
 	//vector<string> row0 = { "bob27", "Timm", "Robert" };
 	//table->add_tuple( row0 );
 	command.save_table(table->get_name());
-	cout << table;
+	cout << *table;
 }
 
 void product_test() {
