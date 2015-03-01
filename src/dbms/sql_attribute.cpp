@@ -11,9 +11,9 @@ SQLAttribute::SQLAttribute(Json::Value node){
 }
 
 string SQLAttribute::get_name() {
-	return this->name;
+	return this->name; 
 }
-
+ 
 SQLType SQLAttribute::get_kind() {
 	return this->kind;
 }

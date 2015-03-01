@@ -67,9 +67,27 @@ bool SQLRelation::has_unique(string key, string data) {
 			return true;
 		}
 	}
-	return false;
-}
+	return false; 
+} 
 
+SQLAttribute SQLRelation::get_sqlattr(string attrib){
+	SQLAttribute *at;
+	for(int i=0;i < attributes.size();++i){
+		if(attributes[i].get_name()== attrib){
+			return attributes[i];
+		}	
+	}
+	
+	cout<< "\nproblem sql_relation function get_sqlattr, attribute:"<<attrib<< "noy found" ;
+	return *at;// return null if attribute not found
+}
+ 
+ void SQLRelation::update_tuple(SQLAttribute attr,string data, int tup_index){
+	tuples[tup_index].update_data(attr,error_manager,data);
+ }
+ 
+ 
+ 
 void SQLRelation::delete_column(string attr){
 	std::vector<SQLAttribute>::iterator it;
 	//find column attribute and ensure it is not a primary

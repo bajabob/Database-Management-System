@@ -12,6 +12,7 @@
 #include "sql_relation.h"
 #include "sql_query_builder.h"
 #include "sql_query_select.h"
+#include "sql_command.h"
 
 using namespace std;
 
@@ -107,17 +108,10 @@ void load_no_error_table() {
 	// add some more data
 	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
 	table.add_tuple( row0 );
-	SQLQuerySelect sel(table.get_attribute_names());
-	SQLQueryBuilder qb(table,sel);
 
-	/*table.delete_column("username");
-	table.delete_column("name_first");
-	table.delete_row("name_last","Timm");
-	table.delete_row("name_last","Salas");
-	cout << table;*/
-	qb.run_select(0);  
+	//qb.run_select(0);  
 
-
+	cout << table;
 
 }  
  
@@ -131,24 +125,42 @@ void load_no_error_table() {
 	ops.push_back("||");
 	SQLRelation table( "error_free_table" );
 	table.load(); 
-	vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
-	table.add_tuple( row0 );
-	SQLRelation table_2 = command.select(ops, "error_free_table" );
-	
-	/*
-	SQLQuerySelect sel(table);
-	sel.select_cmd(ops,"error_free_table" );
-	SQLQueryBuilder qb(table,sel);*/
-	//qb.run_select(0); 
-	
-	cout<<table_2 <<"\n";
-
+	//vector<string> row0 = { "newguy55", "Alabama", "BTHO" };
+	//table.add_tuple( row0 );
+	table.save();
+	//SQLRelation table_2 = command.select(ops, "error_free_table" );
+	where_obj wh("name_last","awesome");
+	vector<where_obj> updata;
+	updata.push_back(wh);
+	command.update_data("error_free_table", ops, updata);
+	//command.delete_row("error_free_table", ops);
+	//cout<<command.select("error_free_table", ops);
 }  
- 
+
+void create_test() {
+	string tname= "tabletable";
+	SQLCommand command;
+	vector<string> ops;
+	
+	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 8, "", UNIQUE, false,
+			0 );
+	SQLAttribute at3 = SQLAttribute( "name_last", VARCHAR, 25, "", NONE, false,
+			0 );
+	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
+			0 );
+	vector<SQLAttribute> atties{at1,at2,at3,at4};	
+	SQLRelation table = command.create_table(tname,atties);
+	vector<string> row0 = { "bob27", "Timm", "Robert" };
+	table.add_tuple( row0 );
+	command.save_table();
+	cout<<table;
+}
  
  
 int main() {  
-	select_test();
+	//select_test();
+	create_test();
 	/*table_with_errors();
 	cout << endl << endl;
 

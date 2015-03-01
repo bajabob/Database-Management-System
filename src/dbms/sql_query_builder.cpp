@@ -81,21 +81,19 @@ void SQLQueryBuilder::add_where(){
 	}
 }	
  
-void SQLQueryBuilder::run_select(bool unaltered){
-	query_attr = select.get_queries();
-	where = select.get_wheres();
-	non_where = select.get_not_wheres();
-	subtract_where(non_where);
+SQLRelation SQLQueryBuilder::run_select(bool unaltered){
 	if(unaltered){
-		cout<<"\n"<<relation;
+	
+		return relation;
 	}
 	else{
+		query_attr = select.get_queries();
+		where = select.get_wheres();
+		non_where = select.get_not_wheres();
+		subtract_where(non_where);
 		add_where();
 		add_select();
 	}
-		
+	return relation;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 4b54176fd0d2a2d54642713b87b5dff160477228

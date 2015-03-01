@@ -42,13 +42,24 @@ public:
 	bool has_unique(string key, string data);
 
 	/**
-	 * Get a vector of all the attribute names for this relation
+	 * Get a vector of all the attribute names for this relation or get vector of attributes
 	 */
 	vector<string> get_attribute_names();
+	vector<SQLAttribute> get_attributes(){return this->attributes;}	
 	
-	vector<SQLTuple> get_tuples() {
-		return this->tuples;
-	}
+	/**
+	 * Get an sql attribute from a string name	
+	 */
+	SQLAttribute get_sqlattr(string attrib);//
+	
+	/**
+	*Update or get tuples
+	*/
+	
+	void update_tuple(SQLAttribute attr,string data, int tup_index);
+	
+	vector<SQLTuple> get_tuples() { return this->tuples;}
+	
 	/**
 	 * Attempt to save this table to disk, if there are any
 	 *  errors in the storage manager it will be prevented
@@ -65,8 +76,14 @@ public:
 		storage_manager.load(error_manager, attributes, tuples);
 	}
 	
+	/**
+	*Get table name or change table name
+	*/
+	string get_name() const{ return name;}
+	
 	void change_name(string tname){
 		name = tname;
+		storage_manager = SQLStorageManager(name+".db");
 	}
 	/**
 	*delete columns and rows associated with given attribute name

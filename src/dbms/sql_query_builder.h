@@ -45,7 +45,7 @@ public:
 	/**
 	 * Run the now built query if unaltered flag is true otherwise run altered
 	 */
-	void run_select(bool unaltered = true);
+	SQLRelation run_select(bool unaltered = true);
 	
 private:
 	
@@ -55,7 +55,7 @@ private:
 	vector<where_obj> where;
 	vector<where_obj> non_where;
 	SQLQuerySelect select;
-
+	
 };
 
 

@@ -2,21 +2,44 @@
 
 SQLCommand::SQLCommand(){}
 
-SQLRelation SQLCommand::select(vector<string> ops, string name){
-	open_table(name);
+SQLRelation SQLCommand::select( string name, vector<string> ops){
+	if(table == NULL || table->get_name()== name)
+		open_table(name);
 	SQLQuerySelect sel(*table);
-	sel.select_cmd(ops, name);
+	sel.select_cmd(name, ops);
 	SQLQueryBuilder qb(*table,sel);
-	qb.run_select(0);
-	SQLRelation ret_table = *table;
+	SQLRelation ret_table = qb.run_select(0);
+	table->load();
+	ret_table.change_name(name+"1");
 	open_table(name);
-	return ret_table
+	return ret_table;
 }
 
-void SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
+void SQLCommand::delete_row(string name, vector<string> ops){
+	if(table == NULL || table->get_name()== name)
+		open_table(name);
+	SQLQuerySelect sel(*table);
+	sel.delete_cmd(name, ops);
+	SQLQueryBuilder qb(*table,sel);
+	*table = qb.run_select(0);
+}
+
+void SQLCommand::update_data(string name, vector<string> constraint,vector<where_obj> updata){
+	if(table == NULL || table->get_name()== name)
+		open_table(name);
+	SQLQuerySelect sel(*table);
+	*table = sel.update_cmd(constraint, updata);
+}
+
+SQLRelation SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
 	table = new SQLRelation(name);	
 	for(int i = 0;i< attrs.size() ; ++i)
 		table->add_attribute(attrs[i]);
+	return *table;
+}
+
+void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
+		relation.add_tuple(tuples);
 }
 
 void SQLCommand::assign_table(string name, SQLRelation assign_from){
@@ -24,12 +47,12 @@ void SQLCommand::assign_table(string name, SQLRelation assign_from){
 	*table = assign_from;
 	table->save();
 }
-
+//needs work
 void SQLCommand::open_table(string name){
   table = new SQLRelation(name);
   table->load();
 }
-
+//needs work
 void SQLCommand::show_table(string name){
 	open_table(name);
 	cout<<"\n"<<table;
@@ -45,28 +68,3 @@ void SQLCommand::close_table(){
 	if(table != NULL)
 		table = NULL;
 }
-
-void SQLCommand::delete_row(string col_name, string row_name){
-	table->delete_row(col_name, row_name);
-}
-
-void SQLCommand::delete_column(string col_name){
-	table->delete_column(col_name);
-}
-
-void SQLCommand::update_data(string col_name, string row_name){
-	/*if(table != NULL){
-		vector<SQLTuple> tups = table->get_tuples();
-		for()
-		
-	}
-	else{
-		cout<<"\n table not open"
-	}*/
-}
-
-void SQLCommand::insert_row(){}
-
-void SQLCommand::print_attribute_type(){}
-
-void SQLCommand::exit_all(){}

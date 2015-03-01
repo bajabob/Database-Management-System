@@ -166,11 +166,11 @@ bool SQLQuerySelect::operation(vector<string> ops){
 
 }
 	
-void SQLQuerySelect::select_cmd(vector<string> ops, string name){
+void SQLQuerySelect::select_cmd(string name, vector<string> ops ){
 	operation( ops);
 	string attr = relation.get_attribute_names()[1];
 	if(tups.size()!=show_row.size())
-		cout<<"\nProblem in select_table function";
+		cout<<"\nProblem in select cmd function";
 	for(int i =0;i<tups.size() ;++i){
 		if(show_row[i]){ 
 			string data = tups[i].get_data(attr);
@@ -181,4 +181,32 @@ void SQLQuerySelect::select_cmd(vector<string> ops, string name){
 
 }	
 	
-	
+SQLRelation SQLQuerySelect::update_cmd(vector<string> ops, vector<where_obj> updata){
+	operation(ops);
+	if(tups.size()!=show_row.size())
+		cout<<"\nProblem in update cmd function";
+	for(int i = 0 ;i < show_row.size() ; ++i){
+		if(show_row[i]){
+			for(int p =0; p<updata.size() ;++p){
+				SQLAttribute attr = relation.get_sqlattr(updata[p].attr);
+				relation.update_tuple(attr,updata[p].where,i);
+			}
+
+		}else{
+			//do nothing
+		}
+	}
+	return relation;
+}
+
+void SQLQuerySelect::delete_cmd(string name, vector<string> ops){
+	operation(ops);
+	string attr = relation.get_attribute_names()[1];
+	for(int i =0;i<tups.size() ;++i){
+		if(!show_row[i]){ 
+			string data = tups[i].get_data(attr);
+			where.push_back(where_obj(attr,data));
+		}
+	}
+	select = relation.get_attribute_names();
+}
