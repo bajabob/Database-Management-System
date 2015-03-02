@@ -477,9 +477,11 @@ void queryDB(char * Psql) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *newtable=tables[loc];
+		cout<<*newtable<<endl;
 		col = strstr(Psql, "ASSIGN");
 		sscanf(col, "%*s %*s %s", atname);
-		command.insert_table(atname, *newtable);
+		string temp(atname);
+		command.i_dont_give_a_damn(*newtable, temp);
 		return;
 	}
 	
