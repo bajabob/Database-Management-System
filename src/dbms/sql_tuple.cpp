@@ -58,18 +58,18 @@ void SQLTuple::delete_data(string attr){
 }
 
 void SQLTuple::rename_attr(string attr, string new_attr){
-	vector<string>::iterator it = find(keys.begin(), keys.end(), attr);
-	if(it == keys.end() ){
-		cout<<"\nIn sql_tuple can not find this attribute for rename";
-		return;
-	} else{
-		keys.erase(it);
+	int i;
+	for(i = 0;i<keys.size();++i){
+		if(keys[i] == attr)
+			;//keys[i] = new_attr[i];
+	
 	}
-	keys.push_back(new_attr);
+
 	map<string, SQLTypeData>::iterator it_2 = data.find(attr);
-	SQLTypeData typedata = it_2->second;
-	data.erase(it_2);
-	data.insert(pair<string, SQLTypeData>(new_attr, typedata));
+	
+	//SQLTypeData typedata = it_2->second;
+	//data.erase(it_2);
+	//data.insert(pair<string, SQLTypeData>(new_attr, typedata));
 }
 
 vector<string> SQLTuple::get_keys() const {

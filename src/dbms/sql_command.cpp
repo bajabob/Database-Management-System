@@ -19,7 +19,6 @@ void SQLCommand::delete_row(string name, vector<string> ops){
 	sel.delete_cmd(name, ops);
 	SQLQueryBuilder qb(*table,sel);
 	*table = qb.run_select(0);
-	cout<<*table;
 }
 
 void SQLCommand::update_data(string name, vector<string> constraint,vector<where_obj> updata){
@@ -49,23 +48,23 @@ SQLRelation *SQLCommand::project(SQLRelation tab, vector<string> colnames){
 	return table;
 }
 
-SQLRelation *rename_attr(SQLRelation tab,vector<string> colnames){
+SQLRelation *SQLCommand::rename_attr(SQLRelation tab,vector<string> colnames){
 	SQLRelation *table = new SQLRelation(tab.get_name());
-	/*if(tab.get_attributes().size()!=colnames.size()){
+	if(tab.get_attributes().size()!=colnames.size()){
 		cout<<"\nColumn names don't match number of attributes";
 		return table;
 	}
-	vector<SQLTuples>::iterator it;
+	vector<SQLTuple>::iterator it;
 	vector<string> attrs = tab.get_attribute_names();
 	for(it=tab.get_tuples().begin();it!=tab.get_tuples().end();++it){
 		for(int i=0;i<attrs.size();++i)
-			it->rename_attr(attrs[i], colnames[i])
+			it->rename_attr(attrs[i], colnames[i]);
 	}
-	for(int j =0 ;j < attrs.size();++j){
+	/*for(int j =0 ;j < attrs.size();++j){
 		tab.get_attributes()[j].change_name(colnames[j]);	
 	}
-	*table = tab;*/
-	return table;
+	*table = tab;
+	return table;*/
 }
 
 SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){

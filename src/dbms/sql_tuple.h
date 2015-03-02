@@ -46,7 +46,7 @@ public:
 	void update_data(SQLAttribute &attr, SQLErrorManager &em, string new_data);
 	string get_data(string attr);
 	void delete_data(string attr);
-	void rename_attr(string attr, string newattr);
+	void rename_attr(string attr, string new_attr);
 	
 	vector<string> get_keys() const;
 
