@@ -306,6 +306,39 @@ void varchar_primary_test() {
 	cout << *lefttable << endl;
 }
 
+void rename_test() {
+	string tname = "etable";
+	SQLCommand command;
+	vector<string> ops;
+	ops.push_back( "name_last == \"Timm\"" );
+	ops.push_back( "name_first != \"Raf\"" );
+	//ops.push_back( "username != \"newguy55\"" );
+	//ops.push_back( "&&" );
+	ops.push_back( "||" );
+	SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+	SQLAttribute at2 = SQLAttribute( "username", VARCHAR, 8, "", UNIQUE, false,
+			0 );
+	SQLAttribute at3 = SQLAttribute( "name_last", VARCHAR, 25, "", NONE, false,
+			0 );
+	SQLAttribute at4 = SQLAttribute( "name_first", VARCHAR, 25, "", NONE, false,
+			0 );
+	vector<SQLAttribute> atties { at1, at2, at3, at4 };
+	SQLRelation *table = command.create_table( tname, atties );
+	vector<string> row0 = { "bob27", "Timm", "Robert" };
+	vector<string> row1 = { "raf28", "Salas", "Raf" };
+	vector<string> row2 = { "nikki22", "Schreier", "Nicolette" };
+	vector<string> row3 = { "mike20", "Turner", "Michael" };
+	table->add_tuple( row0 );
+	table->add_tuple( row1 );
+	table->add_tuple( row2 );
+	table->add_tuple( row3 );
+
+	vector <string> newnames{"a","b","c","d"};
+	cout<< command.rename_attr(*table, newnames);
+	
+	//cout << *table;
+}
+
 int main() {
 	
 	return 0;

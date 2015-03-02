@@ -63,8 +63,8 @@ SQLRelation *SQLCommand::rename_attr(SQLRelation tab,vector<string> colnames){
 	/*for(int j =0 ;j < attrs.size();++j){
 		tab.get_attributes()[j].change_name(colnames[j]);	
 	}
-	*table = tab;
-	return table;*/
+	*table = tab;*/
+	return table;
 }
 
 SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){
