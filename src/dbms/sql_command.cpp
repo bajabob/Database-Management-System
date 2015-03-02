@@ -41,7 +41,7 @@ SQLRelation *SQLCommand::project(SQLRelation tab, vector<string> colnames){
 	SQLQuerySelect sel(tab);
 	sel.projet_cmd(colnames);
 	SQLQueryBuilder qb(tab,sel);
-	*table = qb.run_select(0);
+	*table = qb.run_select(1);
 	table->change_name(tab.get_name()+" Projection");
 	return table;
 }

@@ -106,7 +106,8 @@ void SQLQueryBuilder::add_where(){
  
 SQLRelation SQLQueryBuilder::run_select(bool unaltered){
 	if(unaltered){
-	
+		query_attr = select.get_queries();
+		add_select();
 		return relation;
 	}
 	else{
