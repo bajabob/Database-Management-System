@@ -48,23 +48,8 @@ SQLRelation *SQLCommand::project(SQLRelation tab, vector<string> colnames){
 	return table;
 }
 
-SQLRelation *SQLCommand::rename_attr(SQLRelation tab,vector<string> colnames){
-	SQLRelation *table = new SQLRelation(tab.get_name());
-	if(tab.get_attributes().size()!=colnames.size()){
-		cout<<"\nColumn names don't match number of attributes";
-		return table;
-	}
-	vector<SQLTuple>::iterator it;
-	vector<string> attrs = tab.get_attribute_names();
-	for(it=tab.get_tuples().begin();it!=tab.get_tuples().end();++it){
-		for(int i=0;i<attrs.size();++i)
-			it->rename_attr(attrs[i], colnames[i]);
-	}
-	/*for(int j =0 ;j < attrs.size();++j){
-		tab.get_attributes()[j].change_name(colnames[j]);	
-	}
-	*table = tab;*/
-	return table;
+SQLRelation *SQLCommand::rename_attr(SQLRelation tab, vector<string> colnames){
+	return tab.rename_attributes(colnames);
 }
 
 SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){

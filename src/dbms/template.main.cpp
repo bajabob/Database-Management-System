@@ -333,10 +333,11 @@ void rename_test() {
 	table->add_tuple( row2 );
 	table->add_tuple( row3 );
 
+	cout << *table << endl;
+
 	vector <string> newnames{"a","b","c","d"};
-	cout<< command.rename_attr(*table, newnames);
-	
-	//cout << *table;
+	cout<< *command.rename_attr(*table, newnames);
+
 }
 
 int main() {
