@@ -39,22 +39,45 @@ void SQLQueryBuilder::add_where(){
 	vector<where_obj>::iterator wh_it;
 	vector<SQLTuple>::iterator tup_it;
 	vector<where_obj> not_where;
-	for(tup_it = relation.get_tuples().begin(); tup_it != relation.get_tuples().end(); ++tup_it){
-		for(wh_it = where.begin();wh_it != where.end();++wh_it){
-			string data = tup_it->get_data(wh_it->attr);		
-			where_obj temp_where(wh_it->attr,data);
-			if(!is_duplicate(temp_where,not_where)){
-				not_where.push_back(temp_where);
+	vector<where_obj> not_where_2;
+	vector<string> attributes;
+	bool duplicate=false;
+	bool  no_delete=false;
+	
+	
+	for(int t=0;t<where.size();++t){
+		duplicate=false;
+		if(attributes.size()!=0)
+		{
+			for(int k =0;k<attributes.size();++k){
+				if(attributes[k] == where[t].attr){
+					duplicate =true;
+					break;
+				}
 			}
-			if(data == wh_it->where){
-				not_where.pop_back();
+		}
+		if(!duplicate)
+			attributes.push_back(where[t].attr);	
+	}
+	for(tup_it = relation.get_tuples().begin(); tup_it != relation.get_tuples().end(); ++tup_it){
+		for(int j =0;j<attributes.size();++j){
+			string data = tup_it->get_data(attributes[j]);
+			where_obj temp_where(attributes[j],data); 
+			not_where.push_back(temp_where);
+		}
+	}
+	for(int g = 0;g < where.size();++g){
+		int p = 0;
+		for(;p<not_where.size(); ++p){
+			if(where[g].where == not_where[p].where ) {
+				not_where_2.push_back(not_where[p]);
 				break;
 			}
-		}		
-	}
-	for(int i = 0;i<not_where.size();++i){
-		relation.delete_row( not_where[i].attr, not_where[i].where);
-	}		
+		}
+	}	
+	for(int i = 0;i<not_where_2.size();++i){
+		relation.delete_row( not_where_2[i].attr, not_where_2[i].where);
+	}	
 }
  
  void SQLQueryBuilder::subtract_where(vector<where_obj> not_wheres){

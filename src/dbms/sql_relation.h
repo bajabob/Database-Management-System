@@ -91,6 +91,8 @@ public:
 	SQLRelation* union_tables(SQLRelation *table);
 	SQLRelation* difference(SQLRelation *table);
 
+	SQLRelation* rename_attributes(vector<string> names);
+
 	/**
 	*delete columns and rows associated with given attribute name
 	*/

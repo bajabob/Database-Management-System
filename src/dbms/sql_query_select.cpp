@@ -175,7 +175,8 @@ void SQLQuerySelect::select_cmd(vector<string> ops ){
 	for(int i =0;i<tups.size() ;++i){
 		if(show_row[i]){ 
 			string data = tups[i].get_data(attr);
-			where.push_back(where_obj(attr,data));
+			where_obj temp(attr,data);
+			where.push_back(temp);
 		}
 	}
 	select = relation.get_attribute_names();
