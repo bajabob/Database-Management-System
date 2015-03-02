@@ -137,7 +137,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
-		SQLRelation *newtable; // = command.project(*table, atra);
+		SQLRelation *newtable = command.project(*table, atra);
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
@@ -147,9 +147,11 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 	col = strstr(Psql, "RENAME"); // not
 	if(col) {
 		col = strstr(Psql, " REATTNAME ");
+		vector<string> atra;
 		while(col!=NULL) {
 			sscanf(col, "%*s %s", atname);
-			cout<<"REATTNAME "<<atname<<endl;
+			string temp(atname);
+			atra.push_back(temp);
 			col = strstr(col+1, " REATTNAME ");
 		}
 		col = strstr(Psql, "TABLEAT");
@@ -157,7 +159,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
-		SQLRelation *newtable ;//= command.project(*table, atra);
+		SQLRelation *newtable;// = command.rename_attr(*table, atra);
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
