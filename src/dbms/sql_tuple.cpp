@@ -61,15 +61,25 @@ void SQLTuple::rename_attr(string attr, string new_attr){
 	int i;
 	for(i = 0;i<keys.size();++i){
 		if(keys[i] == attr)
-			;//keys[i] = new_attr[i];
+			keys[i] = new_attr;
 	
 	}
-
-	map<string, SQLTypeData>::iterator it_2 = data.find(attr);
 	
-	//SQLTypeData typedata = it_2->second;
-	//data.erase(it_2);
-	//data.insert(pair<string, SQLTypeData>(new_attr, typedata));
+	
+	map<string, SQLTypeData>::iterator it = data.find(attr);
+	if(it==data.end()){cout <<"bye";return;} 
+	SQLTypeData typedata = it->second;
+	data.insert(pair<string, SQLTypeData>(new_attr,typedata));
+	data.erase(it);
+	
+	
+	/*map<string, SQLTypeData>::iterator it_2 = data.begin();
+	map<string, SQLTypeData> temp_data;
+		for(it_2;it_2!=data.end();++it_2){
+		temp_data.insert(pair<string, SQLTypeData>(it_2->first,it_2->second));
+	}
+	data.swap(temp_data);*/
+
 }
 
 vector<string> SQLTuple::get_keys() const {

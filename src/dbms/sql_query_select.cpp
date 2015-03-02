@@ -215,7 +215,6 @@ void SQLQuerySelect::delete_cmd(string name, vector<string> ops){
 		if(!show_row[i]){ 
 			string data = tups[i].get_data(attr);
 			where.push_back(where_obj(attr,data));
-			
 		}
 	}
 	select = relation.get_attribute_names();
