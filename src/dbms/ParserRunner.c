@@ -453,7 +453,14 @@ void queryDB(char * Psql) {
 		col = strstr(Psql, "RELATION");
 		sscanf(col, "%*s %s", atname);
 		string temp(atname);
+		int i;
+		for(i=0;i<where.size();i++){
+			cout<<where[i]<<", ";
+		}
+		cout<<endl;
 		command.update_data(temp, where, setss);
+		SQLRelation *table = command.get_table(temp);
+		cout<<*table;
 		return;
 	}
 	ptr = strstr(Psql, "ASSIGN"); //so not done
@@ -461,9 +468,14 @@ void queryDB(char * Psql) {
 		char* col = strstr(Psql, ">");
 		vector<SQLRelation*> tables;
 		char* table=getrealation(col+1, tables);
+		col = strstr(table, "TABLEAT");
+		sscanf(col, "%*s %s", atname);
+		int loc=-1;
+		sscanf(atname, "%d", &loc);
+		SQLRelation *newtable=tables[loc];
 		col = strstr(Psql, "ASSIGN");
 		sscanf(col, "%*s %*s %s", atname);
-		cout<<"ASSIGN TO "<<atname<<" "<<table<<endl;	
+		command.insert_table(atname, *newtable);
 		return;
 	}
 	
