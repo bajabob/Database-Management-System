@@ -62,6 +62,15 @@ void SQLCommand::insert_row(SQLRelation &relation, vector<string> tuples){
 	relation.add_tuple(tuples);
 }
 
+
+void SQLCommand::i_dont_give_a_damn(SQLRelation tab, string name){
+	SQLRelation *table = new SQLRelation(name);
+	*table = tab;
+	table->change_name(name);
+	tables.push_back(table);
+
+}
+
 void SQLCommand::insert_table(string name, SQLRelation assign_from){
 	SQLRelation *table = new SQLRelation(name);
 	*table = assign_from;

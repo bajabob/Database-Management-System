@@ -23,6 +23,7 @@ public:
 	SQLRelation *project(SQLRelation tab, vector<string> colnames);
 	SQLRelation *rename_attr(SQLRelation tab,vector<string> colnames);
 	SQLRelation *create_table(string name, vector<SQLAttribute> attrs);
+	void i_dont_give_a_damn(SQLRelation tab, string name);
 	void insert_row(SQLRelation &relation, vector<string> tuples);
 	void insert_table(string name, SQLRelation assign_from);
 	void open_table(string name);
