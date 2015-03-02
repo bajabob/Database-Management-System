@@ -50,6 +50,7 @@ SQLRelation *SQLCommand::project(SQLRelation tab, vector<string> colnames){
 
 SQLRelation *SQLCommand::rename_attr(SQLRelation tab,vector<string> colnames){
 	SQLRelation *table = new SQLRelation(tab.get_name());
+	cout<<"\ncolsize:"<<tab.get_attributes().size();
 	if(tab.get_attributes().size()!=colnames.size()){
 		cout<<"\nColumn names don't match number of attributes";
 		return table;
