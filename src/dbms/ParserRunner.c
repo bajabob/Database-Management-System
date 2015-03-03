@@ -161,7 +161,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
-		SQLRelation *newtable;// = command.rename_attr(*table, atra);
+		SQLRelation *newtable = command.rename_attr(*table, atra);
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
