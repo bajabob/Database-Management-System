@@ -14,3 +14,4 @@ Lexer.h
 Lexer.c
 Parser.h
 Parser.c
+dbms.a
