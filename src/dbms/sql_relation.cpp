@@ -283,6 +283,19 @@ SQLRelation* SQLRelation::rename_attributes( vector<string> names ) {
 	return this;
 }
 
+void SQLRelation::insert_table(SQLRelation new_table){
+
+	if(attributes.size()!= new_table.attributes.size()){
+		cout<<"\nAttributes from both tables do not match. insert table command error.";
+		return;
+	}	
+	for(int i =0;i<new_table.get_tuples().size();++i){
+		tuples.push_back(new_table.get_tuples()[i]);
+	}
+	fix_auto_increment();
+}
+
+
 void SQLRelation::fix_auto_increment(){
 	for ( int i = 0; i < attributes.size(); ++i) {
 		if ( attributes[i].has_auto_increment() ) {
