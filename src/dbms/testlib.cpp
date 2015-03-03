@@ -8,6 +8,13 @@ using namespace std;
 
 void ExecuteQuery(string query);
 
+/**
+ *  -- To compile team #6's lib with this test file type:
+ * g++ testlib.cpp dbms.a -o testlib
+ * -- Run by typing:
+ * ./testlib
+ */
+ 
 int main() {
 	
 	string query = "CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);";
