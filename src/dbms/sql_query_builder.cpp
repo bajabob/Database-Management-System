@@ -36,15 +36,10 @@ void SQLQueryBuilder::add_select(){
 }
 
 void SQLQueryBuilder::add_where(){
-	vector<where_obj>::iterator wh_it;
-	vector<SQLTuple>::iterator tup_it;
 	vector<where_obj> not_where;
 	vector<where_obj> not_where_2;
 	vector<string> attributes;
-	bool duplicate=false;
-	bool  no_delete=false;
-	
-	
+	bool duplicate=false;	
 	for(int t=0;t<where.size();++t){
 		duplicate=false;
 		if(attributes.size()!=0)
@@ -59,9 +54,9 @@ void SQLQueryBuilder::add_where(){
 		if(!duplicate)
 			attributes.push_back(where[t].attr);	
 	}
-	for(tup_it = relation.get_tuples().begin(); tup_it != relation.get_tuples().end(); ++tup_it){
+	for(int g =0;g<relation.get_tuples().size();++g){
 		for(int j =0;j<attributes.size();++j){
-			string data = tup_it->get_data(attributes[j]);
+			string data = relation.get_tuples()[g].get_data(attributes[j]);
 			where_obj temp_where(attributes[j],data); 
 			not_where.push_back(temp_where);
 		}
@@ -77,7 +72,8 @@ void SQLQueryBuilder::add_where(){
 	}	
 	for(int i = 0;i<not_where_2.size();++i){
 		relation.delete_row( not_where_2[i].attr, not_where_2[i].where);
-	}	
+	}
+	relation.fix_auto_increment();
 }
  
  void SQLQueryBuilder::subtract_where(vector<where_obj> not_wheres){

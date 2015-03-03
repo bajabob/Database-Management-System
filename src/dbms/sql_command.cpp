@@ -72,10 +72,11 @@ void SQLCommand::i_dont_give_a_damn(SQLRelation tab, string name){
 }
 
 void SQLCommand::insert_table(string name, SQLRelation assign_from){
-	SQLRelation *table = new SQLRelation(name);
-	*table = assign_from;
-	table->change_name(assign_from.get_name()+"1");
-	tables.push_back(table);
+	SQLRelation *table ;
+	table = get_table("et");
+	for(int i =0;i<assign_from.get_tuples().size();++i){
+		table->get_tuples().push_back(assign_from.get_tuples()[i]);
+	}
 }
 
 void SQLCommand::open_table(string name){

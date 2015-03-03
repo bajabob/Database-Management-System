@@ -169,7 +169,16 @@ bool SQLQuerySelect::operation(vector<string> ops){
 	
 void SQLQuerySelect::select_cmd(vector<string> ops ){
 	operation( ops);
-	string attr = relation.get_attribute_names()[1];
+	string attr;
+	for(int j=0;j<relation.get_attribute_names().size() ;++j){
+		if(relation.get_attributes()[j].get_index()== 1){
+			attr = relation.get_attribute_names()[j];
+			break;
+		}
+		else{
+			attr = relation.get_attribute_names()[j];	
+		}
+	}
 	if(tups.size()!=show_row.size())
 		cout<<"\nProblem in select cmd function";
 	for(int i =0;i<tups.size() ;++i){
@@ -203,15 +212,16 @@ SQLRelation SQLQuerySelect::update_cmd(vector<string> ops, vector<where_obj> upd
 
 void SQLQuerySelect::delete_cmd(string name, vector<string> ops){
 	operation(ops);
-	string attr = "magic number 6";
+	string attr;
 	for(int j=0;j<relation.get_attribute_names().size() ;++j){
-		if(!relation.get_attributes()[j].has_auto_increment()){
+		if(relation.get_attributes()[j].get_index()== 1){
 			attr = relation.get_attribute_names()[j];
 			break;
 		}
+		else{
+			attr = relation.get_attribute_names()[j];	
+		}
 	}
-	if(attr == "magic number 6")
-		attr = relation.get_attribute_names()[0];
 	for(int i =0;i<tups.size() ;++i){
 		if(show_row[i]){ 
 			string data = tups[i].get_data(attr);
