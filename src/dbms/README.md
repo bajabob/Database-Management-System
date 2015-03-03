@@ -9,7 +9,9 @@ Team Members:
 How to compile the DBMS WITHOUT the parser
 ==========================================
 Copy the template makefile needed: ```cp template.noparser.makefile makefile```
+
 Copy the template main executable: ```cp template.main.cpp main.cpp```
+
 Build: ```make```
 
 If you get any errors, you may need to remove some parser header files from the copied ```main.cpp```
