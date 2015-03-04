@@ -26,29 +26,6 @@ char* runparser(char *str) {
 	return out;
 }
 
-char * strrstr(char *string, char *find)
-{
-	size_t stringlen, findlen;
-	char *cp;
-
-	findlen = strlen(find);
-	stringlen = strlen(string);
-	if (findlen > stringlen)
-		return NULL;
-
-	for (cp = string + stringlen - findlen; cp >= string; cp--)
-		if (strncmp(cp, find, findlen) == 0)
-			return cp;
-
-	return NULL;
-}
-
-bool endsWith (char* base, char* str) {
-    int blen = strlen(base);
-    int slen = strlen(str);
-    return (blen >= slen) && (0 == strcmp(base + blen - slen, str));
-}
-
 char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 	char atname[MAX_AT_SIZE];
 	char value[MAX_VALUE_SIZE];
@@ -62,13 +39,17 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		start = col - Psql;
 		end=1;
 		int k=1;
+		bool notliteral=true;
 		while(k>0) {
 			end++;
-			if(col[end]=='(') {
+			if(col[end]=='(' && notliteral) {
 				k++;
 			}
-			if(col[end]==')') {
+			if(col[end]==')' && notliteral) {
 				k--;
+			}
+			if(col[end]=='"') {
+				notliteral = !notliteral;
 			}
 		}
 		char *temp = (char*)malloc(end+2 * sizeof(char));
@@ -94,14 +75,51 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
 			if(strcmp(atname, "OP") == 0) {
-				sscanf(col, "%*s %s %s %s", atname, aoper, value);
-				string temp(atname);
-				temp = temp + " " + aoper + " ";
-				temp = temp + value ;
+				string op1, op2, op3;
+				int i=3;
+				if(col[i]=='\"') {
+					op1+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op1+=col[i];
+						i++;
+					}
+					op1+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op1+=col[i];
+						i++;
+					}
+					i++;
+				}
+				while(col[i]!=' ') {
+						op2+=col[i];
+						i++;
+				}
+				i++;
+				if(col[i]=='\"') {
+					op3+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op3+=col[i];
+						i++;
+					}
+					op3+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op3+=col[i];
+						i++;
+					}
+					i++;
+				}
+				string temp = op1+" "+op2+" "+op3+" ";
 				where.push_back(temp);
-				string str(value);
-				col = strstr(col, (" "+str+" ").c_str());
-				col = col + str.length() + 1;
+				col = strstr(col, (" "+op3+" ").c_str());
+				col = col + op3.length() + 2;
 			} else if(strcmp(atname, "||") == 0 || strcmp(atname, "&&") == 0) {
 				string temp(atname);
 				where.push_back(atname);
@@ -162,6 +180,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
 		SQLRelation *newtable = command.rename_attr(*table, atra);
+		cout<<"142"<<*newtable<<endl;
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
@@ -329,6 +348,19 @@ void queryDB(char * Psql) {
 				sscanf(col, "%*s %s", value);
 				string temp(value);
 				if(temp[0]== '\"') {
+					if(temp[temp.length()-1]!='\"') {
+						int i=0;
+						while(col[i]!='\"') {
+							i++;
+						}
+						i++;
+						temp="\"";
+						while(col[i]!='\"') {
+							temp+=col[i];
+							i++;
+						}
+						temp+='\"';
+					}
 					temp=temp.substr(1,temp.length()-2);
 				}
 				values.push_back(temp);
@@ -404,14 +436,51 @@ void queryDB(char * Psql) {
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
 			if(strcmp(atname, "OP") == 0) {
-				sscanf(col, "%*s %s %s %s", atname, aoper, value);
-				string temp(atname);
-				temp = temp + " " + aoper + " ";
-				temp = temp + value ;
+				string op1, op2, op3;
+				int i=3;
+				if(col[i]=='\"') {
+					op1+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op1+=col[i];
+						i++;
+					}
+					op1+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op1+=col[i];
+						i++;
+					}
+					i++;
+				}
+				while(col[i]!=' ') {
+						op2+=col[i];
+						i++;
+				}
+				i++;
+				if(col[i]=='\"') {
+					op3+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op3+=col[i];
+						i++;
+					}
+					op3+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op3+=col[i];
+						i++;
+					}
+					i++;
+				}
+				string temp = op1+" "+op2+" "+op3+" ";
 				where.push_back(temp);
-				string str(value);
-				col = strstr(col, (" "+str+" ").c_str());
-				col = col + str.length() + 1;
+				col = strstr(col, (" "+op3+" ").c_str());
+				col = col + op3.length() + 2;
 			} else if(strcmp(atname, "||") == 0 || strcmp(atname, "&&") == 0) {
 				string temp(atname);
 				where.push_back(atname);
@@ -435,6 +504,19 @@ void queryDB(char * Psql) {
 			sscanf(col, "%*s %s %*s %s", atname, value);
 			string temp(value);
 			if(temp[0]== '\"') {
+				if(temp[temp.length()-1]!='\"') {
+					int i=0;
+					while(col[i]!='\"') {
+						i++;
+					}
+					i++;
+					temp="\"";
+					while(col[i]!='\"') {
+						temp+=col[i];
+						i++;
+					}
+					temp+='\"';
+				}
 				temp=temp.substr(1,temp.length()-2);
 			}
 			setss.push_back(where_obj(atname, temp));
@@ -444,14 +526,51 @@ void queryDB(char * Psql) {
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
 			if(strcmp(atname, "OP") == 0) {
-				sscanf(col, "%*s %s %s %s", atname, aoper, value);
-				string temp(atname);
-				temp = temp + " " + aoper + " ";
-				temp = temp + value ;
+				string op1, op2, op3;
+				int i=3;
+				if(col[i]=='\"') {
+					op1+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op1+=col[i];
+						i++;
+					}
+					op1+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op1+=col[i];
+						i++;
+					}
+					i++;
+				}
+				while(col[i]!=' ') {
+						op2+=col[i];
+						i++;
+				}
+				i++;
+				if(col[i]=='\"') {
+					op3+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op3+=col[i];
+						i++;
+					}
+					op3+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op3+=col[i];
+						i++;
+					}
+					i++;
+				}
+				string temp = op1+" "+op2+" "+op3+" ";
 				where.push_back(temp);
-				string str(value);
-				col = strstr(col, (" "+str+" ").c_str());
-				col = col + str.length() + 1;
+				col = strstr(col, (" "+op3+" ").c_str());
+				col = col + op3.length() + 2;
 			} else if(strcmp(atname, "||") == 0 || strcmp(atname, "&&") == 0) {
 				string temp(atname);
 				where.push_back(atname);

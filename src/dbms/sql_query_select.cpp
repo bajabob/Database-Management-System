@@ -116,10 +116,46 @@ bool SQLQuerySelect::sel_not(SQLTuple tup,string op1,string op2){
 bool SQLQuerySelect::comparison(SQLTuple tup,string comp){
 	bool no_attr = false;// flag
 	string op1, op2, op3;
-	stringstream ss(comp);
-	ss>>op1;
-	ss>>op2;
-	ss>>op3;
+	int i=0;
+	if(comp[i]=='\"') {
+		op1+='\"';
+		i++;
+		while(comp[i]!='\"') {
+			op1+=comp[i];
+			i++;
+		}
+		op1+='\"';
+		i++;
+		i++;
+	} else {
+		while(comp[i]!=' ') {
+			op1+=comp[i];
+			i++;
+		}
+		i++;
+	}
+	while(comp[i]!=' ') {
+			op2+=comp[i];
+			i++;
+	}
+	i++;
+	if(comp[i]=='\"') {
+		op3+='\"';
+		i++;
+		while(comp[i]!='\"') {
+			op3+=comp[i];
+			i++;
+		}
+		op3+='\"';
+		i++;
+		i++;
+	} else {
+		while(comp[i]!=' ') {
+			op3+=comp[i];
+			i++;
+		}
+		i++;
+	}
 	if(op2 == ">"){
 		return sel_greater(tup,op1,op3);
 	} else if(op2 == "<"){

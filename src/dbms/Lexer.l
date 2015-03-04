@@ -72,7 +72,7 @@ KEY				"KEY"
 
 NUMBER      	[0-9]+
 IDENTIFIER		[a-zA-z][a-zA-Z0-9_]*
-LITERAL  		\"[a-zA-Z0-9_]+\"
+LITERAL  		\"[a-zA-Z0-9_ ]+\"
 WS          	[ \r\n\t]+
  
 %%
