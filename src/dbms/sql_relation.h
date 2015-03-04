@@ -91,7 +91,7 @@ public:
 	SQLRelation* union_tables(SQLRelation *table);
 	SQLRelation* difference(SQLRelation *table);
 
-	SQLRelation* rename_attributes(vector<string> names);
+	vector<SQLAttribute> rename_attributes( vector<string> names, vector<vector<string>> &rows );
 	
 	void insert_table(SQLRelation new_table);
 

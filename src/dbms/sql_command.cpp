@@ -47,7 +47,17 @@ SQLRelation *SQLCommand::project(SQLRelation tab, vector<string> colnames){
 }
 
 SQLRelation *SQLCommand::rename_attr(SQLRelation tab, vector<string> colnames){
-	return tab.rename_attributes(colnames);
+	SQLRelation *table = new SQLRelation(tab.get_name());
+	vector<vector<string>> rows;
+	vector<SQLAttribute> att = tab.rename_attributes( colnames, rows);
+	for(auto &at : att){
+		table->add_attribute(at);
+	}
+	for(auto &row : rows){
+		table->add_tuple( row);
+	}
+	cout<< tab;
+	return table;
 }
 
 SQLRelation *SQLCommand::create_table(string name, vector<SQLAttribute> attrs){

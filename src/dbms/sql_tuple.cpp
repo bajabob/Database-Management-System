@@ -62,7 +62,9 @@ void SQLTuple::rename_attr(string attr, string new_attr){
 	for(i = 0;i<keys.size();++i){
 		if(keys[i] == attr)
 			keys[i] = new_attr;
-	}	
+	}
+
+
 	data.insert(pair<string, SQLTypeData>(new_attr,data.find(attr)->second));
 	data.erase(data.find(attr));
 	map<string, SQLTypeData> temp_data;
