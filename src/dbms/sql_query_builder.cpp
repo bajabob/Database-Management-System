@@ -67,7 +67,7 @@ void SQLQueryBuilder::add_where(){
 				break;
 			}
 		}
-	}	
+	}
 	for(int i = 0;i<not_where_2.size();++i){
 		relation.delete_row( not_where_2[i].attr, not_where_2[i].where);
 	}

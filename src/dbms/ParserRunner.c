@@ -126,7 +126,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 	if(col) {
 		col = strstr(Psql, " ATTNAME ");
 		vector<string> atra;
-		atra.push_back("id");
+		atra.push_back(" ");
 		while(col!=NULL) {
 			sscanf(col, "%*s %s", atname);
 			string temp(atname);
@@ -149,7 +149,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 	if(col) {
 		col = strstr(Psql, " REATTNAME ");
 		vector<string> atra;
-		atra.push_back("id");
+		atra.push_back(" ");
 		while(col!=NULL) {
 			sscanf(col, "%*s %s", atname);
 			string temp(atname);
@@ -161,7 +161,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
-		SQLRelation *newtable;// = command.rename_attr(*table, atra);
+		SQLRelation *newtable = command.rename_attr(*table, atra);
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
@@ -281,7 +281,7 @@ void queryDB(char * Psql) {
 			col = strstr(col+1, "KEYNAME");
 		}
 		vector<SQLAttribute> sqlatra;
-		SQLAttribute at1 = SQLAttribute( "id", INT, 8, "", PRIMARY, true, 0 );
+		SQLAttribute at1 = SQLAttribute( " ", INT, 8, "", PRIMARY, true, 0 );
 		sqlatra.push_back(at1);
 		int i;
 		for(i=0;i<atra.size();++i) {
