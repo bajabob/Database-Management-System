@@ -26,29 +26,6 @@ char* runparser(char *str) {
 	return out;
 }
 
-char * strrstr(char *string, char *find)
-{
-	size_t stringlen, findlen;
-	char *cp;
-
-	findlen = strlen(find);
-	stringlen = strlen(string);
-	if (findlen > stringlen)
-		return NULL;
-
-	for (cp = string + stringlen - findlen; cp >= string; cp--)
-		if (strncmp(cp, find, findlen) == 0)
-			return cp;
-
-	return NULL;
-}
-
-bool endsWith (char* base, char* str) {
-    int blen = strlen(base);
-    int slen = strlen(str);
-    return (blen >= slen) && (0 == strcmp(base + blen - slen, str));
-}
-
 char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 	char atname[MAX_AT_SIZE];
 	char value[MAX_VALUE_SIZE];
@@ -162,6 +139,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
 		SQLRelation *newtable = command.rename_attr(*table, atra);
+		cout<<"142"<<*newtable<<endl;
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
@@ -329,6 +307,16 @@ void queryDB(char * Psql) {
 				sscanf(col, "%*s %s", value);
 				string temp(value);
 				if(temp[0]== '\"') {
+					if(temp[temp.length()-1]!='\"') {
+						int start=value-col;
+						int i=0;
+						temp="";
+						while(col[i]!='\"') {
+							temp+=col[i];
+							i++;
+						}
+						temp+='\"';
+					}
 					temp=temp.substr(1,temp.length()-2);
 				}
 				values.push_back(temp);
