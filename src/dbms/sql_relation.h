@@ -92,6 +92,8 @@ public:
 	SQLRelation* difference(SQLRelation *table);
 
 	SQLRelation* rename_attributes(vector<string> names);
+	
+	void insert_table(SQLRelation new_table);
 
 	/**
 	*delete columns and rows associated with given attribute name

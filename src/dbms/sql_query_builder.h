@@ -40,7 +40,6 @@ public:
 	 */
 	void add_select();
 	void add_where();
-	void subtract_where(vector<where_obj> not_wheres);
 	bool is_duplicate(where_obj& data ,vector<where_obj> &wher);	
 	/**
 	 * Run the now built query if unaltered flag is true otherwise run altered
@@ -53,7 +52,6 @@ private:
 	vector<string> query_attr;
 	vector<string> attributes;
 	vector<where_obj> where;
-	vector<where_obj> non_where;
 	SQLQuerySelect select;
 	
 };

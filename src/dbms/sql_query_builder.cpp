@@ -7,8 +7,6 @@ using namespace std;
 SQLQueryBuilder::SQLQueryBuilder(SQLRelation &rel,SQLQuerySelect &sel):relation(rel), select(sel)  {
 		query_attr = select.get_queries();
 		where = select.get_wheres();
-		non_where = select.get_not_wheres();
-		subtract_where(non_where);
 	}
 
 bool SQLQueryBuilder::is_duplicate(where_obj& data ,vector<where_obj> &wher){
@@ -76,29 +74,6 @@ void SQLQueryBuilder::add_where(){
 	relation.fix_auto_increment();
 }
  
- void SQLQueryBuilder::subtract_where(vector<where_obj> not_wheres){
-	vector<SQLTuple>tuples=relation.get_tuples();
-	vector<SQLTuple>::iterator tup_it;
-	vector<where_obj> temp_data;
-	if(not_wheres.size()<1) 
-		return;
-	for(tup_it = tuples.begin(); tup_it != tuples.end(); ++tup_it){
-		for(int i=0; i< not_wheres.size();++i){
-			
-				string data = tup_it->get_data(not_wheres[i].attr);
-				
-				where_obj temp_where(not_wheres[i].attr,data);
-				if(!is_duplicate(temp_where,temp_data)){
-					temp_data.push_back(temp_where);
-			}	
-		}			
-	}	
-	for(int i = 0;i<temp_data.size();++i){
-		if(!is_duplicate(temp_data[i] ,non_where)){
-			where.push_back(temp_data[i]);
-		}
-	}
-}	
  
 SQLRelation SQLQueryBuilder::run_select(bool unaltered){
 	if(unaltered){
@@ -109,8 +84,6 @@ SQLRelation SQLQueryBuilder::run_select(bool unaltered){
 	else{
 		query_attr = select.get_queries();
 		where = select.get_wheres();
-		non_where = select.get_not_wheres();
-		subtract_where(non_where);
 		add_where();
 		add_select();
 	}
