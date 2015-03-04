@@ -98,7 +98,7 @@ public:
 	*/
 	void delete_column(string attr);  
 	void delete_row(string attr, string data);
-	
+	void fix_auto_increment();
 	friend ostream& operator<<(std::ostream& os, const SQLRelation& obj) {
 		os << "\nRelation: " << obj.name << "\n";
 		os << "----------------------------\n\n";
@@ -125,6 +125,8 @@ public:
 
 	
 private:
+	
+	
 	string name; // name of this relation (table)
 	vector<SQLAttribute> attributes;
 	vector<SQLTuple> tuples;

@@ -164,24 +164,6 @@ void SQLRelation::delete_row( string attr, string data ) {
 		cout << "\nData not found";
 		return;
 	}
-	//find attribute with auto increment
-	for ( it = attributes.begin(); it != attributes.end(); ++it ) {
-		if ( it->has_auto_increment() ) {
-			it->on_auto_decrement();
-			break;
-		}
-	}
-	//decrement id's by updating data 
-	if ( it->has_auto_increment() ) {
-		for ( ; it_2 != tuples.end(); ++it_2 ) {
-			string current_data = it_2->get_data( it->get_name() );
-			int c_data = stoi( current_data );
-			string mod_data = to_string( --c_data );
-
-			it_2->update_data( *it, error_manager, mod_data );
-		}
-	}
-
 }
 
 SQLRelation* SQLRelation::product( SQLRelation *table ) {
@@ -299,4 +281,15 @@ SQLRelation* SQLRelation::rename_attributes( vector<string> names ) {
 		++i;
 	}
 	return this;
+}
+
+void SQLRelation::fix_auto_increment(){
+	for ( int i = 0; i < attributes.size(); ++i) {
+		if ( attributes[i].has_auto_increment() ) {
+			attributes[i].on_auto_decrement();
+			for(int p = 0;p< tuples.size();++p){
+				update_tuple(attributes[i],to_string(p), p);
+			}
+		}
+	}
 }
