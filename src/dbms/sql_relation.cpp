@@ -295,15 +295,7 @@ vector<SQLAttribute> SQLRelation::rename_attributes( vector<string> names, vecto
 	}
 	
 	return ret_attr;
-/*	int i = 0;
-	for ( auto &attr : this->attributes ) {
-		for ( auto &tups : this->tuples ) {
-			tups.rename_attr(attr.get_name(), names[i]);
-		}
-		
-		++i;
-	}
-	return this;*/
+
 }
 
 void SQLRelation::insert_table(SQLRelation new_table){
