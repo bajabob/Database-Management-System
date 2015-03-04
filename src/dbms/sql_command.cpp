@@ -75,7 +75,6 @@ void SQLCommand::insert_table(string name, SQLRelation assign_from){
 	SQLRelation *table ;
 	table = get_table(name);
 	table->insert_table(assign_from);
-	cout<<*table;
 }
 
 void SQLCommand::open_table(string name){

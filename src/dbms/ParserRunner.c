@@ -39,13 +39,17 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		start = col - Psql;
 		end=1;
 		int k=1;
+		bool notliteral=true;
 		while(k>0) {
 			end++;
-			if(col[end]=='(') {
+			if(col[end]=='(' && notliteral) {
 				k++;
 			}
-			if(col[end]==')') {
+			if(col[end]==')' && notliteral) {
 				k--;
+			}
+			if(col[end]=='"') {
+				notliteral = !notliteral;
 			}
 		}
 		char *temp = (char*)malloc(end+2 * sizeof(char));
@@ -71,14 +75,51 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
 			if(strcmp(atname, "OP") == 0) {
-				sscanf(col, "%*s %s %s %s", atname, aoper, value);
-				string temp(atname);
-				temp = temp + " " + aoper + " ";
-				temp = temp + value ;
+				string op1, op2, op3;
+				int i=3;
+				if(col[i]=='\"') {
+					op1+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op1+=col[i];
+						i++;
+					}
+					op1+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op1+=col[i];
+						i++;
+					}
+					i++;
+				}
+				while(col[i]!=' ') {
+						op2+=col[i];
+						i++;
+				}
+				i++;
+				if(col[i]=='\"') {
+					op3+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op3+=col[i];
+						i++;
+					}
+					op3+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op3+=col[i];
+						i++;
+					}
+					i++;
+				}
+				string temp = op1+" "+op2+" "+op3+" ";
 				where.push_back(temp);
-				string str(value);
-				col = strstr(col, (" "+str+" ").c_str());
-				col = col + str.length() + 1;
+				col = strstr(col, (" "+op3+" ").c_str());
+				col = col + op3.length() + 2;
 			} else if(strcmp(atname, "||") == 0 || strcmp(atname, "&&") == 0) {
 				string temp(atname);
 				where.push_back(atname);
@@ -308,9 +349,12 @@ void queryDB(char * Psql) {
 				string temp(value);
 				if(temp[0]== '\"') {
 					if(temp[temp.length()-1]!='\"') {
-						int start=value-col;
 						int i=0;
-						temp="";
+						while(col[i]!='\"') {
+							i++;
+						}
+						i++;
+						temp="\"";
 						while(col[i]!='\"') {
 							temp+=col[i];
 							i++;
@@ -392,14 +436,51 @@ void queryDB(char * Psql) {
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
 			if(strcmp(atname, "OP") == 0) {
-				sscanf(col, "%*s %s %s %s", atname, aoper, value);
-				string temp(atname);
-				temp = temp + " " + aoper + " ";
-				temp = temp + value ;
+				string op1, op2, op3;
+				int i=3;
+				if(col[i]=='\"') {
+					op1+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op1+=col[i];
+						i++;
+					}
+					op1+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op1+=col[i];
+						i++;
+					}
+					i++;
+				}
+				while(col[i]!=' ') {
+						op2+=col[i];
+						i++;
+				}
+				i++;
+				if(col[i]=='\"') {
+					op3+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op3+=col[i];
+						i++;
+					}
+					op3+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op3+=col[i];
+						i++;
+					}
+					i++;
+				}
+				string temp = op1+" "+op2+" "+op3+" ";
 				where.push_back(temp);
-				string str(value);
-				col = strstr(col, (" "+str+" ").c_str());
-				col = col + str.length() + 1;
+				col = strstr(col, (" "+op3+" ").c_str());
+				col = col + op3.length() + 2;
 			} else if(strcmp(atname, "||") == 0 || strcmp(atname, "&&") == 0) {
 				string temp(atname);
 				where.push_back(atname);
@@ -423,6 +504,19 @@ void queryDB(char * Psql) {
 			sscanf(col, "%*s %s %*s %s", atname, value);
 			string temp(value);
 			if(temp[0]== '\"') {
+				if(temp[temp.length()-1]!='\"') {
+					int i=0;
+					while(col[i]!='\"') {
+						i++;
+					}
+					i++;
+					temp="\"";
+					while(col[i]!='\"') {
+						temp+=col[i];
+						i++;
+					}
+					temp+='\"';
+				}
 				temp=temp.substr(1,temp.length()-2);
 			}
 			setss.push_back(where_obj(atname, temp));
@@ -432,14 +526,51 @@ void queryDB(char * Psql) {
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
 			if(strcmp(atname, "OP") == 0) {
-				sscanf(col, "%*s %s %s %s", atname, aoper, value);
-				string temp(atname);
-				temp = temp + " " + aoper + " ";
-				temp = temp + value ;
+				string op1, op2, op3;
+				int i=3;
+				if(col[i]=='\"') {
+					op1+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op1+=col[i];
+						i++;
+					}
+					op1+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op1+=col[i];
+						i++;
+					}
+					i++;
+				}
+				while(col[i]!=' ') {
+						op2+=col[i];
+						i++;
+				}
+				i++;
+				if(col[i]=='\"') {
+					op3+='\"';
+					i++;
+					while(col[i]!='\"') {
+						op3+=col[i];
+						i++;
+					}
+					op3+='\"';
+					i++;
+					i++;
+				} else {
+					while(col[i]!=' ') {
+						op3+=col[i];
+						i++;
+					}
+					i++;
+				}
+				string temp = op1+" "+op2+" "+op3+" ";
 				where.push_back(temp);
-				string str(value);
-				col = strstr(col, (" "+str+" ").c_str());
-				col = col + str.length() + 1;
+				col = strstr(col, (" "+op3+" ").c_str());
+				col = col + op3.length() + 2;
 			} else if(strcmp(atname, "||") == 0 || strcmp(atname, "&&") == 0) {
 				string temp(atname);
 				where.push_back(atname);
