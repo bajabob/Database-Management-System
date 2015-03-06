@@ -104,7 +104,7 @@ typedef void* yyscan_t;
 %%
 
 program 
-	: TK_LPAREN program_list TK_RPAREN { strcat(strout, " found program") ; }
+	: TK_LPAREN program_list TK_RPAREN { }
 	| program_list
 	;
 	
@@ -115,7 +115,7 @@ program_list
 	;
 
 query
-	: VA_IDENTIFIER { strcat(strout, " ASSIGN TO "); strcat(strout, $1); strcat(strout, " > "); } TK_ISRELATION expr 
+	: VA_IDENTIFIER { strcat(strout, " A1S2S3I4G5N TO "); strcat(strout, $1); strcat(strout, " > "); } TK_ISRELATION expr 
 	;
 
 command
@@ -125,21 +125,21 @@ command
 
 expr
 	: atomic_expr
-	| { strcat(strout, " SELECT "); } TK_SELECT TK_LPAREN comparison TK_RPAREN { strcat(strout, " ( ");  } atomic_expr { strcat(strout, " ) ");  }
-	| { strcat(strout, " PROJECT "); } TK_PROJECT TK_LPAREN attribute_list TK_RPAREN { strcat(strout, " ( ");  } atomic_expr { strcat(strout, " ) ");  } 
-	| { strcat(strout, " RENAME "); } TK_RENAME TK_LPAREN rename_attribute_list TK_RPAREN { strcat(strout, " ( ");  } atomic_expr { strcat(strout, " ) ");  } 
+	| { strcat(strout, " S1E2L3E4C5T "); } TK_SELECT TK_LPAREN comparison TK_RPAREN { strcat(strout, " ( ");  } atomic_expr { strcat(strout, " ) ");  }
+	| { strcat(strout, " P1R2O3J4E5CT "); } TK_PROJECT TK_LPAREN attribute_list TK_RPAREN { strcat(strout, " ( ");  } atomic_expr { strcat(strout, " ) ");  } 
+	| { strcat(strout, " R1E2N3A4M5E "); } TK_RENAME TK_LPAREN rename_attribute_list TK_RPAREN { strcat(strout, " ( ");  } atomic_expr { strcat(strout, " ) ");  } 
 	| atomic_expr { strcat(strout, " + "); } TK_UNION atomic_expr
 	| atomic_expr { strcat(strout, " - "); } TK_DIFFERENCE  atomic_expr
 	| atomic_expr { strcat(strout, " * "); } TK_PRODUCT atomic_expr
 	;
 	
 atomic_expr
-	: VA_IDENTIFIER { strcat(strout, " ( "); strcat(strout, " FROM RELATION "); strcat(strout, $1); strcat(strout, " ) ");}
+	: VA_IDENTIFIER { strcat(strout, " ( "); strcat(strout, " FROM R1E2L3A4T5ION "); strcat(strout, $1); strcat(strout, " ) ");}
 	| TK_LPAREN { strcat(strout, " ( ");  } expr { strcat(strout, " ) ");  } TK_RPAREN 
 	;
 	
 comparison 
-	: literal op literal { strcat(strout," OP ");strcat(strout,$1);strcat(strout," ");strcat(strout,$2);strcat(strout," ");strcat(strout,$3); }
+	: literal op literal { strcat(strout," 1O2P3 ");strcat(strout,$1);strcat(strout," ");strcat(strout,$2);strcat(strout," ");strcat(strout,$3); }
 	| TK_LPAREN comparison TK_RPAREN
 	| comparison TK_OR comparison { strcat(strout," ||"); }
 	| comparison TK_AND comparison { strcat(strout," &&"); }
@@ -162,7 +162,7 @@ literal
 	
 	
 attribute_list
-	: attribute_list_list VA_IDENTIFIER  { strcat(strout , " ATTNAME "); strcat(strout , $2); }
+	: attribute_list_list VA_IDENTIFIER  { strcat(strout , " A1T2T3N4A5ME "); strcat(strout , $2); }
 	;
 	
 attribute_list_list
@@ -171,7 +171,7 @@ attribute_list_list
 	;
 
 rename_attribute_list
-	: rename_attribute_list_list VA_IDENTIFIER  { strcat(strout , " REATTNAME "); strcat(strout , $2); }
+	: rename_attribute_list_list VA_IDENTIFIER  { strcat(strout , " R1E2A3T4T5NAME "); strcat(strout , $2); }
 	;
 	
 rename_attribute_list_list
@@ -180,7 +180,7 @@ rename_attribute_list_list
 	;	
 	
 primary_key_list
-	: primary_key_list_list VA_IDENTIFIER  { strcat(strout , " KEYNAME ");strcat(strout , $2 ); }
+	: primary_key_list_list VA_IDENTIFIER  { strcat(strout , " K1E2Y3N4A5ME ");strcat(strout , $2 ); }
 	;
 	
 primary_key_list_list
@@ -189,28 +189,28 @@ primary_key_list_list
 	;
 
 command_list
-	: TK_OPEN VA_IDENTIFIER { strcat(strout , "OPEN RELATION ");strcat(strout , $2) ; }
-	| TK_CLOSE VA_IDENTIFIER { strcat(strout , "CLOSE RELATION ");strcat(strout , $2) ; }
-	| TK_WRITE VA_IDENTIFIER { strcat(strout , "WRITE RELATION ");strcat(strout , $2) ; }
-	| TK_EXIT { strcat(strout , "EXIT") ; }
-	| TK_SHOW { strcat(strout , " SHOW ") ; } atomic_expr 
+	: TK_OPEN VA_IDENTIFIER { strcat(strout , "O1P2E3N R1E2L3A4T5ION ");strcat(strout , $2) ; }
+	| TK_CLOSE VA_IDENTIFIER { strcat(strout , "C1L2O3S4E R1E2L3A4T5ION ");strcat(strout , $2) ; }
+	| TK_WRITE VA_IDENTIFIER { strcat(strout , "W1R2I3T4E R1E2L3A4T5ION ");strcat(strout , $2) ; }
+	| TK_EXIT { strcat(strout , "E1X2I3T") ; }
+	| TK_SHOW { strcat(strout , " S1H2O3W ") ; } atomic_expr 
 	| TK_CREATE TK_TABLE create_cmd
 	| TK_UPDATE update_cmd
 	| TK_INSERT TK_INTO insert_cmd
-	| TK_DELETE TK_FROM VA_IDENTIFIER TK_WHERE comparison { strcat(strout , " DELETE FROM RELATION ");strcat(strout , $3) ; }
+	| TK_DELETE TK_FROM VA_IDENTIFIER TK_WHERE comparison { strcat(strout , " D1E2L3E4T5E FROM R1E2L3A4T5ION ");strcat(strout , $3) ; }
 	;
 
 create_cmd
 	: VA_IDENTIFIER TK_LPAREN typed_attribute_list TK_RPAREN TK_PRIMARY TK_KEY
-		TK_LPAREN primary_key_list TK_RPAREN { strcat(strout , " CREATE RELATION ");strcat(strout , $1); }
+		TK_LPAREN primary_key_list TK_RPAREN { strcat(strout , " C1R2E3A4T5E R1E2L3A4T5ION ");strcat(strout , $1); }
 	;
 
 update_cmd
-	: VA_IDENTIFIER TK_SET assignment TK_WHERE comparison { strcat(strout , " UPDATE FROM RELATION ");strcat(strout , $1) ; }
+	: VA_IDENTIFIER TK_SET assignment TK_WHERE comparison { strcat(strout , " U1P2D3A4T5E FROM R1E2L3A4T5ION ");strcat(strout , $1) ; }
 	;
 	
 assignment
-	: assignment_list VA_IDENTIFIER TK_ASSIGN literal  { strcat(strout , " SET ");strcat(strout, $2 );strcat(strout, " = " );strcat(strout, $4); }
+	: assignment_list VA_IDENTIFIER TK_ASSIGN literal  { strcat(strout , " 1S2E3T4 ");strcat(strout, $2 );strcat(strout, " = " );strcat(strout, $4); }
 	;
 	
 assignment_list
@@ -219,12 +219,12 @@ assignment_list
 	;
 	
 insert_cmd 
-	: VA_IDENTIFIER TK_VALUES TK_FROM TK_LPAREN literals TK_RPAREN { strcat(strout , " INSERT RELATION ");strcat(strout , $1); }
-	| VA_IDENTIFIER TK_VALUES TK_FROM TK_RELATION{ strcat(strout , " INSERT ");strcat(strout , $1); strcat(strout, " RELATION ( "); } expr { strcat(strout, " ) ");  }
+	: VA_IDENTIFIER TK_VALUES TK_FROM TK_LPAREN literals TK_RPAREN { strcat(strout , " I1N2S3E4R5T R1E2L3A4T5ION ");strcat(strout , $1); }
+	| VA_IDENTIFIER TK_VALUES TK_FROM TK_RELATION{ strcat(strout , " I1N2S3E4R5T ");strcat(strout , $1); strcat(strout, " R1E2L3A4T5ION ( "); } expr { strcat(strout, " ) ");  }
 	;
 
 literals
-	: literal_list literal  { strcat(strout , "LIT "); strcat(strout , $2); }
+	: literal_list literal  { strcat(strout , "1L2I3T4 "); strcat(strout , $2); }
 	;
 
 literal_list
@@ -233,7 +233,7 @@ literal_list
 	;
 	
 typed_attribute_list
-	: typed_attribute_list_list VA_IDENTIFIER type  { strcat(strout , "ATTNAME "); strcat(strout, $2); }
+	: typed_attribute_list_list VA_IDENTIFIER type  { strcat(strout , "A1T2T3N4A5ME "); strcat(strout, $2); }
 	;
 	
 typed_attribute_list_list
@@ -242,8 +242,8 @@ typed_attribute_list_list
 	;
 	
 type
-	: TK_VARCHAR TK_LPAREN VA_INTEGER TK_RPAREN { strcat(strout , " TYPE VARCHAR SIZE "); strcat(strout, $3); strcat(strout, " ");}
-	| TK_INTEGER {  strcat(strout , " TYPE INTEGER "); }
+	: TK_VARCHAR TK_LPAREN VA_INTEGER TK_RPAREN { strcat(strout , " 1T2Y3P4E5 VARCHAR SIZE "); strcat(strout, $3); strcat(strout, " ");}
+	| TK_INTEGER {  strcat(strout , " 1T2Y3P4E5 INTEGER "); }
 	;
 
 %%

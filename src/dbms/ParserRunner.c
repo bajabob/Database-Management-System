@@ -68,15 +68,15 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		col = strstr(Psql+1, "(");
 	}
 	
-	col = strstr(Psql, "SELECT"); // done?
+	col = strstr(Psql, "S1E2L3E4C5T"); // done?
 	if(col) {
-		col = strstr(Psql, "OP");
+		col = strstr(Psql, "1O2P3");
 		vector<string> where;
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
-			if(strcmp(atname, "OP") == 0) {
+			if(strcmp(atname, "1O2P3") == 0) {
 				string op1, op2, op3;
-				int i=3;
+				int i=6;
 				if(col[i]=='\"') {
 					op1+='\"';
 					i++;
@@ -133,54 +133,53 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
-		SQLRelation *newtable = command.select(*table, where);
+		SQLRelation *newtable = command.select(table, where);
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "PROJECT"); // done?
+	col = strstr(Psql, "P1R2O3J4E5CT"); // done?
 	if(col) {
-		col = strstr(Psql, " ATTNAME ");
+		col = strstr(Psql, " A1T2T3N4A5ME ");
 		vector<string> atra;
 		atra.push_back(" ");
 		while(col!=NULL) {
 			sscanf(col, "%*s %s", atname);
 			string temp(atname);
 			atra.push_back(temp);
-			col = strstr(col+1, " ATTNAME ");
+			col = strstr(col+1, " A1T2T3N4A5ME ");
 		}
 		col = strstr(Psql, "TABLEAT");
 		sscanf(col, "%*s %s", atname);
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
-		SQLRelation *newtable = command.project(*table, atra);
+		SQLRelation *newtable = command.project(table, atra);
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "RENAME"); // not
+	col = strstr(Psql, "R1E2N3A4M5E"); // not
 	if(col) {
-		col = strstr(Psql, " REATTNAME ");
+		col = strstr(Psql, " R1E2A3T4T5NAME ");
 		vector<string> atra;
 		atra.push_back(" ");
 		while(col!=NULL) {
 			sscanf(col, "%*s %s", atname);
 			string temp(atname);
 			atra.push_back(temp);
-			col = strstr(col+1, " REATTNAME ");
+			col = strstr(col+1, " R1E2A3T4T5NAME ");
 		}
 		col = strstr(Psql, "TABLEAT");
 		sscanf(col, "%*s %s", atname);
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *table=tables[loc];
-		SQLRelation *newtable = command.rename_attr(*table, atra);
-		cout<<"142"<<*newtable<<endl;
+		SQLRelation *newtable = command.rename_attr(table, atra);
 		tables.push_back(newtable);
 		string str="TABLEAT "+to_string(tables.size()-1);
 		char *cstr = new char[str.length() + 1];
@@ -244,7 +243,7 @@ char* getrealation(char * Psql, vector<SQLRelation*> &tables) {
 		strcpy(cstr, str.c_str());
 		return cstr;
 	}
-	col = strstr(Psql, "RELATION"); // done
+	col = strstr(Psql, "R1E2L3A4T5ION"); // done
 	if(col) {
 		sscanf(col, "%*s %s", atname);
 		string temp(atname);
@@ -264,14 +263,14 @@ void queryDB(char * Psql) {
 	char atname[MAX_AT_SIZE];
 	char value[MAX_VALUE_SIZE];
 	char aoper[MAX_AT_SIZE];
-	char *ptr = strstr(Psql, "CREATE"); //done
+	char *ptr = strstr(Psql, "C1R2E3A4T5E"); //done
 	if(ptr) {
-		char *col = strstr(Psql, "TYPE");
+		char *col = strstr(Psql, "1T2Y3P4E5");
 		int size = -1;
 		vector<string> atra;
 		while(col!=NULL) {
 			int index = col-Psql;
-			index+=5;
+			index+=10;
 			if(Psql[index]=='V') {
 				sscanf(col, "%*s %*s %*s %d %*s %s", &size, atname);
 				string temp(atname);
@@ -284,9 +283,9 @@ void queryDB(char * Psql) {
 				string str="INTEGER "+temp;
 				atra.push_back(str);
 			}
-			col = strstr(col+1, "TYPE");
+			col = strstr(col+1, "1T2Y3P4E5");
 		}
-		col = strstr(Psql, "KEYNAME");
+		col = strstr(Psql, "K1E2Y3N4A5ME");
 		while(col!=NULL) {
 			int index = col-Psql;
 			sscanf(col, "%*s %s", atname);
@@ -297,7 +296,7 @@ void queryDB(char * Psql) {
 					atra[i]+=" KEY";
 				}
 			}
-			col = strstr(col+1, "KEYNAME");
+			col = strstr(col+1, "K1E2Y3N4A5ME");
 		}
 		vector<SQLAttribute> sqlatra;
 		SQLAttribute at1 = SQLAttribute( " ", INT, 8, "", PRIMARY, true, 0 );
@@ -333,15 +332,15 @@ void queryDB(char * Psql) {
 				}
 			}
 		}
-		col = strstr(Psql, "RELATION");
+		col = strstr(Psql, "R1E2L3A4T5ION");
 		sscanf(col, "%*s %s", atname);
 		string temp2(atname);
 		command.create_table( temp2, sqlatra );
 		return;
 	}
-	ptr = strstr(Psql, "INSERT"); // done
+	ptr = strstr(Psql, "I1N2S3E4R5T"); // done
 	if(ptr) {
-		char *col = strstr(Psql, "LIT");
+		char *col = strstr(Psql, "1L2I3T4");
 		if(col) {
 			vector<string> values;
 			while(col!=NULL) {
@@ -364,17 +363,17 @@ void queryDB(char * Psql) {
 					temp=temp.substr(1,temp.length()-2);
 				}
 				values.push_back(temp);
-				col = strstr(col+1, "LIT");
+				col = strstr(col+1, "1L2I3T4");
 			}
-			col = strstr(Psql, "RELATION");
+			col = strstr(Psql, "R1E2L3A4T5ION");
 			sscanf(col, "%*s %s", atname);
 			string temp(atname);
 			SQLRelation *table = command.get_table(temp);
-			command.insert_row(*table, values);
+			command.insert_row(table, values);
 			return;
 		}
 		else {
-			char* col = strstr(Psql, "RELATION");
+			char* col = strstr(Psql, "R1E2L3A4T5ION");
 			vector<SQLRelation*> tables;
 			char* table=getrealation(col+1, tables);
 			col = strstr(table, "TABLEAT");
@@ -382,15 +381,15 @@ void queryDB(char * Psql) {
 			int loc=-1;
 			sscanf(atname, "%d", &loc);
 			SQLRelation *newtable=tables[loc];
-			col = strstr(Psql, "INSERT");
+			col = strstr(Psql, "I1N2S3E4R5T");
 			sscanf(col, "%*s %s", atname);
-			command.insert_table(atname, *newtable);
+			command.insert_table(atname, newtable);
 			return;
 		}
 	}
-	ptr = strstr(Psql, "SHOW"); // not
-	if(ptr) {
-		char* col = strstr(Psql, "SHOW");
+	ptr = strstr(Psql, "S1H2O3W"); // not
+	if(ptr) { 
+		char* col = strstr(Psql, "S1H2O3W");
 		vector<SQLRelation*> tables;
 		char* table=getrealation(col+1, tables);
 		col = strstr(table, "TABLEAT");
@@ -398,46 +397,47 @@ void queryDB(char * Psql) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *newtable=tables[loc];
-		command.show_table(*newtable);
+		command.show_table(newtable);
 		return;
 	}
-	ptr = strstr(Psql, "WRITE"); // done
+	ptr = strstr(Psql, "W1R2I3T4E"); // done
 	if(ptr) {
-		char *col = strstr(Psql, "RELATION");
+		char *col = strstr(Psql, "R1E2L3A4T5ION");
 		sscanf(col, "%*s %s", atname);
 		string temp(atname);
 		command.save_table(temp);
 		return;
 	}
-	ptr = strstr(Psql, "OPEN"); // done
+	ptr = strstr(Psql, "O1P2E3N"); // done
 	if(ptr) {
-		char *col = strstr(Psql, "RELATION");
+		char *col = strstr(Psql, "R1E2L3A4T5ION");
 		sscanf(col, "%*s %s", atname);
 		string temp(atname);
 		command.open_table(temp);
 		return;
 	}
-	ptr = strstr(Psql, "CLOSE"); // done
+	ptr = strstr(Psql, "C1L2O3S4E"); // done
 	if(ptr) {
-		char *col = strstr(Psql, "RELATION");
+		char *col = strstr(Psql, "R1E2L3A4T5ION");
 		sscanf(col, "%*s %s", atname);
 		string temp(atname);
 		command.close_table(temp);
 		return;
 	}
-	ptr = strstr(Psql, "EXIT"); // done
+	ptr = strstr(Psql, "E1X2I3T"); // done
 	if(ptr) {
+		command.clear_command();
 		return;
 	}
-	ptr = strstr(Psql, "DELETE"); // done
+	ptr = strstr(Psql, "D1E2L3E4T5E"); // done
 	if(ptr) {
-		char *col = strstr(Psql, "OP");
+		char *col = strstr(Psql, "1O2P3");
 		vector<string> where;
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
-			if(strcmp(atname, "OP") == 0) {
+			if(strcmp(atname, "1O2P3") == 0) {
 				string op1, op2, op3;
-				int i=3;
+				int i=6;
 				if(col[i]=='\"') {
 					op1+='\"';
 					i++;
@@ -489,15 +489,15 @@ void queryDB(char * Psql) {
 				break;
 			}
 		}
-		col = strstr(Psql, "RELATION");
+		col = strstr(Psql, "R1E2L3A4T5ION");
 		sscanf(col, "%*s %s", atname);
 		string temp(atname);
 		command.delete_row(temp, where);
 		return;
 	}
-	ptr = strstr(Psql, "UPDATE"); // done
+	ptr = strstr(Psql, "U1P2D3A4T5E"); // done
 	if(ptr) {
-		char *col = strstr(Psql, "SET");
+		char *col = strstr(Psql, "1S2E3T4");
 		vector<string> where;
 		vector<where_obj>setss;
 		while(col!=NULL) {
@@ -520,14 +520,14 @@ void queryDB(char * Psql) {
 				temp=temp.substr(1,temp.length()-2);
 			}
 			setss.push_back(where_obj(atname, temp));
-			col = strstr(col+1, "SET");
+			col = strstr(col+1, "1S2E3T4");
 		}
-		col = strstr(Psql, "OP");
+		col = strstr(Psql, "1O2P3");
 		while(col!=NULL) {
 			sscanf(col, "%s", atname);
-			if(strcmp(atname, "OP") == 0) {
+			if(strcmp(atname, "1O2P3") == 0) {
 				string op1, op2, op3;
-				int i=3;
+				int i=6;
 				if(col[i]=='\"') {
 					op1+='\"';
 					i++;
@@ -579,14 +579,14 @@ void queryDB(char * Psql) {
 				break;
 			}
 		}
-		col = strstr(Psql, "RELATION");
+		col = strstr(Psql, "R1E2L3A4T5ION");
 		sscanf(col, "%*s %s", atname);
 		string temp(atname);
 		command.update_data(temp, where, setss);
 		SQLRelation *table = command.get_table(temp);
 		return;
 	}
-	ptr = strstr(Psql, "ASSIGN"); //so not done
+	ptr = strstr(Psql, "A1S2S3I4G5N"); //so not done
 	if(ptr) {
 		char* col = strstr(Psql, ">");
 		vector<SQLRelation*> tables;
@@ -596,10 +596,10 @@ void queryDB(char * Psql) {
 		int loc=-1;
 		sscanf(atname, "%d", &loc);
 		SQLRelation *newtable=tables[loc];
-		col = strstr(Psql, "ASSIGN");
+		col = strstr(Psql, "A1S2S3I4G5N");
 		sscanf(col, "%*s %*s %s", atname);
 		string temp(atname);
-		command.i_dont_give_a_damn(*newtable, temp);
+		command.i_dont_give_a_damn(newtable, temp);
 		return;
 	}
 	

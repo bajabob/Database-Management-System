@@ -282,11 +282,6 @@ vector<SQLAttribute> SQLRelation::rename_attributes( vector<string> names, vecto
 		}	
 		rows.push_back(row);
 	}
-	for(int i =0 ; i<rows.size();++i){
-		for(int j = 0 ;j<rows[i].size() ; ++j)
-			cout<<rows[i][j]<<endl;
-		cout<<endl;
-	}
 	vector<SQLAttribute> ret_attr = this->attributes;
 	int p = 0;
 	for ( auto &attr : ret_attr ) {
@@ -295,15 +290,6 @@ vector<SQLAttribute> SQLRelation::rename_attributes( vector<string> names, vecto
 	}
 	
 	return ret_attr;
-/*	int i = 0;
-	for ( auto &attr : this->attributes ) {
-		for ( auto &tups : this->tuples ) {
-			tups.rename_attr(attr.get_name(), names[i]);
-		}
-		
-		++i;
-	}
-	return this;*/
 }
 
 void SQLRelation::insert_table(SQLRelation new_table){
