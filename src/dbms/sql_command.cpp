@@ -71,6 +71,7 @@ SQLRelation *SQLCommand::rename_attr(SQLRelation *tab, vector<string> colnames){
 	for(auto &row : rows){
 		table->add_tuple( row);
 	}
+	table->fix_auto_increment();
 	return table;
 }
 
