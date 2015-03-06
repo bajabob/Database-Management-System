@@ -170,12 +170,18 @@ SQLRelation* SQLRelation::product( SQLRelation *table ) {
 	string newname( "product-" + this->name );
 	SQLRelation *newtable = new SQLRelation( newname );
 
+	bool addedPrimary = false;
 	for ( auto &attr : this->attributes ) {
+		if(attr.get_index() == PRIMARY){
+			addedPrimary = true;
+		}
 		newtable->add_attribute( attr );
 	}
 
 	for ( auto &attr : table->get_attributes() ) {
-		newtable->add_attribute( attr );
+		if(attr.get_index() != PRIMARY){
+			newtable->add_attribute( attr );
+		}
 	}
 
 	for ( auto &tupleft : this->tuples ) {
