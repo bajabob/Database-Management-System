@@ -21,8 +21,8 @@
 #include "sql_command.h"
 
 #define MAX_QUERY_SIZE 1000
-#define MAX_AT_SIZE 100
-#define MAX_VALUE_SIZE 100
+#define MAX_AT_SIZE 1000
+#define MAX_VALUE_SIZE 1000
 
 using namespace std;
 

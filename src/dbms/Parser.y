@@ -14,7 +14,7 @@
 using namespace std;
 
 int yylex(); 
-int yyerror(char* strout, yyscan_t scanner, const char *p) {fprintf(stderr,"Error:%s\n",p); return 0;}
+int yyerror(char* strout, yyscan_t scanner, const char *p) { strcpy(strout, "ERROR"); }
 
 
 %}
