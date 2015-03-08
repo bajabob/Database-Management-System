@@ -92,7 +92,7 @@ void SQLCommand::insert_row(SQLRelation *relation, vector<string> tuples){
 }
 
 
-void SQLCommand::i_dont_give_a_damn(SQLRelation *tab, string name){
+void SQLCommand::assign_table(SQLRelation *tab, string name){
 	if(tab==NULL) {
 		cout<<"\nerror table  does not exist";
 		return;
