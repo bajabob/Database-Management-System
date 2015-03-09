@@ -600,7 +600,7 @@ void queryDB(char * Psql) {
 		col = strstr(Psql, "A1S2S3I4G5N");
 		sscanf(col, "%*s %*s %s", atname);
 		string temp(atname);
-		command.i_dont_give_a_damn(newtable, temp);
+		command.assign_table(newtable, temp);
 		return;
 	}
 	
