@@ -1,19 +1,13 @@
-CSCE-315 Project #2 Team #6
-----------------------------
-Team Members:
- - Michael Turner
- - Nicolette (Nikki) Schreier
- - Rafael (Raf) Salas
- - Robert (Bob) Timm
+## CSCE-315-Project-2 SQL Database & Frontend Client
 
-Using DBMS from team #7
- - Wesley Vance <wesley.vance@email.tamu.edu>
- - Kaitlyn Werchan <kwerchan@email.tamu.edu>
- - Ben Whitley <benwhitley92@email.tamu.edu>
- - Kyle Wilson <bluyam@email.tamu.edu>
+### Team Members
+* Michael Turner
+* Nicolette (Nikki) Schreier
+* Rafael (Raf) Salas
+* Robert (Bob) Timm
 
-Sharing our DBMS with team #5
- - Daniel Latypov <mynetidfornow@tamu.edu>
- - Angel Lozano <angellozano93@tamu.edu>
- - Rafa Moreno <ralphie9224@tamu.edu>
- - Nicholas Parkes <nickparkes@tamu.edu>
+## Guidelines
+This project consists of two parts:
+* Implement a simple database management system (DBMS) and provide your binaries (not the source code) to another designated team.
+* Write a DB application using the DBMS binaries supplied to you by another designated team.
+* For more information please refer to this nine page outline.
