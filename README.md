@@ -50,3 +50,12 @@ This relation has three tuples (rows) and four attributes (columns).
 * Structured database files will aid in readability and debugging. Since these documents will be more readable than comma delimited files.
 * A system that can initiate any sequence of operations on the relation object will impose less restrictions on the parser and grammar interpretations. 
 * Simple response object will create better error handling and reporting, even after many operations take place on a relation.
+
+### License
+Copyright (c) 2015 Robert Timm, Michael Turner, Nicolette (Nikki) Schreier, Rafael (Raf) Salas
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
