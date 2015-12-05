@@ -51,6 +51,9 @@ This relation has three tuples (rows) and four attributes (columns).
 * A system that can initiate any sequence of operations on the relation object will impose less restrictions on the parser and grammar interpretations. 
 * Simple response object will create better error handling and reporting, even after many operations take place on a relation.
 
+### Plagiarism Notice
+If you are working on an assignment for a University or High School course you must check with your professor and/or school's guidelines on plagiarism before copying any work found in this codebase. The author of this code is not to be held responsible for acts of cheating or misconduct. The author, much like the creator of a scholastic paper or article has decided to post this codebase for educational purposes. If you are a professor or course admin that is having an issue with cheating in your class, please feel free to contact the author.
+
 ### License
 Copyright (c) 2015 Robert Timm, Michael Turner, Nicolette (Nikki) Schreier, Rafael (Raf) Salas
 
